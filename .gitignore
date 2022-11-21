@@ -8,3 +8,12 @@ package-lock.json
 .env
 # ignore all dist directories files (and subdirectories) from .gitignore
 dist/*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
