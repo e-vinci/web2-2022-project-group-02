@@ -1,14 +1,16 @@
 {
-  "name": "js-phaser-boilerplate",
+  "name": "js-frontend-boilerplate",
   "version": "1.0.0",
-  "description": "myJScourse's modern frontend boilerplate to build a phaser game",
+  "description": "web2 frontend boilerplate to facilitate deployment to GitHub pages & authentication",
   "scripts": {
-    "dev": "webpack --mode development --config webpack.config.base.js",
-    "build": "webpack --mode production --config webpack.config.prod.js",
-    "start": "webpack serve --mode development --config webpack.config.base.js"
+    "deploy": "npm run build && gh-pages -d dist",
+    "dev": "webpack --mode development && cp dist/index.html dist/404.html",
+    "build": "webpack --mode production && cp dist/index.html dist/404.html",
+    "start": "webpack serve --mode development"
   },
   "author": "e-baron",
   "license": "CC-BY-SA-4.0",
+  "homepage": ".",
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.4",
@@ -19,7 +21,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-webpack-plugin": "^3.2.0",
     "html-loader": "^2.1.2",
-    "html-webpack-plugin": "^5.3.1",
+    "html-webpack-plugin": "^5.5.0",
     "prettier-airbnb-config": "^1.0.0",
     "style-loader": "^2.0.0",
     "webpack": "^5.38.1",
@@ -29,9 +31,6 @@
   "dependencies": {
     "@popperjs/core": "^2.9.2",
     "bootstrap": "^5.0.1",
-    "clean-webpack-plugin": "^4.0.0",
-    "phaser": "^3.55.2",
-    "terser-webpack-plugin": "^5.3.6",
-    "webpack-merge": "^5.8.0"
+    "gh-pages": "^4.0.0"
   }
 }
