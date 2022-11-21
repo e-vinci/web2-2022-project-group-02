@@ -4,4 +4,5 @@ module.exports = {
   arrowParens: 'always',
   bracketSpacing: true,
   trailingComma: 'all',
+  embeddedLanguageFormatting: 'auto',
 };

@@ -1,5 +1,6 @@
-import { getRememberMe, setAuthenticatedUser, setRememberMe } from '../../utils/auths';
+import { setAuthenticatedUser, getRememberMe } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
+import html from '../../utils/html';
 import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 
@@ -11,61 +12,50 @@ const LoginPage = () => {
 
 function renderRegisterForm() {
   const main = document.querySelector('main');
-  const form = document.createElement('form');
-  form.className = 'p-5';
-  const username = document.createElement('input');
-  username.type = 'text';
-  username.id = 'username';
-  username.placeholder = 'username';
-  username.required = true;
-  username.className = 'form-control mb-3';
-  const password = document.createElement('input');
-  password.type = 'password';
-  password.id = 'password';
-  password.required = true;
-  password.placeholder = 'password';
-  password.className = 'form-control mb-3';
-  const submit = document.createElement('input');
-  submit.value = 'Login';
-  submit.type = 'submit';
-  submit.className = 'btn btn-info';
 
-  const formCheckWrapper = document.createElement('div');
-  formCheckWrapper.className = 'mb-3 form-check';
+  const form = html`
+    <form class="p-5">
+      <input
+        type="text"
+        name="username"
+        placeholder="Username"
+        required
+        class="form-control mb-3"
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+        class="form-control mb-3"
+      />
+      <div class="mb-3 form-check">
+        <input
+          type="checkbox"
+          name="remember"
+          name="password"
+          class="form-check-input"
+          id="remember"
+          ${getRememberMe() ? 'checked' : ''}
+        />
+        <label class="form-check-label" for="remember">Remember me</label>
+      </div>
+      <input type="submit" value="Login" class="btn btn-info" />
+    </form>
+  `;
 
-  const rememberme = document.createElement('input');
-  rememberme.type = 'checkbox';
-  rememberme.className = 'form-check-input';
-  rememberme.id = 'rememberme';
-  const remembered = getRememberMe();
-  rememberme.checked = remembered;
-  rememberme.addEventListener('click', onCheckboxClicked);
-
-  const checkLabel = document.createElement('label');
-  checkLabel.htmlFor = 'rememberme';
-  checkLabel.className = 'form-check-label';
-  checkLabel.textContent = 'Remember me';
-
-  formCheckWrapper.appendChild(rememberme);
-  formCheckWrapper.appendChild(checkLabel);
-
-  form.appendChild(username);
-  form.appendChild(password);
-  form.appendChild(formCheckWrapper);
-  form.appendChild(submit);
-  main.appendChild(form);
+  main.replaceChildren(form);
   form.addEventListener('submit', onLogin);
-}
-
-function onCheckboxClicked(e) {
-  setRememberMe(e.target.checked);
 }
 
 async function onLogin(e) {
   e.preventDefault();
 
-  const username = document.querySelector('#username').value;
-  const password = document.querySelector('#password').value;
+  const { elements } = e.target;
+
+  const username = elements.username.value;
+  const password = elements.password.value;
+  const remember = elements.remember.checked;
 
   const options = {
     method: 'POST',
@@ -84,9 +74,7 @@ async function onLogin(e) {
 
   const authenticatedUser = await response.json();
 
-  console.log('Authenticated user : ', authenticatedUser);
-
-  setAuthenticatedUser(authenticatedUser);
+  setAuthenticatedUser(authenticatedUser, remember);
 
   Navbar();
 

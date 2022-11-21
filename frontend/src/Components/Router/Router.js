@@ -8,7 +8,7 @@ const Router = () => {
 };
 
 function onNavBarClick() {
-  const navbarWrapper = document.querySelector('#navbarWrapper');
+  const navbarWrapper = document.querySelector('body > header');
 
   navbarWrapper.addEventListener('click', (e) => {
     e.preventDefault();
