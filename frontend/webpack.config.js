@@ -75,6 +75,11 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /icons\/.+\.svg$/i,
+        loader: 'svg-sprite-loader',
+        options: {},
+      },
 
       // emits a separate file and exports the URLs => works for import in JS and url in CSS
       // default condition: a file with size less than 8kb will be treated as a inline
@@ -82,6 +87,7 @@ module.exports = {
       {
         test: /\.(png|jpg|gif|svg|mp3|mpe?g)$/,
         type: 'asset/resource',
+        exclude: [/icons\/.+\.svg$/i],
       },
       // in html file, emits files in output directory
       // and replace the src with the final path (to deal with svg, img...)
