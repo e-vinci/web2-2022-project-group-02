@@ -1,1 +1,5 @@
 @import './bootstrap';
+
+.hero {
+  @extend .px-4, .py-5, .mt-n3, .mx-n3, .mb-5;
+}
