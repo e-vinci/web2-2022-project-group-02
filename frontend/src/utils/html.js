@@ -1,6 +1,6 @@
 /**
  * A better alternative to document.createElement, which allows you to create
- * an element from a template literal.
+ * an element from a template literal. (Think of it as a pseudo-JSX)
  *
  * Also has the added benefit of being recognized by Prettier:
  * https://prettier.io/docs/en/options.html#embedded-language-formatting
@@ -8,7 +8,7 @@
  * Get this VSCode extension for syntax highlighting:
  * https://marketplace.visualstudio.com/items?itemName=bierner.lit-html
  */
-function html(raw, ...keys) {
+export default function html(raw, ...keys) {
   // For nested elements, we create placeholders and replace them with the nested
   // elements after the fact, to preserve event listeners.
   const elements = [];
@@ -27,6 +27,8 @@ function html(raw, ...keys) {
       });
       return `<div id="__PLACEHOLDER__${elements.length - 1}__"></div>`;
     }
+
+    if (typeof key === 'string') return escapeHTML(key);
 
     return key;
   });
@@ -48,4 +50,11 @@ function html(raw, ...keys) {
   return templateElement.content;
 }
 
-export default html;
+function escapeHTML(unsafe) {
+  return unsafe
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
