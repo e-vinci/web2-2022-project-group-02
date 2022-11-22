@@ -1,5 +1,5 @@
 import html from '../../utils/html';
-import cat from '../../img/icons/cat.svg';
+import Icon from '../Icon/Icon';
 
 const Footer = () => {
   renderFooter();
@@ -18,9 +18,7 @@ function renderFooter() {
           href="/"
           class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none"
         >
-          <svg viewBox="${cat.viewBox}" width="48" height="48">
-            <use xlink:href="#${cat.id}" />
-          </svg>
+          ${Icon('cat', 48)}
         </a>
 
         <ul class="nav col-md-4 justify-content-end">
