@@ -1,6 +1,7 @@
 import { setAuthenticatedUser, getRememberMe } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
 import html from '../../utils/html';
+import API from '../../utils/api';
 import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 
@@ -57,22 +58,10 @@ async function onRegister(e) {
   const password = elements.password.value;
   const remember = elements.remember.checked;
 
-  const options = {
-    method: 'POST',
-    body: JSON.stringify({
-      username,
-      password,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  const response = await fetch(`${process.env.API_BASE_URL}/auths/register`, options);
-
-  if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
-
-  const authenticatedUser = await response.json();
+  const authenticatedUser = await API.POST('/auths/register', {
+    username,
+    password,
+  });
 
   setAuthenticatedUser(authenticatedUser, remember);
 
