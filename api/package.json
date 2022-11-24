@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "CatByte Backend",
   "scripts": {
+    "prepare": "cd .. && husky install api/.husky",
     "debug": "npm run dev",
     "dev": "nodemon ./bin/www",
     "start": "node ./bin/www",
@@ -25,7 +26,10 @@
     "eslint": "^8.19.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
+    "husky": "^8.0.2",
     "nodemon": "^2.0.19",
-    "prettier-airbnb-config": "^1.0.0"
+    "prettier": "^2.8.0",
+    "prettier-airbnb-config": "^1.0.0",
+    "pretty-quick": "^3.1.3"
   }
 }
