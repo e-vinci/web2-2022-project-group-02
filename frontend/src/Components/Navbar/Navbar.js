@@ -2,6 +2,7 @@
 import { Navbar as BootstrapNavbar } from 'bootstrap';
 import { getAuthenticatedUser } from '../../utils/auths';
 import html from '../../utils/html';
+import logo from '../../img/logo.png';
 
 const Navbar = () => {
   renderNavbar();
@@ -15,7 +16,7 @@ function renderNavbar() {
   const navbar = html`
     <nav class="navbar navbar-expand-lg navbar-light bg-info">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">CatByte</a>
+        <a class="navbar-brand my-n2" href="#"><img src="${logo}" style="height: 3em"/></a>
         <button
           class="navbar-toggler"
           type="button"
