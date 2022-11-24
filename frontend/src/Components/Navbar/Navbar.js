@@ -16,7 +16,9 @@ function renderNavbar() {
   const navbar = html`
     <nav class="navbar navbar-expand-lg navbar-light bg-info">
       <div class="container-fluid">
-        <a class="navbar-brand my-n2" href="#"><img src="${logo}" style="height: 3em"/></a>
+        <a class="navbar-brand my-n2" href="#">
+          <img src="${logo}" style="height: 3em" data-uri="/" />
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -31,29 +33,49 @@ function renderNavbar() {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#" data-uri="/">Home</a>
+              <a class="nav-link" aria-current="page" href="#" data-uri="/">Leçons</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#" data-uri="/">Exercices</a>
             </li>
             ${authenticatedUser
               ? html`
                   <li class="nav-item">
-                    <a class="nav-link" href="#" data-uri="/new">Add new movie</a>
+                    <a class="nav-link" aria-current="page" href="#" data-uri="/">Défis</a>
                   </li>
                 `
               : ``}
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#" data-uri="/">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#" data-uri="/">Forum</a>
+            </li>
           </ul>
+          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+            <input
+              type="search"
+              class="form-control"
+              placeholder="Recherche par leçon..."
+              aria-label="Search"
+            />
+          </form>
           <ul class="navbar-nav navbar-right mb-2 mb-lg-0">
             ${authenticatedUser
               ? html`
                   <li class="nav-item">
-                    <a class="nav-link" href="#" data-uri="/logout">Logout</a>
+                    <a class="nav-link" href="#" data-uri="/logout">Déconnexion</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" data-uri="/">Mon profil</a>
                   </li>
                 `
               : html`
                   <li class="nav-item">
-                    <a class="nav-link" href="#" data-uri="/register">Register</a>
+                    <a class="nav-link" href="#" data-uri="/register">Connexion</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" data-uri="/login">Login</a>
+                    <a class="nav-link" href="#" data-uri="/login">S'inscrire</a>
                   </li>
                 `}
           </ul>
