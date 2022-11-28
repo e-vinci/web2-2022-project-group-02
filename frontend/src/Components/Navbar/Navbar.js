@@ -69,10 +69,10 @@ function renderNavbar() {
                 `
               : html`
                   <li class="nav-item">
-                    <a class="nav-link" href="#" data-uri="/register">Connexion</a>
+                    <a class="nav-link" href="#" data-uri="/login">Connexion</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" data-uri="/login">S'inscrire</a>
+                    <a class="nav-link" href="#" data-uri="/register">S'inscrire</a>
                   </li>
                 `}
           </ul>
