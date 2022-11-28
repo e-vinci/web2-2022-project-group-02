@@ -46,7 +46,7 @@ function renderNavbar() {
               <a class="nav-link" aria-current="page" href="#" data-uri="/">Leaderboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#" data-uri="/">Forum</a>
+              <a class="nav-link" aria-current="page" href="#" data-uri="/forum">Forum</a>
             </li>
           </ul>
           <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
