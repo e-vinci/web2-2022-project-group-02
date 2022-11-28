@@ -35,9 +35,6 @@ function renderNavbar() {
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="#" data-uri="/">Leçons</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#" data-uri="/">Exercices</a>
-            </li>
             ${authenticatedUser
               ? html`
                   <li class="nav-item">
@@ -46,7 +43,7 @@ function renderNavbar() {
                 `
               : ``}
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#" data-uri="/">Dashboard</a>
+              <a class="nav-link" aria-current="page" href="#" data-uri="/">Leaderboard</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="#" data-uri="/">Forum</a>

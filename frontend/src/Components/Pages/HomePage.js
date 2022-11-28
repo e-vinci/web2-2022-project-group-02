@@ -18,20 +18,11 @@ const HomePage = async () => {
       </div>
     </div>
     <div class="container">
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet dictum nibh. Aliquam
-        id congue ante, sed vulputate felis. Cras dictum rutrum est. Quisque sit amet lectus non
-        magna ornare luctus in vel tortor. Fusce at nulla velit. Nullam a sodales mauris, eu
-        imperdiet dolor. Nunc egestas quam augue, quis condimentum tellus interdum non. Orci varius
-        natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla in
-        sollicitudin nisi, eu semper erat. Mauris ac rhoncus neque.
-      </p>
-      
         <div class="alert alert-info">
         <p>
             Blague du jour:
         </p> 
-          <h6>${joke.category}</h6>
+          <h6>Catégorie: ${joke.category}</h6>
           <q>${joke.joke}</q>
         </div>
   </div>
