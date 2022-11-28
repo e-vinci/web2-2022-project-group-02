@@ -1,7 +1,9 @@
 import html from '../../utils/html';
 
-const HomePage = () => {
+const HomePage = async () => {
   const main = document.querySelector('main');
+  const response = await fetch('https://v2.jokeapi.dev/joke/Any?type=single');
+  const joke = await response.json();
 
   const hero = html`
     <div class="hero bg-secondary text-white">
@@ -24,15 +26,15 @@ const HomePage = () => {
         natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla in
         sollicitudin nisi, eu semper erat. Mauris ac rhoncus neque.
       </p>
-      <p>
-        Proin ut lectus ac urna suscipit volutpat bibendum quis lectus. Nunc ullamcorper at ex vitae
-        accumsan. Maecenas fringilla tortor quis laoreet fringilla. Mauris sit amet urna arcu.
-        Mauris venenatis porta lacus ut rutrum. Nulla ac nulla dolor. Phasellus aliquam nunc ac dui
-        blandit, quis condimentum mi vulputate. Nam elementum odio quam, at commodo quam scelerisque
-        fringilla. Nunc ac augue vel turpis consectetur lacinia. Mauris ligula ipsum, ultrices vitae
-        leo tempor, porta imperdiet nisi. Nunc et pulvinar nulla. Aenean sit amet lacinia mi, sit
-        amet molestie libero. Aliquam erat volutpat.
-      </p>
+      
+        <div class="alert alert-info">
+        <p>
+            Blague du jour:
+        </p> 
+          <h6>${joke.category}</h6>
+          <q>${joke.joke}</q>
+        </div>
+  </div>
     </div>
     <div class="container text-center">
       <h3>Suggestion des cours</h3>
