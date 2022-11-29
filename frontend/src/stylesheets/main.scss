@@ -11,3 +11,32 @@
 .hero {
   @extend .px-4, .py-5, .mt-n3, .mx-n3, .mb-5;
 }
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.userSettings {
+  min-width: 70%;
+}
+
+.centered {
+  align-items: center;
+  justify-content: center;
+}
+
+.cell {
+  background-color: #0dcaf0;
+  margin: 1%;
+  border-radius: 10px;
+}
+
+ul {
+  list-style: none;
+}
