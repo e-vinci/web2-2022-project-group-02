@@ -14,18 +14,20 @@ export default function html(raw, ...keys) {
   const elements = [];
 
   const newKeys = keys.map((key) => {
+    const id = Math.random().toString(36).slice(2);
+
     if (key instanceof Node) {
-      elements.push(key);
-      return `<div id="__PLACEHOLDER__${elements.length - 1}__"></div>`;
+      elements.push([id, key]);
+      return `<div id="__PLACEHOLDER__${id}__"></div>`;
     }
 
     if (Array.isArray(key)) {
       const fragment = document.createDocumentFragment();
       key.forEach((node) => {
-        elements.push(node);
         fragment.appendChild(node);
       });
-      return `<div id="__PLACEHOLDER__${elements.length - 1}__"></div>`;
+      elements.push([id, fragment]);
+      return `<div id="__PLACEHOLDER__${id}__"></div>`;
     }
 
     if (typeof key === 'string') return escapeHTML(key);
@@ -38,8 +40,8 @@ export default function html(raw, ...keys) {
 
   templateElement.innerHTML = str.trim();
 
-  elements.forEach((element, index) => {
-    const placeholder = templateElement.content.querySelector(`#__PLACEHOLDER__${index}__`);
+  elements.forEach(([id, element]) => {
+    const placeholder = templateElement.content.querySelector(`#__PLACEHOLDER__${id}__`);
 
     placeholder.replaceWith(element);
   });
