@@ -1,6 +1,6 @@
 import { clearPage, renderPageTitle } from '../../../utils/render';
 import html from '../../../utils/html';
-import Navigate from '../../Router/Navigate';
+import { progressColor, renderProgressBar, renderButton } from './util';
 
 const courses = {
   asm: {
@@ -120,17 +120,6 @@ const CoursesOverviewPage = () => {
   renderOverview();
 };
 
-function renderButton(link) {
-  const btn = html` <a href="#" class="btn btn-primary">Apprendre 👉</a> `;
-
-  btn.onclick = (e) => {
-    e.preventDefault();
-    Navigate(link);
-  };
-
-  return btn;
-}
-
 function renderOverview() {
   const course = getCourse();
 
@@ -154,7 +143,7 @@ function renderOverview() {
                     aria-controls="collapse${index}"
                   >
                     ${section.title}&nbsp;-&nbsp;<span
-                      class="text-${section.progress === 100 ? 'success' : 'danger'}"
+                      class="text-${progressColor(section.progress)}"
                       >${section.progress}%</span
                     >
                   </button>
@@ -167,8 +156,9 @@ function renderOverview() {
                 >
                   <div class="accordion-body">
                     <p>${section.description}</p>
-                    <div class="text-end">
-                      ${renderButton(`/courses/course?section=${section.id}`)}
+                    <div class="d-flex gap-4 align-items-end">
+                      <div class="flex-grow-1">${renderProgressBar(section.progress)}</div>
+                      ${renderButton(`/courses/course?section=${section.id}`, 'Commencer')}
                     </div>
                   </div>
                 </div>

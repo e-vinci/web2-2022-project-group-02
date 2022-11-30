@@ -1,6 +1,6 @@
 import { clearPage, renderPageTitle } from '../../../utils/render';
 import html from '../../../utils/html';
-import Navigate from '../../Router/Navigate';
+import { renderProgressBar, renderButton } from './util';
 import ASMImage from '../../../img/course-asm.webp';
 import CImage from '../../../img/course-c.webp';
 
@@ -27,31 +27,6 @@ const courses = [
   },
 ];
 
-function renderProgressBar(progress) {
-  return html`
-    <div class="progress">
-      <div
-        class="progress-bar progress-bar-striped bg-success"
-        role="progressbar"
-        style="width: ${progress}%"
-      >
-        ${progress}%
-      </div>
-    </div>
-  `;
-}
-
-function renderButton(link) {
-  const btn = html` <a href="#" class="btn btn-primary">Apprendre 👉</a> `;
-
-  btn.onclick = (e) => {
-    e.preventDefault();
-    Navigate(link);
-  };
-
-  return btn;
-}
-
 function renderCourses() {
   const main = document.querySelector('main');
 
@@ -71,7 +46,7 @@ function renderCourses() {
                   <h5 class="card-title">${course.title}</h5>
                   <p class="card-text">${course.description}</p>
                   <div class="text-end">
-                    ${renderButton(`/courses/overview?course=${course.id}`)}
+                    ${renderButton(`/courses/overview?course=${course.id}`, 'Apprendre 👉')}
                   </div>
                   <div class="position-relative mt-3">${renderProgressBar(course.progress)}</div>
                 </div>
