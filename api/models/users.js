@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const path = require('node:path');
 const { parse, serialize } = require('../utils/json');
 
-const jwtSecret = 'ilovemypizza!';
+const jwtSecret = 'ilovecats!'; //pas trop compris à quoi sert ce token ....
 const lifetimeJwt = 24 * 60 * 60 * 1000; // in ms : 24 * 60 * 60 * 1000 = 24h
 
 const jsonDbPath = path.join(__dirname, '/../data/users.json');
