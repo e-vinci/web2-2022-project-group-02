@@ -68,8 +68,10 @@ function renderCourses() {
                 <div class="card-body">
                   <h5 class="card-title">${course.title}</h5>
                   <p class="card-text">${course.description}</p>
-                  ${renderButton(`/courses/overview?course=${course.id}`)}
-                  <div class="position-relative my-3">${renderProgressBar(course.progress)}</div>
+                  <div class="text-end">
+                    ${renderButton(`/courses/overview?course=${course.id}`)}
+                  </div>
+                  <div class="position-relative mt-3">${renderProgressBar(course.progress)}</div>
                 </div>
               </div>
             </div>

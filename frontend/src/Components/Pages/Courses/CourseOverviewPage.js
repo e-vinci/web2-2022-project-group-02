@@ -100,7 +100,6 @@ const courses = {
 };
 
 const getCourse = () => {
-  // new URLSearchParams(window.location.search).get("course")
   const urlParams = new URLSearchParams(window.location.search);
   const course = urlParams.get('course');
   if (!course || !courses[course]) return null;
@@ -131,42 +130,49 @@ function renderButton(link) {
 function renderOverview() {
   const course = getCourse();
 
+  const highlightedSection = course.sections.findIndex((section) => section.progress < 100);
+
   const content = html`
     <div class="container">
       <h3 class="text-center">Les leçons - ${course.fullTitle}</h3>
-      <div class="accordion" id="courseSections">
-        ${course.sections.map(
-          (section, index) => html`
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="heading${index}">
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapse${index}"
-                  aria-expanded="true"
-                  aria-controls="collapse${index}"
-                >
-                  ${section.title}&nbsp;-&nbsp;<span
-                    class="text-${section.progress === 100 ? 'success' : 'danger'}"
-                    >${section.progress}%</span
+      <div class="row justify-content-center g-4">
+        <div class="col-12 col-md-4 col-lg-6">[Image here]</div>
+        <div class="col-12 col-md-8 col-lg-6 accordion" id="courseSections">
+          ${course.sections.map(
+            (section, index) => html`
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading${index}">
+                  <button
+                    class="accordion-button ${index !== highlightedSection ? 'collapsed' : ''}"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse${index}"
+                    aria-expanded="true"
+                    aria-controls="collapse${index}"
                   >
-                </button>
-              </h2>
-              <div
-                id="collapse${index}"
-                class="accordion-collapse collapse"
-                aria-labelledby="heading${index}"
-                data-bs-parent="#courseSections"
-              >
-                <div class="accordion-body">
-                  <p>${section.description}</p>
-                  ${renderButton(`/courses/course?section=${section.id}`)}
+                    ${section.title}&nbsp;-&nbsp;<span
+                      class="text-${section.progress === 100 ? 'success' : 'danger'}"
+                      >${section.progress}%</span
+                    >
+                  </button>
+                </h2>
+                <div
+                  id="collapse${index}"
+                  class="accordion-collapse collapse ${index === highlightedSection ? 'show' : ''}"
+                  aria-labelledby="heading${index}"
+                  data-bs-parent="#courseSections"
+                >
+                  <div class="accordion-body">
+                    <p>${section.description}</p>
+                    <div class="text-end">
+                      ${renderButton(`/courses/course?section=${section.id}`)}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          `,
-        )}
+            `,
+          )}
+        </div>
       </div>
     </div>
   `;
