@@ -6,7 +6,7 @@ import CImage from '../../../img/course-c.webp';
 
 const MainPage = () => {
   clearPage();
-  renderPageTitle('Leçons');
+  renderPageTitle("Vue d'ensemble des leçons");
   renderCourses();
 };
 
@@ -54,7 +54,6 @@ function renderCourses() {
 
   const content = html`
     <div class="container">
-      <h3 class="text-center">Vue d'ensemble des leçons</h3>
       <div class="row justify-content-center g-4">
         ${courses.map(
           (course) => html`
@@ -81,7 +80,7 @@ function renderCourses() {
     </div>
   `;
 
-  main.replaceChildren(content);
+  main.append(content);
 }
 
 export default MainPage;

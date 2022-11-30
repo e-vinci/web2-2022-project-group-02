@@ -1,4 +1,4 @@
-import { clearPage } from '../../../utils/render';
+import { clearPage, renderPageTitle } from '../../../utils/render';
 import html from '../../../utils/html';
 import Navigate from '../../Router/Navigate';
 
@@ -116,6 +116,7 @@ const CoursesOverviewPage = () => {
   }
 
   clearPage();
+  renderPageTitle(`Les leçons - ${course.fullTitle}`);
   renderOverview();
 };
 
@@ -134,7 +135,6 @@ function renderOverview() {
 
   const content = html`
     <div class="container">
-      <h3 class="text-center">Les leçons - ${course.fullTitle}</h3>
       <div class="row justify-content-center g-4">
         <div class="col-12 col-md-4 col-lg-6">[Image here]</div>
         <div class="col-12 col-md-8 col-lg-6 accordion" id="courseSections">
@@ -177,7 +177,7 @@ function renderOverview() {
     </div>
   `;
 
-  document.querySelector('main').replaceChildren(content);
+  document.querySelector('main').append(content);
 }
 
 export default CoursesOverviewPage;
