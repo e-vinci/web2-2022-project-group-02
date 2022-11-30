@@ -1,9 +1,10 @@
 import { clearPage, renderPageTitle } from '../../../utils/render';
+import html from '../../../utils/html';
+import Navigate from '../../Router/Navigate';
 import ASMImage from '../../../img/course-asm.webp';
 import CImage from '../../../img/course-c.webp';
-import html from '../../../utils/html';
 
-const CoursesPage = () => {
+const MainPage = () => {
   clearPage();
   renderPageTitle('Leçons');
   renderCourses();
@@ -11,18 +12,42 @@ const CoursesPage = () => {
 
 const courses = [
   {
+    id: 'asm',
     title: 'Assembleur',
     description: 'Langage de très bas niveau, proche du code machine.',
     image: ASMImage,
     progress: 0,
   },
   {
+    id: 'c',
     title: 'C',
     description: 'Langue très connue et révolutionnaire. A connaître absolument !',
     image: CImage,
     progress: 0,
   },
 ];
+
+function renderProgressBar(progress) {
+  return html`
+    <div class="progress">
+      <div
+        class="progress-bar progress-bar-striped bg-success"
+        role="progressbar"
+        style="width: ${progress}%"
+      >
+        ${progress}%
+      </div>
+    </div>
+  `;
+}
+
+function renderButton(link) {
+  const btn = html` <a href="#" class="btn btn-primary">Apprendre 👉</a> `;
+
+  btn.onclick = () => Navigate(link);
+
+  return btn;
+}
 
 function renderCourses() {
   const main = document.querySelector('main');
@@ -43,18 +68,8 @@ function renderCourses() {
                 <div class="card-body">
                   <h5 class="card-title">${course.title}</h5>
                   <p class="card-text">${course.description}</p>
-                  <a href="#" class="btn btn-primary">Apprendre 👉</a>
-                  <div class="position-relative my-3">
-                    <div class="progress">
-                      <div
-                        class="progress-bar progress-bar-striped bg-success"
-                        role="progressbar"
-                        style="width: ${course.progress}%"
-                      >
-                        ${course.progress}%
-                      </div>
-                    </div>
-                  </div>
+                  ${renderButton(`/courses/overview?course=${course.id}`)}
+                  <div class="position-relative my-3">${renderProgressBar(course.progress)}</div>
                 </div>
               </div>
             </div>
@@ -67,4 +82,4 @@ function renderCourses() {
   main.replaceChildren(content);
 }
 
-export default CoursesPage;
+export default MainPage;
