@@ -38,7 +38,7 @@ function renderNavbar() {
             ${authenticatedUser
               ? html`
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#" data-uri="/">Défis</a>
+                    <a class="nav-link" aria-current="page" href="#" data-uri="/">Miaouwrathon</a>
                   </li>
                 `
               : ``}
@@ -64,7 +64,7 @@ function renderNavbar() {
                     <a class="nav-link" href="#" data-uri="/logout">Déconnexion</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" data-uri="/">Mon profil</a>
+                    <a class="nav-link" href="#" data-uri="/profile">Mon profil</a>
                   </li>
                 `
               : html`
