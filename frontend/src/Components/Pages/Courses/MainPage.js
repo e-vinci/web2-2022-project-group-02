@@ -44,7 +44,10 @@ function renderProgressBar(progress) {
 function renderButton(link) {
   const btn = html` <a href="#" class="btn btn-primary">Apprendre 👉</a> `;
 
-  btn.onclick = () => Navigate(link);
+  btn.onclick = (e) => {
+    e.preventDefault();
+    Navigate(link);
+  };
 
   return btn;
 }
