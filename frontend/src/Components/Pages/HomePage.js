@@ -5,7 +5,7 @@ const HomePage = async () => {
   const response = await fetch('https://v2.jokeapi.dev/joke/Any?type=single');
   const joke = await response.json();
 
-  const hero = html`
+  const homepage = html`
     <div class="hero bg-secondary text-white">
       <div class="container">
         <h1>Bienvenue sur CatByte</h1>
@@ -31,16 +31,16 @@ const HomePage = async () => {
       <h3>Suggestion des cours</h3>
       <div class="row justify-content-center g-4">
         <div class="col-12 col-md-4">
-          <a class="btn btn-primary p-4" href="#">Commencer leçon<br />Langage C</a>
+        <a class="btn btn-primary p-4" aria-current="page" href="#" data-uri="/asm">ASM</a>
         </div>
         <div class="col-12 col-md-4">
-          <a class="btn btn-primary p-4" href="#">Commencer leçon<br />ASM</a>
+        <a class="btn btn-primary p-4" aria-current="page" href="#" data-uri="/Cfacile">Langage C</a>
         </div>
       </div>
     </div>
   `;
 
-  main.replaceChildren(hero);
+  main.replaceChildren(homepage);
 };
 
 export default HomePage;
