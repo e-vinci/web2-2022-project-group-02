@@ -27,6 +27,7 @@
 }
 
 .centered {
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -42,5 +43,12 @@ ul {
 }
 
 .margin {
+  margin: 1%;
+}
+
+.notabene {
+  background-color: lightgray;
+  border-radius: 2em;
+  padding: 2%;
   margin: 1%;
 }

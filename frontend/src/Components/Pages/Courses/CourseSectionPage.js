@@ -3,9 +3,11 @@ import html from '../../../utils/html';
 import { renderButton } from './util';
 
 import C00 from './CourseSections/c-00-intro';
+import ASM00 from './CourseSections/asm-00-intro';
 
 const sections = {
   'c-00-intro': C00,
+  'asm-00-intro': ASM00,
 };
 
 const getSection = () => {
@@ -37,7 +39,7 @@ function renderSection() {
   const page = section[pageNum];
 
   const content = html`
-    <div class="container">
+    <div class="container flex-grow-1">
       ${page.cloneNode(true)}
 
       <div class="row justify-content-center">
