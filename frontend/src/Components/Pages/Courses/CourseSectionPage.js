@@ -4,10 +4,12 @@ import { renderButton } from './util';
 
 import C00 from './CourseSections/c-00-intro';
 import ASM00 from './CourseSections/asm-00-intro';
+import ASM01 from './CourseSections/asm-01-hardware';
 
 const sections = {
   'c-00-intro': C00,
   'asm-00-intro': ASM00,
+  'asm-01-hardware': ASM01,
 };
 
 const getSection = () => {

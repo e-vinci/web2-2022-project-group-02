@@ -9,16 +9,14 @@ const courses = {
       {
         id: 'asm-00-intro',
         title: 'Conversion des bases',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
-        progress: 100,
+        description: 'introduction rapide au langage assembleur',
+        progress: 0,
       },
       {
-        id: 'asm-01-registers',
-        title: 'Les registres',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
-        progress: 50,
+        id: 'asm-01-hardware',
+        title: 'Le matériel',
+        description: 'Influance du hardware sur le langage assembleur',
+        progress: 0,
       },
       {
         id: 'asm-02-instructions',

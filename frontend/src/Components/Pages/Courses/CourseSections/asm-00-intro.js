@@ -130,7 +130,7 @@ const pages = [
           </li>
         </ul>
       </div>
-      <div class="centered">
+      <div class="centered padded">
         <table>
           <tr>
             <td><div class="centered heavy-padded heavy">label</div></td>
