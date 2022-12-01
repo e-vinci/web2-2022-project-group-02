@@ -3,35 +3,112 @@ import html from '../../../../utils/html';
 const pages = [
   html`
     <h1 class="centered">0 - Introduction à l'Assembleur</h1>
-    <p>
-      Les ordinateurs sont un peu bêtes, du coup ils ne comprennent que le binaire, tant pour les
-      données qu'ils traitent que pour les programmes qu'ils exécutent.
-    </p>
-    <p>
-      Ces programmes sont composés d'instructions simples, par exemple 0x90, 0xF8, etc. C'est ce
-      qu'on appelle du "Language Machine" Le problème, c'est que ces nombres sont stockés sous forme
-      binaire ou hexadécimale, ce qui est dur à lire pour un humain.
-    </p>
-    <p>
-      Pour rendre la programmation plus accessible, des noms ont donc été donnés à ces instruction,
-      et pour chaque nom d'instruction correspond un "op code". Nos instructions deviennent donc
-      NOP, CLC, etc. C'est déja mieux. En plus des noms d'instructions, des fonctionnalités
-      permettant de faciliter la programmation ont aussi été ajoutées. Nous appelons ce nouveau
-      language L'assembleur.
-    </p>
-    <div class="notabene centered">
-      <p>
-        N.B. Il n'éxiste pas qu'un langage assembleur. Les langages assembleurs sont une abstraction
-        du fonctionnement électrique du processeur, des processeurs différents ont donc des
-        assembleurs différents.
-      </p>
-    </div>
-    <div class="notabene centered">
-      <p>
-        N.B. 2 une même instruction (par exemple MOV) peut correspondre à plusieurs opcodes. En
-        effet, certaines instructions impliquent des informations supplémentaires, comme le mode
-        d'adressage, et l'opcode est différent pour chacune des variation de cette instruction.
-      </p>
+    <div class="horizontal" style="padding-bottom: 5%;">
+      <div class="vertical">
+        <p>
+          Les ordinateurs sont un peu bêtes, du coup ils ne comprennent que le binaire, tant pour
+          les données qu'ils traitent que pour les programmes qu'ils exécutent.
+        </p>
+        <p>
+          Ces programmes sont composés d'instructions simples, par exemple 0x90, 0xF8, etc. C'est ce
+          qu'on appelle du "Language Machine" Le problème, c'est que ces nombres sont stockés sous
+          forme binaire ou hexadécimale, ce qui est dur à lire pour un humain.
+        </p>
+        <p>
+          Pour rendre la programmation plus accessible, des noms ont donc été donnés à ces
+          instruction, et pour chaque nom d'instruction correspond un "op code". Nos instructions
+          deviennent donc NOP, CLC, etc. C'est déja mieux. En plus des noms d'instructions, des
+          fonctionnalités permettant de faciliter la programmation ont aussi été ajoutées. Nous
+          appelons ce nouveau language L'assembleur.
+        </p>
+        <div class="notabene centered">
+          <p>
+            N.B. Il n'éxiste pas qu'un langage assembleur. Les langages assembleurs sont une
+            abstraction du fonctionnement électrique du processeur, des processeurs différents ont
+            donc des assembleurs différents.
+          </p>
+        </div>
+        <div class="notabene centered">
+          <p>
+            N.B. 2 une même instruction (par exemple MOV) peut correspondre à plusieurs opcodes. En
+            effet, certaines instructions impliquent des informations supplémentaires, comme le mode
+            d'adressage, et l'opcode est différent pour chacune des variation de cette instruction.
+          </p>
+        </div>
+      </div>
+      <div class="horizontal" style="padding: 1%; padding-left: 10%;">
+        <table>
+          <th>LANGUAGE MACHINE</th>
+          <tr>
+            <td>0x20</td>
+          </tr>
+          <tr>
+            <td>0x0C</td>
+          </tr>
+          <tr>
+            <td>0xFD</td>
+          </tr>
+          <tr>
+            <td>0x20</td>
+          </tr>
+          <tr>
+            <td>0xED</td>
+          </tr>
+          <tr>
+            <td>0xFD</td>
+          </tr>
+          <tr>
+            <td>0xC9</td>
+          </tr>
+          <tr>
+            <td>0xB1</td>
+          </tr>
+          <tr>
+            <td>0xF0</td>
+          </tr>
+          <tr>
+            <td>0xF9</td>
+          </tr>
+          <tr>
+            <td>0x60</td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <th colspan="4"><div class="centered">ASSEMBLEUR</div></th>
+          </tr>
+          <tr>
+            <td><div class="centered" style="padding: 10%;"></div></td>
+            <td><div class="centered" style="padding: 10%;">JSR</div></td>
+            <td><div class="centered" style="padding: 10%;">$FD0C</div></td>
+            <td><div class="centered" style="padding: 10%;"></div></td>
+          </tr>
+          <tr>
+            <td><div class="centered" style="padding: 10%;">loop:</div></td>
+            <td><div class="centered" style="padding: 10%;">JSR</div></td>
+            <td><div class="centered" style="padding: 10%;">$FDED</div></td>
+            <td><div class="centered" style="padding: 10%;"></div></td>
+          </tr>
+          <tr>
+            <td><div class="centered" style="padding: 10%;"></div></td>
+            <td><div class="centered" style="padding: 10%;">CMP</div></td>
+            <td><div class="centered" style="padding: 10%;">'1'</div></td>
+            <td><div class="centered" style="padding: 10%;"></div></td>
+          </tr>
+          <tr>
+            <td><div class="centered" style="padding: 10%;"></div></td>
+            <td><div class="centered" style="padding: 10%;">BEQ</div></td>
+            <td><div class="centered" style="padding: 10%;">loop</div></td>
+            <td><div class="centered" style="padding: 10%;"></div></td>
+          </tr>
+          <tr>
+            <td><div class="centered" style="padding: 5%;"></div></td>
+            <td><div class="centered" style="padding: 5%;">RTS</div></td>
+            <td><div class="centered" style="padding: 5%;"></div></td>
+            <td><div class="centered" style="padding: 5%;"></div></td>
+          </tr>
+        </table>
+      </div>
     </div>
   `,
   html`
