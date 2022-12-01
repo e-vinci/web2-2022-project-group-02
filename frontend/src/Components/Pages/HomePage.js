@@ -8,7 +8,7 @@ btnASM.setAttribute('href', '#');
 btnASM.setAttribute('data-uri', '/asm');
 btnASM.innerHTML = 'Assembleur';
 btnASM.addEventListener('click', () => {
-  navigate('/asm');
+  navigate('/courses/overview?course=asm');
 });
 
 const btnC = document.createElement('a');
@@ -18,7 +18,7 @@ btnC.setAttribute('href', '#');
 btnC.setAttribute('data-uri', '/Cfacile');
 btnC.innerHTML = 'Language C';
 btnC.addEventListener('click', () => {
-  navigate('/Cfacile');
+  navigate('/courses/overview?course=c');
 });
 
 const HomePage = async () => {
