@@ -1,4 +1,25 @@
 import html from '../../utils/html';
+import navigate from '../Router/Navigate';
+
+const btnASM = document.createElement('a');
+btnASM.setAttribute('class', 'btn btn-primary p-4');
+btnASM.setAttribute('aria-current', 'page');
+btnASM.setAttribute('href', '#');
+btnASM.setAttribute('data-uri', '/asm');
+btnASM.innerHTML = 'Assembleur';
+btnASM.addEventListener('click', () => {
+  navigate('/asm');
+});
+
+const btnC = document.createElement('a');
+btnC.setAttribute('class', 'btn btn-primary p-4');
+btnC.setAttribute('aria-current', 'page');
+btnC.setAttribute('href', '#');
+btnC.setAttribute('data-uri', '/Cfacile');
+btnC.innerHTML = 'Language C';
+btnC.addEventListener('click', () => {
+  navigate('/Cfacile');
+});
 
 const HomePage = async () => {
   const main = document.querySelector('main');
@@ -31,10 +52,10 @@ const HomePage = async () => {
       <h3>Suggestion des cours</h3>
       <div class="row justify-content-center g-4">
         <div class="col-12 col-md-4">
-        <a class="btn btn-primary p-4" aria-current="page" href="#" data-uri="/asm">ASM</a>
+        ${btnASM}
         </div>
         <div class="col-12 col-md-4">
-        <a class="btn btn-primary p-4" aria-current="page" href="#" data-uri="/Cfacile">Langage C</a>
+        ${btnC}
         </div>
       </div>
     </div>
