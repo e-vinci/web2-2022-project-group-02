@@ -5,6 +5,7 @@ import RegisterPage from '../Pages/RegisterPage';
 import ForumPage from '../Pages/ForumPage';
 import CoursesMainPage from '../Pages/Courses/MainPage';
 import CourseOverviewPage from '../Pages/Courses/CourseOverviewPage';
+import CourseSectionPage from '../Pages/Courses/CourseSectionPage';
 import UserProfilePage from '../Pages/UserProfilePage';
 import LangageCPage from '../Pages/LangageCPage';
 import AsmPage from '../Pages/AsmPage';
@@ -13,6 +14,7 @@ const routes = {
   '/': HomePage,
   '/courses': CoursesMainPage,
   '/courses/overview': CourseOverviewPage,
+  '/courses/course': CourseSectionPage,
   '/login': LoginPage,
   '/register': RegisterPage,
   '/logout': Logout,
@@ -23,5 +25,3 @@ const routes = {
 };
 
 export default routes;
-
-
