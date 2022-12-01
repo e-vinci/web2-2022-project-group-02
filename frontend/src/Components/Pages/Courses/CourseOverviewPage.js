@@ -7,42 +7,42 @@ const courses = {
     fullTitle: 'Assembleur',
     sections: [
       {
-        id: 'asm-intro',
+        id: 'asm-00-intro',
         title: 'Conversion des bases',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 100,
       },
       {
-        id: 'asm-registers',
+        id: 'asm-01-registers',
         title: 'Les registres',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 50,
       },
       {
-        id: 'asm-instructions',
+        id: 'asm-02-instructions',
         title: 'Les instructions',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'asm-stack',
+        id: 'asm-03-stack',
         title: 'La pile',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'asm-flags',
+        id: 'asm-04-flags',
         title: 'Les flags',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'asm-loops',
+        id: 'asm-05-loops',
         title: 'Les boucles',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
@@ -54,42 +54,42 @@ const courses = {
     fullTitle: 'Langage C',
     sections: [
       {
-        id: 'c-intro',
+        id: 'c-00-intro',
         title: 'Les types',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'c-variables',
+        id: 'c-01-variables',
         title: 'Les variables',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'c-functions',
+        id: 'c-02-functions',
         title: 'Les fonctions',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'c-pointers',
+        id: 'c-03-pointers',
         title: 'Les pointeurs',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'c-structures',
+        id: 'c-04-structures',
         title: 'Les structures',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'c-tables',
+        id: 'c-05-tables',
         title: 'Les tableaux',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
@@ -158,7 +158,7 @@ function renderOverview() {
                     <p>${section.description}</p>
                     <div class="d-flex gap-4 align-items-end">
                       <div class="flex-grow-1">${renderProgressBar(section.progress)}</div>
-                      ${renderButton(`/courses/course?section=${section.id}`, 'Commencer')}
+                      ${renderButton('Commencer', `/courses/course?section=${section.id}`)}
                     </div>
                   </div>
                 </div>
