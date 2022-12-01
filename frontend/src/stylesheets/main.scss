@@ -27,6 +27,7 @@
 }
 
 .centered {
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -45,8 +46,9 @@ ul {
   margin: 1%;
 }
 
-.text_box {
-  padding: 10px;
-  background-color: rgba(0, 255, 255, 0.3);
-  border-radius: 8px;
+.notabene {
+  background-color: lightgray;
+  border-radius: 2em;
+  padding: 2%;
+  margin: 1%;
 }

@@ -9,7 +9,7 @@ const pages = [
     on te conseille vivement de commencer le cours d’ASM avant de t’attaquer au C ! </p>
     <p> Maintenant que c’est dit, on peut commencer par expliquer c’est quoi le C ? Eh bien, c’est un langage de programmation considéré par la majorité comme bas niveau. 
     <br>
-    <div class="horizontal text_box">
+    <div class="notabene centered" class="horizontal text_box">
       <div class="vertical">
        <img src="${image}" width="70%">
       </div>
