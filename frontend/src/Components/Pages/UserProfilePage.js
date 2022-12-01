@@ -39,6 +39,7 @@ const user = {
 
 function getHighScores() {
   const scores = document.createElement('ul');
+  scores.setAttribute('class', 'invisible-list');
   user.highscore.forEach((score) => {
     const li = document.createElement('li');
     li.innerHTML = `${score.cours} - ${score.score}`;
@@ -76,6 +77,7 @@ userName.appendChild(forgetMe);
 
 function getCours() {
   const listeCours = document.createElement('ul');
+  listeCours.setAttribute('class', 'invisible-list');
   user.cours.forEach((cours) => {
     const li = document.createElement('li');
     li.innerHTML = `${cours.titre} : chapitre ${cours.chapitre}`;
@@ -86,6 +88,7 @@ function getCours() {
 
 function getQuestions() {
   const q = document.createElement('ul');
+  q.setAttribute('class', 'invisible-list');
   user.questions.forEach((question) => {
     const li = document.createElement('li');
     li.innerHTML = `${question.date} | ${question.titre}`;

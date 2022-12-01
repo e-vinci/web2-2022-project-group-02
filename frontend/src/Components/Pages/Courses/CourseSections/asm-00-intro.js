@@ -36,41 +36,41 @@ const pages = [
           </p>
         </div>
       </div>
-      <div class="horizontal" style="padding: 1%; padding-left: 10%;">
+      <div class="horizontal top" style="padding: 1%; padding-left: 10%;">
         <table>
           <th>LANGUAGE MACHINE</th>
           <tr>
-            <td>0x20</td>
+            <td><div class="centered heavy-padded">0x20</div></td>
           </tr>
           <tr>
-            <td>0x0C</td>
+            <td><div class="centered heavy-padded">0x0C</div></td>
           </tr>
           <tr>
-            <td>0xFD</td>
+            <td><div class="centered heavy-padded">0xFD</div></td>
           </tr>
           <tr>
-            <td>0x20</td>
+            <td><div class="centered heavy-padded">0x20</div></td>
           </tr>
           <tr>
-            <td>0xED</td>
+            <td><div class="centered heavy-padded">0xED</div></td>
           </tr>
           <tr>
-            <td>0xFD</td>
+            <td><div class="centered heavy-padded">0xFD</div></td>
           </tr>
           <tr>
-            <td>0xC9</td>
+            <td><div class="centered heavy-padded">0xC9</div></td>
           </tr>
           <tr>
-            <td>0xB1</td>
+            <td><div class="centered heavy-padded">0xB1</div></td>
           </tr>
           <tr>
-            <td>0xF0</td>
+            <td><div class="centered heavy-padded">0xF0</div></td>
           </tr>
           <tr>
-            <td>0xF9</td>
+            <td><div class="centered heavy-padded">0xF9</div></td>
           </tr>
           <tr>
-            <td>0x60</td>
+            <td><div class="centered heavy-padded">0x60</div></td>
           </tr>
         </table>
         <table>
@@ -78,43 +78,100 @@ const pages = [
             <th colspan="4"><div class="centered">ASSEMBLEUR</div></th>
           </tr>
           <tr>
-            <td><div class="centered" style="padding: 10%;"></div></td>
-            <td><div class="centered" style="padding: 10%;">JSR</div></td>
-            <td><div class="centered" style="padding: 10%;">$FD0C</div></td>
-            <td><div class="centered" style="padding: 10%;"></div></td>
+            <td><div class="centered heavy-padded"></div></td>
+            <td><div class="centered heavy-padded">JSR</div></td>
+            <td><div class="centered heavy-padded">$FD0C</div></td>
+            <td><div class="centered heavy-padded"></div></td>
           </tr>
           <tr>
-            <td><div class="centered" style="padding: 10%;">loop:</div></td>
-            <td><div class="centered" style="padding: 10%;">JSR</div></td>
-            <td><div class="centered" style="padding: 10%;">$FDED</div></td>
-            <td><div class="centered" style="padding: 10%;"></div></td>
+            <td><div class="centered heavy-padded">loop:</div></td>
+            <td><div class="centered heavy-padded">JSR</div></td>
+            <td><div class="centered heavy-padded">$FDED</div></td>
+            <td><div class="centered heavy-padded"></div></td>
           </tr>
           <tr>
-            <td><div class="centered" style="padding: 10%;"></div></td>
-            <td><div class="centered" style="padding: 10%;">CMP</div></td>
-            <td><div class="centered" style="padding: 10%;">'1'</div></td>
-            <td><div class="centered" style="padding: 10%;"></div></td>
+            <td><div class="centered heavy-padded"></div></td>
+            <td><div class="centered heavy-padded">CMP</div></td>
+            <td><div class="centered heavy-padded">'1'</div></td>
+            <td><div class="centered heavy-padded"></div></td>
           </tr>
           <tr>
-            <td><div class="centered" style="padding: 10%;"></div></td>
-            <td><div class="centered" style="padding: 10%;">BEQ</div></td>
-            <td><div class="centered" style="padding: 10%;">loop</div></td>
-            <td><div class="centered" style="padding: 10%;"></div></td>
+            <td><div class="centered heavy-padded"></div></td>
+            <td><div class="centered heavy-padded">BEQ</div></td>
+            <td><div class="centered heavy-padded">loop</div></td>
+            <td><div class="centered heavy-padded"></div></td>
           </tr>
           <tr>
-            <td><div class="centered" style="padding: 5%;"></div></td>
-            <td><div class="centered" style="padding: 5%;">RTS</div></td>
-            <td><div class="centered" style="padding: 5%;"></div></td>
-            <td><div class="centered" style="padding: 5%;"></div></td>
+            <td><div class="centered heavy-padded"></div></td>
+            <td><div class="centered heavy-padded">RTS</div></td>
+            <td><div class="centered heavy-padded"></div></td>
+            <td><div class="centered heavy-padded"></div></td>
           </tr>
         </table>
       </div>
     </div>
   `,
   html`
-        <h1>Introduction</h1>
-        <p>holo</br>peve</p>
-    `,
+    <h1 class="centered">0 - Introduction à l'assembleur</h1>
+    <div class="horizontal">
+      <div class="vertical">
+        <p>
+          L'assembleur est donc un langage conçu pour être extrêmement simple à convertir en langage
+          machine, c'est pourquoi l'assembleur à une structure un peu particulière.
+        </p>
+        <p>Une ligne d'assembleur se compose en effet de quatre champs:</p>
+        <ul>
+          <li>Les labels, qui permettent de donner des noms humains à des adresses</li>
+          <li>Les Instructions, qui sont, a proprement parler, les commandes du processeur</li>
+          <li>Les Operands, qui permettent de spécifier les parametres de l'instruction</li>
+          <li>
+            Les commentaires, qui permettent de noter des informations utile pour plus facilement
+            comprendre le code
+          </li>
+        </ul>
+      </div>
+      <div class="centered">
+        <table>
+          <tr>
+            <td><div class="centered heavy-padded heavy">label</div></td>
+            <td><div class="centered heavy-padded heavy">instruction</div></td>
+            <td><div class="centered heavy-padded heavy">operand</div></td>
+            <td><div class="centered heavy-padded heavy">commentaire</div></td>
+          </tr>
+          <tr>
+            <td><div class="centered heavy-padded"></div></td>
+            <td><div class="centered heavy-padded">JSR</div></td>
+            <td><div class="centered heavy-padded">$FD0C</div></td>
+            <td><div class="centered heavy-padded"></div></td>
+          </tr>
+          <tr>
+            <td><div class="centered heavy-padded">loop:</div></td>
+            <td><div class="centered heavy-padded">JSR</div></td>
+            <td><div class="centered heavy-padded">$FDED</div></td>
+            <td><div class="centered heavy-padded"></div></td>
+          </tr>
+          <tr>
+            <td><div class="centered heavy-padded"></div></td>
+            <td><div class="centered heavy-padded">CMP</div></td>
+            <td><div class="centered heavy-padded">'1'</div></td>
+            <td><div class="centered heavy-padded"></div></td>
+          </tr>
+          <tr>
+            <td><div class="centered heavy-padded"></div></td>
+            <td><div class="centered heavy-padded">BEQ</div></td>
+            <td><div class="centered heavy-padded">loop</div></td>
+            <td><div class="centered heavy-padded"></div></td>
+          </tr>
+          <tr>
+            <td><div class="centered heavy-padded"></div></td>
+            <td><div class="centered heavy-padded">RTS</div></td>
+            <td><div class="centered heavy-padded"></div></td>
+            <td><div class="centered heavy-padded"></div></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  `,
 ];
 
 export default pages;

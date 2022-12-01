@@ -38,7 +38,7 @@
   border-radius: 10px;
 }
 
-ul {
+.invisible-list {
   list-style: none;
 }
 
@@ -67,4 +67,19 @@ table {
 td {
   justify-content: center;
   align-items: center;
+  background-color: lightgray;
+  border-style: solid;
+  border-color: white;
+  border-width: 3px;
+  min-width: 5em;
+  height: 1.5em;
+  border-radius: 10px;
+}
+
+.top {
+  align-items: flex-start;
+}
+
+.heavy {
+  font-weight: bolder;
 }
