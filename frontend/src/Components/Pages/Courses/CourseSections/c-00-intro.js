@@ -29,7 +29,7 @@ const pages = [
     </div>
   `,
   html`
-    <h1>Les types</h1>
+    <h1>Hello World !</h1>
     <p>PAGE 2</p>
   `,
   html`

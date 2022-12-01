@@ -164,7 +164,7 @@ function renderOverview() {
                     <p>${section.description}</p>
                     <div class="d-flex gap-4 align-items-end">
                       <div class="flex-grow-1">${renderProgressBar(section.progress)}</div>
-                      ${renderButton('Commencer', `/courses/course?section=${section.id}`)} b
+                      ${renderButton('Commencer', `/courses/course?section=${section.id}`)}
                     </div>
                   </div>
                 </div>
