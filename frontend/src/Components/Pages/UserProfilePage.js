@@ -4,6 +4,7 @@ import image from '../../img/defaultUser.png';
 
 const user = {
   username: 'Jean-Eud',
+  picture: '../../img/defaultUser.png',
   questions: [
     {
       titre: "C'est quoi le temps UNIX?",
@@ -45,6 +46,33 @@ function getHighScores() {
   });
   return scores;
 }
+const profilePicture = document.createElement('img');
+profilePicture.setAttribute('src', image);
+profilePicture.setAttribute('width', '35%');
+profilePicture.addEventListener('click', () => {
+  alert('change profile picture!');
+  // something to change profile picture
+});
+
+const userName = document.createElement('form');
+userName.setAttribute('class', 'vertical centered');
+const userNameButton = document.createElement('input');
+userNameButton.setAttribute('type', 'submit');
+userNameButton.setAttribute('value', user.username);
+userNameButton.setAttribute('class', 'btn btn-info margin');
+userNameButton.addEventListener('click', () => {
+  alert('Change User Name!');
+});
+
+const forgetMe = document.createElement('input');
+forgetMe.setAttribute('type', 'submit');
+forgetMe.setAttribute('value', 'delete my acount');
+forgetMe.setAttribute('class', 'btn btn-info margin');
+forgetMe.addEventListener('click', () => {
+  alert('I forgor 💀');
+});
+userName.appendChild(userNameButton);
+userName.appendChild(forgetMe);
 
 function getCours() {
   const listeCours = document.createElement('ul');
@@ -76,13 +104,7 @@ function renderProfile() {
 
   const profile = html`
     <div class="container horizontal centered">
-      <div class="container vertical centered">
-        <img src="${image}" style="width: 35%;" />
-        <form>
-          <input type="submit" value="${user.username}" class="btn btn-info" />
-          <!-- Button currently does nothing -->
-        </form>
-      </div>
+      <div class="container vertical centered">${profilePicture} ${userName}</div>
       <div class="container vertical userSettings">
         <div class="container centered vertical cell">
           <h5>High Scores</h5>

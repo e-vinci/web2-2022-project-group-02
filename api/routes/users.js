@@ -1,8 +1,9 @@
 const express = require('express');
-const { default: LoginPage } = require('../../frontend/src/Components/Pages/LoginPage');
+/*
+const { LoginPage } = require('../../frontend/src/Components/Pages/LoginPage');
 //const dbPath = require('../data/users.json');
 const { readOneUserFromUsername } = require('../models/users');
-
+*/
 const router = express.Router();
 
 /* GET users listing. */
