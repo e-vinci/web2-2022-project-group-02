@@ -51,24 +51,30 @@ const courses = {
     ],
   },
   c: {
-    fullTitle: 'Langage C',
+    fullTitle: 'C facile',
     sections: [
       {
         id: 'c-00-intro',
+        title: "S'initier en C",
+        description: 'Objectif: écrire un petit code',
+        progress: 0,
+      },
+      {
+        id: 'c-01-types',
         title: 'Les types',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'c-01-variables',
+        id: 'c-02-variables',
         title: 'Les variables',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'c-02-functions',
+        id: 'c-03-functions',
         title: 'Les fonctions',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
@@ -116,7 +122,7 @@ const CoursesOverviewPage = () => {
   }
 
   clearPage();
-  renderPageTitle(`Les leçons - ${course.fullTitle}`);
+  renderPageTitle(`${course.fullTitle} - les leçons`);
   renderOverview();
 };
 

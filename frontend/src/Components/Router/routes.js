@@ -7,8 +7,6 @@ import CoursesMainPage from '../Pages/Courses/MainPage';
 import CourseOverviewPage from '../Pages/Courses/CourseOverviewPage';
 import CourseSectionPage from '../Pages/Courses/CourseSectionPage';
 import UserProfilePage from '../Pages/UserProfilePage';
-import LangageCPage from '../Pages/LangageCPage';
-import AsmPage from '../Pages/AsmPage';
 
 const routes = {
   '/': HomePage,
@@ -20,8 +18,6 @@ const routes = {
   '/logout': Logout,
   '/forum': ForumPage,
   '/profile': UserProfilePage,
-  '/Cfacile': LangageCPage,
-  '/asm': AsmPage,
 };
 
 export default routes;
