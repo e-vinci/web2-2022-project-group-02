@@ -8,7 +8,7 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get('/', (req, res) => {
-  res.json(alert()); // res.json est une fonction qui renvoie la reponse entre parenthèse
+  res.json(); // res.json est une fonction qui renvoie la reponse entre parenthèse
 });
 
 module.exports = router;
