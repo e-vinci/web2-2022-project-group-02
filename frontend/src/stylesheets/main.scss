@@ -87,6 +87,7 @@ td {
 .code-demo {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 1em;
 
   .code {
     font-family: monospace;

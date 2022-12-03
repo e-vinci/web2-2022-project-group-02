@@ -21,15 +21,16 @@ function renderProgressBar(progress) {
   `;
 }
 
-function renderButton(text, link) {
-  const btn = html` <a href="#" class="btn btn-primary">${text}</a> `;
+function renderButton(text, link, disabled = false) {
+  const btn = html`<a href="#" class="btn btn-primary ${disabled ? 'disabled' : ''}">${text}</a>`;
 
-  if (typeof link === 'string')
-    btn.onclick = (e) => {
-      e.preventDefault();
-      Navigate(link);
-    };
-  else btn.onclick = link;
+  if (!disabled)
+    if (typeof link === 'string')
+      btn.onclick = (e) => {
+        e.preventDefault();
+        Navigate(link);
+      };
+    else btn.onclick = link;
 
   return btn;
 }

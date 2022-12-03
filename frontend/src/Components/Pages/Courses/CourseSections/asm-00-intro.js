@@ -3,7 +3,7 @@ import html from '../../../../utils/html';
 const pages = [
   html`
     <h1 class="centered">0 - Introduction à l'Assembleur</h1>
-    <div class="horizontal" style="padding-bottom: 5%;">
+    <div class="horizontal">
       <div class="vertical">
         <p>
           Les ordinateurs sont un peu bêtes, du coup ils ne comprennent que le binaire, tant pour

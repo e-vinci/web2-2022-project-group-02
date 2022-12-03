@@ -41,24 +41,26 @@ function renderSection() {
   const page = Array.isArray(section[pageNum]) ? section[pageNum][0] : section[pageNum];
 
   const content = html`
-    <div class="container flex-grow-1">
+    <div class="container">
       ${page.cloneNode(true)}
 
-      <div class="row justify-content-center">
-        <div class="d-flex justify-content-between">
-          ${pageNum > 0
-            ? renderButton('Précédent', () => {
-                pageNum -= 1;
-                CoursesSectionPage();
-              })
-            : ''}
-          ${pageNum < section.length - 1
-            ? renderButton('Suivant', () => {
-                pageNum += 1;
-                CoursesSectionPage();
-              })
-            : ''}
-        </div>
+      <div class="mt-5 d-flex justify-content-center gap-3 ">
+        ${renderButton(
+          'Précédent',
+          () => {
+            pageNum -= 1;
+            CoursesSectionPage();
+          },
+          pageNum === 0,
+        )}
+        ${renderButton(
+          'Suivant',
+          () => {
+            pageNum += 1;
+            CoursesSectionPage();
+          },
+          pageNum >= section.length - 1,
+        )}
       </div>
     </div>
   `;
