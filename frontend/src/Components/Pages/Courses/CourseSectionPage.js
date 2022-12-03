@@ -20,8 +20,6 @@ const getSection = () => {
   return sections[section];
 };
 
-let pageNum = 0;
-
 const CoursesSectionPage = () => {
   const section = getSection();
 
@@ -38,6 +36,12 @@ const CoursesSectionPage = () => {
 
 function renderSection() {
   const section = getSection();
+
+  let pageNum = parseInt(window.location.hash.replace('#', ''), 10);
+  if (Number.isNaN(pageNum)) pageNum = 1;
+  if (pageNum < 1 || pageNum >= section.length + 1) pageNum = 1;
+  pageNum -= 1;
+
   const page = Array.isArray(section[pageNum]) ? section[pageNum][0] : section[pageNum];
 
   const content = html`
@@ -48,7 +52,7 @@ function renderSection() {
         ${renderButton(
           'Précédent',
           () => {
-            pageNum -= 1;
+            window.history.replaceState(undefined, undefined, `#${pageNum}`);
             CoursesSectionPage();
           },
           pageNum === 0,
@@ -56,7 +60,7 @@ function renderSection() {
         ${renderButton(
           'Suivant',
           () => {
-            pageNum += 1;
+            window.history.replaceState(undefined, undefined, `#${pageNum + 2}`);
             CoursesSectionPage();
           },
           pageNum >= section.length - 1,

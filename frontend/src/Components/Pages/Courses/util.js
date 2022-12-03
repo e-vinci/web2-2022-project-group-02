@@ -22,7 +22,11 @@ function renderProgressBar(progress) {
 }
 
 function renderButton(text, link, disabled = false) {
-  const btn = html`<a href="#" class="btn btn-primary ${disabled ? 'disabled' : ''}">${text}</a>`;
+  const btn = html`<a
+    href="javascript:void(0)"
+    class="btn btn-primary ${disabled ? 'disabled' : ''}"
+    >${text}</a
+  >`;
 
   if (!disabled)
     if (typeof link === 'string')
