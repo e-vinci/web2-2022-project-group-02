@@ -1,5 +1,6 @@
 import html from '../../../../utils/html';
 import image from '../../../../img/defaultUser.png';
+import CodeDemo from '../CodeDemoElement';
 
 const pages = [
   html`
@@ -36,7 +37,30 @@ const pages = [
     <h1>Les variables</h1>
     <p>PAGE 3</p>
   `,
-  html` <p>Ma super page</p> `,
+  // Notice how this is an array
+  [
+    html`
+      <h1>Code demo</h1>
+      <p>
+        Il est possible d'ajouter des démos de code dans les leçons. Pour cela, il suffit d'ajouter
+        un élément <code>code-demo</code> dans le fichier de la leçon.
+      </p>
+      ${CodeDemo(
+        `#include <stdio.h>
+
+int main() {
+  printf("Hello World!");
+  return 0;
+}`,
+        html` <p>[Animation here]</p>
+          <p id="test"></p>`,
+      )}
+    `,
+    () => {
+      // This function is called when the page is loaded
+      document.getElementById('test').innerText = 'Code demo page loaded';
+    },
+  ],
 ];
 
 export default pages;

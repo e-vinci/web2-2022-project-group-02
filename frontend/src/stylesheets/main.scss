@@ -83,3 +83,17 @@ td {
 .heavy {
   font-weight: bolder;
 }
+
+.code-demo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .code {
+    font-family: monospace;
+    white-space: pre;
+    background: #000;
+    color: #fff;
+    padding: 1em;
+    border-radius: 10px;
+  }
+}

@@ -38,7 +38,7 @@ const CoursesSectionPage = () => {
 
 function renderSection() {
   const section = getSection();
-  const page = section[pageNum];
+  const page = Array.isArray(section[pageNum]) ? section[pageNum][0] : section[pageNum];
 
   const content = html`
     <div class="container flex-grow-1">
@@ -64,6 +64,10 @@ function renderSection() {
   `;
 
   document.querySelector('main').append(content);
+
+  if (Array.isArray(section[pageNum])) {
+    section[pageNum][1]();
+  }
 }
 
 export default CoursesSectionPage;
