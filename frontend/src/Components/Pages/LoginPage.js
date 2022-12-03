@@ -1,7 +1,5 @@
-import { setAuthenticatedUser, getRememberMe } from '../../utils/auths';
+import { setAuthenticatedUser } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
-import html from '../../utils/html';
-import API from '../../utils/api';
 import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 
@@ -13,57 +11,57 @@ const LoginPage = () => {
 
 function renderRegisterForm() {
   const main = document.querySelector('main');
-
-  const form = html`
-    <form class="p-5">
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        required
-        class="form-control mb-3"
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        required
-        class="form-control mb-3"
-      />
-      <div class="mb-3 form-check">
-        <input
-          type="checkbox"
-          name="remember"
-          name="password"
-          class="form-check-input"
-          id="remember"
-          ${getRememberMe() ? 'checked' : ''}
-        />
-        <label class="form-check-label" for="remember">Remember me</label>
-      </div>
-      <input type="submit" value="Login" class="btn btn-info" />
-    </form>
-  `;
-
-  main.replaceChildren(form);
+  const form = document.createElement('form');
+  form.className = 'p-5';
+  const username = document.createElement('input');
+  username.type = 'text';
+  username.id = 'username';
+  username.placeholder = 'username';
+  username.required = true;
+  username.className = 'form-control mb-3';
+  const password = document.createElement('input');
+  password.type = 'password';
+  password.id = 'password';
+  password.required = true;
+  password.placeholder = 'password';
+  password.className = 'form-control mb-3';
+  const submit = document.createElement('input');
+  submit.value = 'Login';
+  submit.type = 'submit';
+  submit.className = 'btn btn-info';
+  form.appendChild(username);
+  form.appendChild(password);
+  form.appendChild(submit);
+  main.appendChild(form);
   form.addEventListener('submit', onLogin);
 }
 
 async function onLogin(e) {
   e.preventDefault();
 
-  const { elements } = e.target;
+  const username = document.querySelector('#username').value;
+  const password = document.querySelector('#password').value;
 
-  const username = elements.username.value;
-  const password = elements.password.value;
-  const remember = elements.remember.checked;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({
+      username,
+      password,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
 
-  const authenticatedUser = await API.POST('/auths/login', {
-    username,
-    password,
-  });
+  const response = await fetch('/api/auths/login', options);
 
-  setAuthenticatedUser(authenticatedUser, remember);
+  if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+
+  const authenticatedUser = await response.json();
+
+  console.log('Authenticated user : ', authenticatedUser);
+
+  setAuthenticatedUser(authenticatedUser);
 
   Navbar();
 

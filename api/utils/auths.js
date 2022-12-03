@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { readOneUserFromUsername } = require('../models/users');
 
-const jwtSecret = 'ilovecats!'; //pas compris à quoi sert ce token...
+const jwtSecret = 'iloveCats!';
 
 const authorize = (req, res, next) => {
   const token = req.get('authorization');
