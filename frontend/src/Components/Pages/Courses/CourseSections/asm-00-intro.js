@@ -1,7 +1,7 @@
 import html from '../../../../utils/html';
 
 const pages = [
-  html`
+  () => html`
     <h1 class="centered">0 - Introduction à l'Assembleur</h1>
     <div class="horizontal">
       <div class="vertical">
@@ -111,7 +111,7 @@ const pages = [
       </div>
     </div>
   `,
-  html`
+  () => html`
     <h1 class="centered">0 - Introduction à l'assembleur</h1>
     <div class="horizontal">
       <div class="vertical">

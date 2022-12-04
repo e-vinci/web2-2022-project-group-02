@@ -5,11 +5,13 @@ import { renderButton } from './util';
 import C00 from './CourseSections/c-00-intro';
 import ASM00 from './CourseSections/asm-00-intro';
 import ASM01 from './CourseSections/asm-01-hardware';
+import ASM02 from './CourseSections/asm-02-instructions';
 
 const sections = {
   'c-00-intro': C00,
   'asm-00-intro': ASM00,
   'asm-01-hardware': ASM01,
+  'asm-02-instructions': ASM02,
 };
 
 const getSection = () => {
@@ -42,11 +44,15 @@ function renderSection() {
   if (pageNum < 1 || pageNum >= section.length + 1) pageNum = 1;
   pageNum -= 1;
 
-  const page = Array.isArray(section[pageNum]) ? section[pageNum][0] : section[pageNum];
+  let page = section[pageNum]();
+  let func = () => {};
+  if (Array.isArray(page)) {
+    [page, func] = page;
+  }
 
   const content = html`
     <div class="container">
-      ${page.cloneNode(true)}
+      ${page}
 
       <div class="mt-5 d-flex justify-content-center gap-3 ">
         ${renderButton(
@@ -71,9 +77,7 @@ function renderSection() {
 
   document.querySelector('main').append(content);
 
-  if (Array.isArray(section[pageNum])) {
-    section[pageNum][1]();
-  }
+  if (func) func();
 }
 
 export default CoursesSectionPage;

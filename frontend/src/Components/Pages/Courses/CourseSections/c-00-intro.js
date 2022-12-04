@@ -3,7 +3,7 @@ import image from '../../../../img/defaultUser.png';
 import CodeDemo from '../CodeDemoElement';
 
 const pages = [
-  html`
+  () => html`
     <h1>Introduction</h1>
    <br>
     <p> Avant de débuter, si tu n’as pas encore des bases en assembleur 
@@ -29,17 +29,16 @@ const pages = [
     </p>
     </div>
   `,
-  html`
+  () => html`
     <h1>Hello World !</h1>
     <p>PAGE 2</p>
   `,
-  html`
+  () => html`
     <h1>Les variables</h1>
     <p>PAGE 3</p>
   `,
-  // Notice how this is an array
-  [
-    html`
+  () => {
+    const page = html`
       <h1>Code demo</h1>
       <p>
         Il est possible d'ajouter des démos de code dans les leçons. Pour cela, il suffit d'ajouter
@@ -55,12 +54,16 @@ int main() {
         html` <p>[Animation here]</p>
           <p id="test"></p>`,
       )}
-    `,
-    () => {
-      // This function is called when the page is loaded
-      document.getElementById('test').innerText = 'Code demo page loaded';
-    },
-  ],
+    `;
+
+    return [
+      page,
+      () => {
+        // This function is called when the page is loaded
+        document.getElementById('test').innerText = 'Code demo page loaded';
+      },
+    ];
+  },
 ];
 
 export default pages;

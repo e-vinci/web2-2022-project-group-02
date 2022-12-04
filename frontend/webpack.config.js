@@ -47,6 +47,17 @@ module.exports = {
       },
     },
   },
+  resolve: {
+    // Add `.ts` and `.tsx` as a resolvable extension.
+    extensions: ['.ts', '.tsx', '.js'],
+    // Add support for TypeScripts fully qualified ESM imports.
+    extensionAlias: {
+      '.js': ['.js', '.ts'],
+      '.cjs': ['.cjs', '.cts'],
+      '.mjs': ['.mjs', '.mts'],
+    },
+  },
+
   module: {
     rules: [
       {
@@ -114,6 +125,7 @@ module.exports = {
           },
         },
       },
+      { test: /\.([cm]?ts|tsx)$/, loader: 'ts-loader', options: { transpileOnly: true } },
     ],
   },
   plugins: [
