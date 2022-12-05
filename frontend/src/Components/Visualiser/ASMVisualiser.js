@@ -18,6 +18,50 @@ const registers = [
   ['EDI', false],
 ];
 
+function registerEl() {
+  return registers.map(
+    (register) => html`
+      <div class="register" id="register-${register[0]}">
+        <div class="register__label">${register[0]}</div>
+        <div class="register__cells">
+          <div class="register__cell">
+            <div class="register__cell-value">00</div>
+          </div>
+          <div class="register__cell">
+            <div class="register__cell-value">00</div>
+          </div>
+          <div class="register__cell">
+            ${register[1]
+              ? html`
+                  <div class="register__cell__indicator--sixteen-bit">${register[0].slice(1)}</div>
+                `
+              : ''}
+            <div class="register__cell__value">00</div>
+            ${register[1]
+              ? html`
+                  <div class="register__cell__indicator--eight-bit">
+                    ${`${register[0].slice(1, 2)}H`}
+                  </div>
+                `
+              : ''}
+          </div>
+          <div class="register__cell">
+            <div class="register__cell__value">00</div>
+
+            ${register[1]
+              ? html`
+                  <div class="register__cell__indicator--eight-bit">
+                    ${`${register[0].slice(1, 2)}L`}
+                  </div>
+                `
+              : ''}
+          </div>
+        </div>
+      </div>
+    `,
+  );
+}
+
 function ASMVisualiser(code) {
   const editorEl = html`<div class="visualiser__code__editor"></div>`;
   const runBtn = html`<button class="btn btn-primary">Exécuter</button>`;
@@ -28,57 +72,13 @@ function ASMVisualiser(code) {
     <div class="visualiser">
       <div class="visualiser__code">
         ${editorEl}
-        <div class="d-flex justify-content-end mt-3">${runBtn}</div>
+        <div class="d-flex justify-content-end my-3">${runBtn}</div>
         <div class="visualiser__code__error d-none">
           <div class="alert alert-danger" role="alert"></div>
         </div>
       </div>
       <div class="visualisation">
-        <div class="registers">
-          ${registers.map(
-            (register) => html`
-              <div class="register" id="register-${register[0]}">
-                <div class="register__label">${register[0]}</div>
-                <div class="register__cells">
-                  <div class="register__cell">
-                    <div class="register__cell-value">00</div>
-                  </div>
-                  <div class="register__cell">
-                    <div class="register__cell-value">00</div>
-                  </div>
-                  <div class="register__cell">
-                    ${register[1]
-                      ? html`
-                          <div class="register__cell__indicator--sixteen-bit">
-                            ${register[0].slice(1)}
-                          </div>
-                        `
-                      : ''}
-                    <div class="register__cell__value">00</div>
-                    ${register[1]
-                      ? html`
-                          <div class="register__cell__indicator--eight-bit">
-                            ${`${register[0].slice(1, 2)}H`}
-                          </div>
-                        `
-                      : ''}
-                  </div>
-                  <div class="register__cell">
-                    <div class="register__cell__value">00</div>
-
-                    ${register[1]
-                      ? html`
-                          <div class="register__cell__indicator--eight-bit">
-                            ${`${register[0].slice(1, 2)}L`}
-                          </div>
-                        `
-                      : ''}
-                  </div>
-                </div>
-              </div>
-            `,
-          )}
-        </div>
+        <div class="registers">${registerEl()}</div>
       </div>
     </div>
   `;
@@ -88,6 +88,7 @@ function ASMVisualiser(code) {
 
   function run() {
     renderError(null);
+    document.querySelector('.registers').replaceChildren(...registerEl());
 
     const runtime = new Runtime();
     const assembler = new Assembler();
