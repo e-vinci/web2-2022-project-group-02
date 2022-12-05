@@ -265,18 +265,65 @@ const pages = [
 	</div>
   `,
   () => html`
-    <h1 class="text-center">1b - Le processeur</h1>
-    <div class="centered horizontal">
-      <div class="vertical">
-        <p>
-          Le processeur est le cerveau de l'ordinateur. C'est un composant très complexe, et pour
-          cette raison, nous ne rentrerons pas dans les détails. Nous nous contenterons de souligner
-          quelques parties importantes.
-        </p>
-      </div>
-      <div class="centered vertical"></div>
-    </div>
-  `,
+		<h1 class="text-center">1b - Le processeur</h1>
+		<div class="centered horizontal">
+			<div class="vertical padded">
+				<p>
+					Le processeur est le cerveau de l'ordinateur. C'est un composant très complexe, et pour
+					cette raison, nous ne rentrerons pas dans les détails. Nous nous contenterons de souligner
+					quelques parties importantes.
+				</p>
+				<p>
+					D'abord, Il y a les registres. Le processeur comprend de nombreux registres, 
+					mais nous ne concentrerons que sur 6 d'entre eux:
+				</p>
+				<ul>
+					<li>
+						EAX, EBX, ECX et EDX : Ce sont des registres polyvalents. C'est dans ces registres que sont traités les information
+						de l'utilisateur.
+					</li>
+					<li>
+						ESP : Nous en avons déja parlé précédement; le stack pointer permet de retrouver la valeur en haut de la pile.
+					</li>
+					<li>
+						EIP : L'instruction pointer, comme son nom l'indique, est un pointeur vers une adresse mémoire.
+						Cette adresse contient l'instruction que doit éxecuter le processeur. L'EIP est donc incrémenté après le cycle "fetch".
+					</li>
+				</ul>
+			</div>
+			<div class="centered vertical padded"></div>
+				<p>schéma CPU ici, registres mis en évidence</p>
+			</div>
+		</div>
+
+	`,
+  () => html`
+		<h1 class="text-center">1b - Le processeur</h1>
+		<div class="centered horizontal">
+			<div class="padded vertical" style="max-width: 65%;">
+				<p>
+					Ensuite, il y a l'ALU, "<b>A</b>rithmetic and <b>L</b>ogic <b>U</b>nit".
+				</p>
+				<p>
+					Cette partie du processeur est celle qui effectue les opérations mathématiques à proprement parler.
+				</p>
+				<div class="notabene">
+					<p>
+						N.B. D'autres types d'opérations, par exemple les opération sur la mémoire ou 
+						sur le flux d'exécution sont gérés par d'autres parties du processeur.
+						De plus les opérations mathématiques plus complexes comme les racines carrées, les exposants ou
+						les opérations sur des nombres flotants sont traités par un "coprocesseur mathématiques".
+						Ce coprocesseur mathématique était, il y a longtemps, une puce séparée du processeur (c.f. intel 8087).
+						Il est maintenant intégré au processeur mais la notation est restée, ce qui donne une syntaxe improbable
+						pour ce genre d'opérations. Pour cette raison, ce cours ne requiert pas l'utilisation de ces instructions.
+					</p>
+				</div>
+			</div>
+			<div class="padded centered vertical"></div>
+				<p>schéma CPU ici, ALU mis en évidence</p>
+			</div>
+		</div>
+	`,
 ];
 
 export default pages;
