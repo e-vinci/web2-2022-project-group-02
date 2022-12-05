@@ -86,7 +86,13 @@ function ASMVisualiser(code) {
   const editor = new Editor(editorEl, code);
   editor.getValue();
 
+  let isRunning = false;
+
   function run() {
+    if (isRunning) return;
+
+    isRunning = true;
+
     renderError(null);
     document.querySelector('.registers').replaceChildren(...registerEl());
 
@@ -109,6 +115,10 @@ function ASMVisualiser(code) {
       cpu.onRegisterChange.subscribe(([register, mem]) => {
         editor.highlightLine(cpu.activeLine + 1);
         updateRegister(register, mem.getValue().toString(16));
+      });
+
+      cpu.onExit.subscribe(() => {
+        isRunning = false;
       });
 
       runtime.process = new Process(cpu);
