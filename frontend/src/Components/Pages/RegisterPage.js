@@ -64,7 +64,10 @@ async function onRegister(e) {
   if (password === confirmPswd) {
     const response = await fetch('/api/auths/register', options);
 
-    if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    if (!response.ok) {
+      alert('pseudo ou mots de passe est invalide');
+      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    }
 
     const authenticatedUser = await response.json();
 
