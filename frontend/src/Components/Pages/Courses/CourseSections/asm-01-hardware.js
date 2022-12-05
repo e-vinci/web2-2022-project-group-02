@@ -1,5 +1,12 @@
 import html from '../../../../utils/html';
 
+const referenceObscure = document.createElement('p');
+referenceObscure.innerHTML =
+  "<em>Tu résistes à la tentation de poser la pile d'assiettes sur ta tête et de danser la macarenna.</em>";
+referenceObscure.addEventListener('click', () => {
+  window.location.href = 'https://youtu.be/JkKrOpMRr0I';
+});
+
 const pages = [
   () => html`
     <h1 class="text-center">1 - Matériel</h1>
@@ -72,7 +79,7 @@ const pages = [
         <div class="notabene">
           <p>
             Toutes les adresses représentées ci-contre contiennent la même valeur. Cette valeur est
-            juste intérprètée de manière différente
+            juste interprétée de manière différente.
           </p>
         </div>
       </div>
@@ -246,10 +253,10 @@ const pages = [
 		<div class="vertical padded">
 			<p>Immagines que tu as une pile d'assiettes :-p</p>
 			<p>Quand on te donne une valeur, tu l'écris sur une assiette et tu pose l'assiette en haut de la pile.</p>
-			<p>Je te donne un '1', que tu poses sur ta pile. <em>Tu résistes à la tentation de poser la pile d'assiettes sur ta tête et de danser la macarenna.</em>
-			Puis je te donne un '2', que tu poses aussi sur ta pile. 
-			Enfin, je te demmande une valeur de la pile, tu prends la première assiette de la pile et tu me rends mon '2'.
-			L'assiette en haut de la pile contient maintenant un '1', et c'est ce que tu me rendrais si je te demmandais une autre valeur.</p>
+			<p>Je te donne un '1', que tu poses sur ta pile. ${referenceObscure}
+			Puis je te donne un '2', que tu poses aussi sur ta pile. </p>
+			<p>Enfin, je te demmande une valeur de la pile, tu prends la première assiette de la pile et tu me rends mon '2'.</p>
+			<p>L'assiette en haut de la pile contient maintenant un '1', et c'est ce que tu me rendrais si je te demmandais une autre valeur.</p>
 
 			<p>La dernière valeur ajoutée est la première récupérée.</br>
 			<b>L</b>ast <b>I</b>n, <b>F</b>irst <b>O</b>ut</br>
@@ -257,7 +264,19 @@ const pages = [
 		</div>
 	</div>
   `,
-  () => html` <h1 class="text-center">1b - Le processeur</h1> `,
+  () => html`
+    <h1 class="text-center">1b - Le processeur</h1>
+    <div class="centered horizontal">
+      <div class="vertical">
+        <p>
+          Le processeur est le cerveau de l'ordinateur. C'est un composant très complexe, et pour
+          cette raison, nous ne rentrerons pas dans les détails. Nous nous contenterons de souligner
+          quelques parties importantes.
+        </p>
+      </div>
+      <div class="centered vertical"></div>
+    </div>
+  `,
 ];
 
 export default pages;
