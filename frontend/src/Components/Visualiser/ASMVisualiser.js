@@ -28,7 +28,7 @@ function ASMVisualiser(code) {
     <div class="visualiser">
       <div class="visualiser__code">
         ${editorEl}
-        <div class="d-flex justify-content-end my-3">${runBtn}</div>
+        <div class="d-flex justify-content-end mt-3">${runBtn}</div>
         <div class="visualiser__code__error d-none">
           <div class="alert alert-danger" role="alert"></div>
         </div>

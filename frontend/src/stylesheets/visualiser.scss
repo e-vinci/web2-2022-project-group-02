@@ -6,10 +6,13 @@
   gap: 1em;
 
   &__code {
+    display: flex;
+    flex-direction: column;
+
     &__editor {
       position: relative;
       width: 100%;
-      height: 400px;
+      flex-grow: 1;
 
       > * {
         width: 100%;
