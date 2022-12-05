@@ -55,7 +55,10 @@ async function onLogin(e) {
 
   const response = await fetch('/api/auths/login', options);
 
-  if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+  if (!response.ok) {
+    alert("échec de l'authentification.");
+    throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+  }
 
   const authenticatedUser = await response.json();
 
