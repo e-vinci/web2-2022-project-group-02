@@ -25,12 +25,19 @@ function renderRegisterForm() {
   password.required = true;
   password.placeholder = 'password';
   password.className = 'form-control mb-3';
+  const confirmPswd = document.createElement('input');
+  confirmPswd.type = 'password';
+  confirmPswd.id = 'confirmPswd';
+  confirmPswd.required = true;
+  confirmPswd.placeholder = 'confirm password';
+  confirmPswd.className = 'form-control mb-3';
   const submit = document.createElement('input');
   submit.value = 'Register';
   submit.type = 'submit';
   submit.className = 'btn btn-info';
   form.appendChild(username);
   form.appendChild(password);
+  form.appendChild(confirmPswd);
   form.appendChild(submit);
   main.appendChild(form);
   form.addEventListener('submit', onRegister);
@@ -41,6 +48,7 @@ async function onRegister(e) {
 
   const username = document.querySelector('#username').value;
   const password = document.querySelector('#password').value;
+  const confirmPswd = document.querySelector('#confirmPswd').value;
 
   const options = {
     method: 'POST',
@@ -53,19 +61,25 @@ async function onRegister(e) {
     },
   };
 
-  const response = await fetch('/api/auths/register', options);
+  if (password === confirmPswd) {
+    const response = await fetch('/api/auths/register', options);
 
-  if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
 
-  const authenticatedUser = await response.json();
+    const authenticatedUser = await response.json();
 
-  console.log('Newly registered & authenticated user : ', authenticatedUser);
-
-  setAuthenticatedUser(authenticatedUser);
+    console.log('Newly registered & authenticated user : ', authenticatedUser);
+    setAuthenticatedUser(authenticatedUser);
+    Navigate('/');
+    return true;
+  }
 
   Navbar();
 
-  Navigate('/');
+  Navigate('/registerPage');
+  alert("You didn't enter the same password, dingus");
+
+  return false;
 }
 
 export default RegisterPage;
