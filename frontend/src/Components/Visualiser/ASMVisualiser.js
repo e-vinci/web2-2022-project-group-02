@@ -18,6 +18,50 @@ const registers = [
   ['EDI', false],
 ];
 
+function registerEl() {
+  return registers.map(
+    (register) => html`
+      <div class="register" id="register-${register[0]}">
+        <div class="register__label">${register[0]}</div>
+        <div class="register__cells">
+          <div class="register__cell">
+            <div class="register__cell-value">00</div>
+          </div>
+          <div class="register__cell">
+            <div class="register__cell-value">00</div>
+          </div>
+          <div class="register__cell">
+            ${register[1]
+              ? html`
+                  <div class="register__cell__indicator--sixteen-bit">${register[0].slice(1)}</div>
+                `
+              : ''}
+            <div class="register__cell__value">00</div>
+            ${register[1]
+              ? html`
+                  <div class="register__cell__indicator--eight-bit">
+                    ${`${register[0].slice(1, 2)}H`}
+                  </div>
+                `
+              : ''}
+          </div>
+          <div class="register__cell">
+            <div class="register__cell__value">00</div>
+
+            ${register[1]
+              ? html`
+                  <div class="register__cell__indicator--eight-bit">
+                    ${`${register[0].slice(1, 2)}L`}
+                  </div>
+                `
+              : ''}
+          </div>
+        </div>
+      </div>
+    `,
+  );
+}
+
 function ASMVisualiser(code) {
   const editorEl = html`<div class="visualiser__code__editor"></div>`;
   const runBtn = html`<button class="btn btn-primary">Exécuter</button>`;
@@ -34,51 +78,7 @@ function ASMVisualiser(code) {
         </div>
       </div>
       <div class="visualisation">
-        <div class="registers">
-          ${registers.map(
-            (register) => html`
-              <div class="register" id="register-${register[0]}">
-                <div class="register__label">${register[0]}</div>
-                <div class="register__cells">
-                  <div class="register__cell">
-                    <div class="register__cell-value">00</div>
-                  </div>
-                  <div class="register__cell">
-                    <div class="register__cell-value">00</div>
-                  </div>
-                  <div class="register__cell">
-                    ${register[1]
-                      ? html`
-                          <div class="register__cell__indicator--sixteen-bit">
-                            ${register[0].slice(1)}
-                          </div>
-                        `
-                      : ''}
-                    <div class="register__cell__value">00</div>
-                    ${register[1]
-                      ? html`
-                          <div class="register__cell__indicator--eight-bit">
-                            ${`${register[0].slice(1, 2)}H`}
-                          </div>
-                        `
-                      : ''}
-                  </div>
-                  <div class="register__cell">
-                    <div class="register__cell__value">00</div>
-
-                    ${register[1]
-                      ? html`
-                          <div class="register__cell__indicator--eight-bit">
-                            ${`${register[0].slice(1, 2)}L`}
-                          </div>
-                        `
-                      : ''}
-                  </div>
-                </div>
-              </div>
-            `,
-          )}
-        </div>
+        <div class="registers">${registerEl()}</div>
       </div>
     </div>
   `;
@@ -86,8 +86,15 @@ function ASMVisualiser(code) {
   const editor = new Editor(editorEl, code);
   editor.getValue();
 
+  let isRunning = false;
+
   function run() {
+    if (isRunning) return;
+
+    isRunning = true;
+
     renderError(null);
+    document.querySelector('.registers').replaceChildren(...registerEl());
 
     const runtime = new Runtime();
     const assembler = new Assembler();
@@ -108,6 +115,10 @@ function ASMVisualiser(code) {
       cpu.onRegisterChange.subscribe(([register, mem]) => {
         editor.highlightLine(cpu.activeLine + 1);
         updateRegister(register, mem.getValue().toString(16));
+      });
+
+      cpu.onExit.subscribe(() => {
+        isRunning = false;
       });
 
       runtime.process = new Process(cpu);

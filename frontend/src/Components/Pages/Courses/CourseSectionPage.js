@@ -8,18 +8,24 @@ import ASM01 from './CourseSections/asm-01-hardware';
 import ASM02 from './CourseSections/asm-02-instructions';
 
 const sections = {
-  'c-00-intro': C00,
-  'asm-00-intro': ASM00,
-  'asm-01-hardware': ASM01,
-  'asm-02-instructions': ASM02,
+  c: [['c-00-intro', C00]],
+  asm: [
+    ['asm-00-intro', ASM00],
+    ['asm-01-hardware', ASM01],
+    ['asm-02-instructions', ASM02],
+  ],
 };
 
 const getSection = () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const section = urlParams.get('section');
-  if (!section || !sections[section]) return null;
+  const sectionKey = urlParams.get('section');
+  const section = Object.entries(sections)
+    .find((course) => sectionKey.startsWith(course[0]))[1]
+    .find((s) => s[0] === sectionKey);
 
-  return sections[section];
+  if (!section) return null;
+
+  return section[1];
 };
 
 const CoursesSectionPage = () => {
@@ -54,7 +60,7 @@ function renderSection() {
     <div class="container">
       ${page}
 
-      <div class="mt-5 d-flex justify-content-center gap-3 ">
+      <div class="mt-5 d-flex justify-content-center gap-3">
         ${renderButton(
           'Précédent',
           () => {
@@ -72,12 +78,41 @@ function renderSection() {
           pageNum >= section.length - 1,
         )}
       </div>
+      ${pageNum === section.length - 1
+        ? html`<div class="text-center mt-5">${nextSectionBtn()}</div>`
+        : ''}
     </div>
   `;
 
   document.querySelector('main').append(content);
 
   if (func) func();
+}
+
+function nextSectionBtn() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const section = urlParams.get('section');
+  const nextSection = getNextSection(section);
+  if (!nextSection) return '';
+
+  return html`
+    <a href="/courses/course?section=${nextSection}" class="btn btn-primary btn-lg" role="button">
+      Section suivante
+    </a>
+  `;
+}
+
+function getNextSection(section) {
+  const sectionKey = section.split('-')[0];
+  const course = sections[sectionKey];
+  if (!course) return null;
+
+  const index = course.findIndex((s) => s[0] === section);
+  if (index === -1) return null;
+
+  if (index === course.length - 1) return null;
+
+  return course[index + 1][0];
 }
 
 export default CoursesSectionPage;
