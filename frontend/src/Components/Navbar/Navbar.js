@@ -41,7 +41,9 @@ function renderNavbar() {
                     <a class="nav-link" aria-current="page" href="#" data-uri="/">Miaouwrathon</a>
                   </li>
                 `
-              : ``}
+              : html`<li class="nav-item" style="background-color: LightGray">
+                  <a class="nav-link" aria-current="page" href="#" data-uri="/">🔒 Miaouwrathon</a>
+                </li>`}
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="#" data-uri="/">Leaderboard</a>
             </li>

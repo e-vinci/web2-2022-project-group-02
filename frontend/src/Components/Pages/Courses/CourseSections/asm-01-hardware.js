@@ -220,7 +220,11 @@ const pages = [
     <h1 class="text-center">1a - La mémoire</h1>
     <div class="centered horizontal">
       <div class="vertical padded">
-        <p>Enfin, il éxiste une zone particulière de la mémoire, nomée la pile.</p>
+        <p>
+          Enfin, il éxiste une zone particulière de la mémoire, nomée la pile. Cette zone de mémoire
+          est essentiellement utilisée pour les appels de sous-routines, mais elle reste accessible
+          à l'utilisateur pour stocker n'importe quelle valeur.
+        </p>
         <p>
           Il n'est, en théorie, possible d'y accéder que via les instructions push et pop. Quand on
           push une valeur sur la pile, celle-ci est posée par dessus les autres valeurs. C'est donc
@@ -234,11 +238,24 @@ const pages = [
           incrémenté avant un push et décrémenté après un pop.
         </p>
       </div>
-
-      <div class="centered vertical padded">
-        <p>visualisation de la pile</p>
-      </div>
     </div>
+  `,
+  () => html`
+	<h1 class="text-center">1a - La mémoire</h1>
+	<div class="centered horizontal">
+		<div class="vertical padded">
+			<p>Immagines que tu as une pile d'assiettes :-p</p>
+			<p>Quand on te donne une valeur, tu l'écris sur une assiette et tu pose l'assiette en haut de la pile.</p>
+			<p>Je te donne un '1', que tu poses sur ta pile. <em>Tu résistes à la tentation de poser la pile d'assiettes sur ta tête et de danser la macarenna.</em>
+			Puis je te donne un '2', que tu poses aussi sur ta pile. 
+			Enfin, je te demmande une valeur de la pile, tu prends la première assiette de la pile et tu me rends mon '2'.
+			L'assiette en haut de la pile contient maintenant un '1', et c'est ce que tu me rendrais si je te demmandais une autre valeur.</p>
+
+			<p>La dernière valeur ajoutée est la première récupérée.</br>
+			<b>L</b>ast <b>I</b>n, <b>F</b>irst <b>O</b>ut</br>
+			<b>LIFO</b></p>
+		</div>
+	</div>
   `,
   () => html` <h1 class="text-center">1b - Le processeur</h1> `,
 ];
