@@ -14,8 +14,8 @@ const registers = [
   ['EBX', true],
   ['ECX', true],
   ['EDX', true],
-  ['ESI', false],
-  ['EDI', false],
+  ['EIP', true],
+  ['ESP', true],
 ];
 
 function ASMVisualiser(code) {

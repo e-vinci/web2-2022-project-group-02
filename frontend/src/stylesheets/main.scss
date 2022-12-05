@@ -86,6 +86,26 @@ td {
   font-weight: bolder;
 }
 
+.false {
+  display: flex;
+  flex-direction: row;
+  background-color: lightcoral;
+  align-items: center;
+  justify-content: center;
+  max-width: 2em;
+  max-height: 2em;
+}
+
+.true {
+  display: flex;
+  flex-direction: row;
+  background-color: lightgreen;
+  align-items: center;
+  justify-content: center;
+  max-width: 2em;
+  max-height: 2em;
+}
+
 .code-demo {
   display: grid;
   grid-template-columns: 1fr 1fr;
