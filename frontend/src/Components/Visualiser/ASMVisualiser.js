@@ -3,11 +3,11 @@ import anime from 'animejs';
 import html from '../../utils/html';
 import Editor from './Editor';
 
-import { Runtime } from './ASM/emulation/runtime.ts';
-import { Assembler, AssemblyException } from './ASM/assembly/assembler.ts';
-import { CPU } from './ASM/emulation/cpu.ts';
-import { MemoryBlock } from './ASM/emulation/memory-block.ts';
-import { Process } from './ASM/emulation/process.ts';
+import { Runtime } from './ASM/emulation/runtime';
+import { Assembler, AssemblyException } from './ASM/assembly/assembler';
+import { CPU } from './ASM/emulation/cpu';
+import { MemoryBlock } from './ASM/emulation/memory-block';
+import { Process } from './ASM/emulation/process';
 
 const registers = [
   ['EAX', true],

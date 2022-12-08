@@ -1,48 +1,48 @@
+/***************************************************************************************
+ *    Title: x86 assembly debugger
+ *    Author: Jakub Beránek
+ *    Date: 08/12/2022
+ *    Code version: commit b952a3b
+ *    Availability: https://github.com/Kobzol/davis
+ ***************************************************************************************/
 import * as _ from 'lodash-es';
 import { MemoryBlock } from './memory-block';
 import { MemoryView, NumericConstant } from './memory-view';
-import { Instruction } from './instruction/instruction';
 import { ALU } from './alu';
-import { Program } from '../assembly/program';
-import { Dictionary } from './interfaces';
 import { EventEmitter } from './EventEmitter';
 import { RuntimeException } from './runtime-exception';
 import { ConditionUnit } from './condition-unit';
 import { StatusWord } from './status-word';
-
 class RegisterInfo {
-  private _id: number;
-  private _bank: number;
-  private _byteSize: number;
-  private _index: number;
-
-  constructor(id: number, bank: number, byteSize: number, index: number = 0) {
+  _id;
+  _bank;
+  _byteSize;
+  _index;
+  constructor(id, bank, byteSize, index = 0) {
     this._id = id;
     this._bank = bank;
     this._byteSize = byteSize;
     this._index = index;
   }
-
-  get id(): number {
+  get id() {
     return this._id;
   }
-  get index(): number {
+  get index() {
     return this._index;
   }
-  get byteSize(): number {
+  get byteSize() {
     return this._byteSize;
   }
-  get bank(): number {
+  get bank() {
     return this._bank;
   }
 }
-
-export enum Interrupt {
-  WRITE_NUM = 1,
-  WRITE_STRING = 2,
-}
-
-export const REGISTER_INDEX: any = {
+export var Interrupt;
+(function (Interrupt) {
+  Interrupt[(Interrupt['WRITE_NUM'] = 1)] = 'WRITE_NUM';
+  Interrupt[(Interrupt['WRITE_STRING'] = 2)] = 'WRITE_STRING';
+})(Interrupt || (Interrupt = {}));
+export const REGISTER_INDEX = {
   NULL: new RegisterInfo(0, 0, 4),
   EIP: new RegisterInfo(1, 1, 4),
   EBP: new RegisterInfo(2, 2, 4),
@@ -68,103 +68,97 @@ export const REGISTER_INDEX: any = {
   DH: new RegisterInfo(34, 9, 1, 1),
   DL: new RegisterInfo(35, 9, 1),
 };
-
 export class CPU {
-  public static INTERRUPT_EXIT: number = 0;
-
-  private status: StatusWord = new StatusWord();
-  private registers: MemoryBlock[];
-  private _registerMap: Dictionary<MemoryView> = {};
-  private _alu: ALU;
-  private _conditionUnit: ConditionUnit;
-  private _onInterrupt: EventEmitter<Interrupt> = new EventEmitter<Interrupt>();
-  private _onExit: EventEmitter<CPU> = new EventEmitter<CPU>();
-  private _onError: EventEmitter<RuntimeException> = new EventEmitter<RuntimeException>();
-  private _onRegisterChange: EventEmitter<[string, MemoryView]> = new EventEmitter<
-    [string, MemoryView]
-  >();
-  private _running: boolean = false;
-  private _breakpoints: number[];
-  private stoppedOnBreakpoint: boolean = false;
-  private scheduleTimeout: any = null;
-
-  constructor(
-    private _program: Program,
-    private _memory: MemoryBlock,
-    private _tickRate: number = 500,
-  ) {
+  _program;
+  _memory;
+  _tickRate;
+  static INTERRUPT_EXIT = 0;
+  status = new StatusWord();
+  registers;
+  _registerMap = {};
+  _alu;
+  _conditionUnit;
+  _onInterrupt = new EventEmitter();
+  _onExit = new EventEmitter();
+  _onError = new EventEmitter();
+  _onRegisterChange = new EventEmitter();
+  _running = false;
+  _breakpoints;
+  stoppedOnBreakpoint = false;
+  scheduleTimeout = null;
+  constructor(_program, _memory, _tickRate = 500) {
+    this._program = _program;
+    this._memory = _memory;
+    this._tickRate = _tickRate;
     this.registers = _.map(_.range(10), () => new MemoryBlock(4));
     this._alu = new ALU(this);
     this._conditionUnit = new ConditionUnit(this);
     this._breakpoints = [];
-
     _.keys(REGISTER_INDEX).forEach((key) => {
-      let reg: RegisterInfo = REGISTER_INDEX[key];
+      let reg = REGISTER_INDEX[key];
       this._registerMap[key] = new MemoryView(
         this.registers[reg.bank],
         reg.byteSize,
         reg.index,
         false,
-        (view: MemoryView) => {
+        (view) => {
           this._onRegisterChange.emit([key, view]);
         },
       );
     });
     this.reset();
   }
-
-  get tickRate(): number {
+  get tickRate() {
     return this._tickRate;
   }
-  set tickRate(value: number) {
+  set tickRate(value) {
     this._tickRate = value;
   }
-  get eip(): number {
+  get eip() {
     return this.registerMap['EIP'].getValue();
   }
-  get statusWord(): StatusWord {
+  get statusWord() {
     return this.status;
   }
-  get memory(): MemoryBlock {
+  get memory() {
     return this._memory;
   }
-  get program(): Program {
+  get program() {
     return this._program;
   }
-  get onInterrupt(): EventEmitter<Interrupt> {
+  get onInterrupt() {
     return this._onInterrupt;
   }
-  get onExit(): EventEmitter<CPU> {
+  get onExit() {
     return this._onExit;
   }
-  get onError(): EventEmitter<RuntimeException> {
+  get onError() {
     return this._onError;
   }
   get onRegisterChange() {
     return this._onRegisterChange;
   }
-  get alu(): ALU {
+  get alu() {
     return this._alu;
   }
-  get conditionUnit(): ConditionUnit {
+  get conditionUnit() {
     return this._conditionUnit;
   }
-  get registerMap(): Dictionary<MemoryView> {
+  get registerMap() {
     return this._registerMap;
   }
-  get running(): boolean {
+  get running() {
     return this._running;
   }
-  get activeLine(): number {
+  get activeLine() {
     return this.program.lineMap.getLineByAddress(this.eip);
   }
-  set breakpoints(value: number[]) {
+  set breakpoints(value) {
     this._breakpoints = _.filter(
-      _.map(value, (row: number) => this.program.lineMap.getAddressByLine(row)),
-      (breakpoint: number) => breakpoint !== null,
+      _.map(value, (row) => this.program.lineMap.getAddressByLine(row)),
+      (breakpoint) => breakpoint !== null,
     );
   }
-
   reset() {
     this.getRegisterByName('EIP').setValue(0);
     this.getRegisterByName('ESP').setValue(this.memory.size);
@@ -175,7 +169,6 @@ export class CPU {
       this.halt();
       return;
     }
-
     if (this.hasBreakpoint()) {
       if (!this.stoppedOnBreakpoint) {
         this.stoppedOnBreakpoint = true;
@@ -185,7 +178,6 @@ export class CPU {
         this.stoppedOnBreakpoint = false;
       }
     }
-
     this.executeOneInstruction();
   }
   run() {
@@ -206,32 +198,28 @@ export class CPU {
     this.pause();
     this.onExit.emit(this);
   }
-  isFinished(): boolean {
+  isFinished() {
     return this.eip >= this.program.instructions.length;
   }
-
-  getNextInstruction(): number {
+  getNextInstruction() {
     return this.eip + 1;
   }
-
-  push(value: number) {
-    let esp: MemoryView = this.getRegisterByName('ESP');
+  push(value) {
+    let esp = this.getRegisterByName('ESP');
     esp.add(-4);
     this.deref(esp).setValue(value);
   }
-  pop(): number {
-    let esp: MemoryView = this.getRegisterByName('ESP');
-    let value: number = this.deref(esp).getValue();
+  pop() {
+    let esp = this.getRegisterByName('ESP');
+    let value = this.deref(esp).getValue();
     esp.add(4);
-
     return value;
   }
-  derefAddress(address: number, size: number = 4): MemoryView {
+  derefAddress(address, size = 4) {
     return this.deref(new NumericConstant(address), size);
   }
-  deref(memoryView: MemoryView, size: number = 4): MemoryView {
-    let address: number = memoryView.getValue();
-
+  deref(memoryView, size = 4) {
+    let address = memoryView.getValue();
     if (!this.memory.isValid(address)) {
       throw new RuntimeException(
         'Invalid dereference of address ' + address + ' at line ' + this.getLine(),
@@ -240,84 +228,73 @@ export class CPU {
     if (address + size > this.memory.size) {
       throw new RuntimeException('Memory overflow at line ' + this.getLine());
     }
-
     return this.memory.load(address, size);
   }
-
   calculateEffectiveAddressFromRegister(
-    baseReg: MemoryView, // @ts-ignore
-    indexReg: MemoryView = null,
-    multiplier: number = 1,
-    constant: number = 0,
-  ): number {
+    baseReg, // @ts-ignore
+    indexReg = null,
+    multiplier = 1,
+    constant = 0,
+  ) {
     return this.calculateEffectiveAddress(baseReg.getValue(), indexReg, multiplier, constant);
   }
   // @ts-ignore
   calculateEffectiveAddress(
-    address: number, // @ts-ignore
-    indexReg: MemoryView = null,
-    multiplier: number = 1,
-    constant: number = 0,
-  ): number {
+    address, // @ts-ignore
+    indexReg = null,
+    multiplier = 1,
+    constant = 0,
+  ) {
     if (indexReg === null) {
       indexReg = this.getRegisterByName('NULL');
     }
-
     return address + indexReg.getValue() * multiplier + constant;
   }
-  setFlags(value: number) {
+  setFlags(value) {
     this.status.zero = value === 0;
     this.status.signum = (value & (1 << 31)) !== 0;
-
-    let parity: number = 0;
+    let parity = 0;
     for (let i = 0; i < 8; i++) {
       parity += (value & (1 << i)) !== 0 ? 1 : 0;
     }
     this.status.parity = parity % 2 === 0;
   }
-
-  getRegisterByName(name: string): MemoryView {
+  getRegisterByName(name) {
     return this.registerMap[name];
   }
-  getRegisterByIndex(index: number): MemoryView {
-    return this.getRegisterByName(
-      _.findKey(REGISTER_INDEX, (reg: RegisterInfo) => reg.id === index) || '',
-    );
+  getRegisterByIndex(index) {
+    return this.getRegisterByName(_.findKey(REGISTER_INDEX, (reg) => reg.id === index) || '');
   }
-
-  private hasBreakpoint(): boolean {
+  hasBreakpoint() {
     return _.includes(this._breakpoints, this.eip, undefined, undefined);
   }
-  private executeOneInstruction() {
-    let eip: number = this.eip;
-
+  executeOneInstruction() {
+    let eip = this.eip;
     try {
-      let instruction: Instruction = this.loadInstruction(eip);
-      let nextAddress: number = instruction.execute(this);
+      let instruction = this.loadInstruction(eip);
+      let nextAddress = instruction.execute(this);
       this.getRegisterByName('EIP').setValue(nextAddress);
     } catch (e) {
       if (e instanceof RuntimeException) this.onError.emit(e);
       this.pause();
     }
   }
-  private loadInstruction(eip: number): Instruction {
+  loadInstruction(eip) {
     return this.program.getInstructionByAddress(this, eip);
   }
-
-  private getLine(): number {
+  getLine() {
     return this.program.lineMap.getLineByAddress(this.eip) + 1;
   }
-
-  private scheduleRun() {
+  scheduleRun() {
     this.clearScheduledRun();
     this.scheduleTimeout = setTimeout(() => this.tickStep(), this.tickRate);
   }
-  private clearScheduledRun() {
+  clearScheduledRun() {
     if (this.scheduleTimeout !== null) {
       clearTimeout(this.scheduleTimeout);
     }
   }
-  private tickStep() {
+  tickStep() {
     if (this.running) {
       this.step();
       this.scheduleRun();
