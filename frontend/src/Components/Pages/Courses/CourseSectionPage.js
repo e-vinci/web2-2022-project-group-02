@@ -5,14 +5,16 @@ import { renderButton } from './util';
 import C00 from './CourseSections/c-00-intro';
 import ASM00 from './CourseSections/asm-00-intro';
 import ASM01 from './CourseSections/asm-01-hardware';
-import ASM02 from './CourseSections/asm-02-instructions';
+import ASM02 from './CourseSections/asm-02-execution';
+import ASM03 from './CourseSections/asm-03-mode-adressage';
 
 const sections = {
   c: [['c-00-intro', C00]],
   asm: [
     ['asm-00-intro', ASM00],
     ['asm-01-hardware', ASM01],
-    ['asm-02-instructions', ASM02],
+    ['asm-02-execution', ASM02],
+    ['asm-03-mode-adressage', ASM03],
   ],
 };
 

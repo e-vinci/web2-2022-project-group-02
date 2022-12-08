@@ -376,6 +376,7 @@ const pages = [
 		</div>
 		<div class="padded centered vertical"></div>
 			<p>schéma CPU/mémoire reliés par des bus</p>
+			<p>Peut-être une image du bus aussi. ça sera rigolo.</p>
 		</div>
 	</div>
 `,

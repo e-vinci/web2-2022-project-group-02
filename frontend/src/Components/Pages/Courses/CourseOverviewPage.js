@@ -19,15 +19,15 @@ const courses = {
         progress: 0,
       },
       {
-        id: 'asm-02-instructions',
-        title: 'Les instructions',
+        id: 'asm-02-execution',
+        title: "L' exécution d'un programme",
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
       {
-        id: 'asm-03-stack',
-        title: 'La pile',
+        id: 'asm-03-mode-adressage',
+        title: "Les modes d'adressage",
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
