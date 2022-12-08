@@ -1,3 +1,10 @@
+/***************************************************************************************
+ *    Title: x86 assembly debugger
+ *    Author: Jakub Beránek
+ *    Date: 08/12/2022
+ *    Code version: commit b952a3b
+ *    Availability: https://github.com/Kobzol/davis
+ ***************************************************************************************/
 import { Parameter } from './parameter';
 export class Instruction {
   static get BINARY_WRITE_READ_PARAMS() {
