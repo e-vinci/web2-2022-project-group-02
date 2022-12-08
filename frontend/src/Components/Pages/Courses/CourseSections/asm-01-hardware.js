@@ -324,6 +324,61 @@ const pages = [
 			</div>
 		</div>
 	`,
+  () => html`
+		<h1 class="text-center">1b - Le processeur</h1>
+		<div class="centered horizontal">
+			<div class="padded vertical" style="max-width: 65%;">
+				<p>
+					Enfin, il existe un dernier registre un peu particulier. Le Processor Status Word (PSW).
+				</p>
+				<p>
+					Ce registre donne des informations sur l'opération que le processeur vient d'effectuer, chaque bit, surnomé flag, du registre représente une information sur l'opération.
+					Les flags les plus importants sont le "carry" qui indique si l'opération a causé un overflow ou un underflow et le "zero" qui indique si le résultat de l'opération est nul.
+				</p>
+			</div>
+			<div class="padded centered vertical"></div>
+				<p>schéma CPU ici, PSW mis en évidence</p>
+			</div>
+		</div>
+	`,
+  () => html`
+	<h1 class="text-center">1c - Les bus</h1>
+	<div class="centered horizontal">
+		<div class="padded vertical" style="max-width: 65%;">
+			<p>
+				Nous avons maintentant un CPU et de la mémoire!</br>
+				Nous avons donc un ordinateur ?
+			</p>
+			<p>
+				Pas tout à fait, il manque encore une chose.</br>
+				Le processeur et la mémoire ne communiquent pas encore. Pour communiquer avec des périphériques, le processeur utilise des bus, 
+				des groupes de lignes électriques qui servent à transmettre des données.
+				Un processeur a en général deux bus principaux, le bus d'adresse qui lui permet de choisir une donnée et un bus de donnée qui lui permet de lire et d'écrire des données sur un périphérique.
+				En plus de ces deux bus, le processeur possède une ligne supplémentaire qui lui permet d'indiquer à un périphérique si il veut lire ou écrire des données.
+			</p>
+			<div class="notabene">
+				<p>
+					Tout types de périphériques peuvent communiquer sur le bus de données, non seulement de la mémoire, 
+					mais aussi des interfaces homme-machine comme des claviers ou des terminaux,
+					des périphériques de stockage, etc.
+				</p>
+				<p>
+					De plus, il est parfois possible qu'un périphérique prenne le controle des bus de données et d'adresse pour lire des données en mémoire sans passser
+					par le CPU.
+				</p>
+				<p>
+					Enfin, les périphériques possèdent encore une entrée supplémentaire, le "chip select".
+					Lorsque cette entrée est désactivée, la puce électronique passe dans un mode particulier (le mode "high impedance")
+					dans lequel elle est électriquement invisible au reste des composants. Une puce peut se bloquer elle même dans ce mode si elle tombe en panne
+					pour éviter de causer des problèmes. Il suffit alors de poser une puce neuve par dessus l'ancienne et seul la puce neuve sera visible pour les autres composants.
+				</p>
+			</div>
+		</div>
+		<div class="padded centered vertical"></div>
+			<p>schéma CPU/mémoire reliés par des bus</p>
+		</div>
+	</div>
+`,
 ];
 
 export default pages;
