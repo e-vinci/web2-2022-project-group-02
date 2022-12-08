@@ -1,7 +1,9 @@
 // @ts-nocheck
 export class RuntimeException extends Error {
-  constructor(public message: string = '') {
+  message;
+  constructor(message = '') {
     super(message);
+    this.message = message;
     Object.setPrototypeOf(this, RuntimeException.prototype);
   }
 }

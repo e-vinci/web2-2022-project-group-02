@@ -3,14 +3,12 @@ import * as _ from 'lodash-es';
 import { LineMap, Program } from './program';
 import { EncodedInstruction } from './encoding';
 import { Move } from '../emulation/instruction/mov';
-import { Instruction } from '../emulation/instruction/instruction';
 import {
   Parameter,
   RegisterParameter,
   MemoryParameter,
   LabelParameter,
   DerefLabelParameter,
-  Indexer,
 } from '../emulation/instruction/parameter';
 import { REGISTER_INDEX } from '../emulation/cpu';
 import {
@@ -56,7 +54,6 @@ import { And, Or, Xor } from '../emulation/instruction/bitwise';
 import { LabelResolver } from './label';
 import { SetDirection, ClearDirection, SetCarry, ClearCarry } from '../emulation/instruction/flags';
 import { Halt } from '../emulation/instruction/halt';
-
 import parser from './asm-parser';
 
 const InstructionMapping = {
@@ -124,61 +121,66 @@ const InstructionMapping = {
   STC: SetCarry,
   CLC: ClearCarry,
 };
-
 export class AssemblyException extends Error {
-  constructor(public message: string = '', public line: number = 0, public data: any = {}) {
+  message;
+
+  line;
+
+  data;
+
+  constructor(message = '', line = 0, data = {}) {
     super(message);
+    this.message = message;
+    this.line = line;
+    this.data = data;
     Object.setPrototypeOf(this, AssemblyException.prototype);
   }
 }
-
 export class MemoryDefinition {
-  constructor(private _address: number, private _size: number, private _value: any) {}
+  _address;
 
-  get address(): number {
+  _size;
+
+  _value;
+
+  constructor(_address, _size, _value) {
+    this._address = _address;
+    this._size = _size;
+    this._value = _value;
+  }
+
+  get address() {
     return this._address;
   }
-  get size(): number {
+
+  get size() {
     return this._size;
   }
-  get value(): any {
+
+  get value() {
     return this._value;
   }
 }
-
 export class Assembler {
-  assemble(program: string): Program {
-    let parsedProgram: { text: any[]; data: any[] };
-
+  assemble(program) {
+    let parsedProgram;
     try {
       parsedProgram = parser.parse(program);
     } catch (e) {
       console.error(e);
-
       throw new AssemblyException(e.message, e.location.start.line);
     }
-
-    let assemblyData: AssemblyData = new AssemblyData();
-    let memoryDefinitions: MemoryDefinition[] = this.assembleDataSegment(
-      parsedProgram.data,
-      assemblyData,
-    );
-    let instructions: EncodedInstruction[] = this.assembleTextSegment(
-      parsedProgram.text,
-      assemblyData,
-    );
-
+    const assemblyData = new AssemblyData();
+    const memoryDefinitions = this.assembleDataSegment(parsedProgram.data, assemblyData);
+    const instructions = this.assembleTextSegment(parsedProgram.text, assemblyData);
     assemblyData.labelResolver.resolveAddresses();
-
     return new Program(instructions, memoryDefinitions, assemblyData.lineMap);
   }
 
-  private assembleDataSegment(dataLines: any[], assemblyData: AssemblyData): MemoryDefinition[] {
-    let memoryDefinitions: MemoryDefinition[] = [];
-
+  assembleDataSegment(dataLines, assemblyData) {
+    let memoryDefinitions = [];
     for (let i = 0; i < dataLines.length; i++) {
       assemblyData.line = dataLines[i].location.start.line - 1;
-
       try {
         memoryDefinitions = memoryDefinitions.concat(
           this.assembleMemoryDefinitions(dataLines[i].line, assemblyData),
@@ -191,22 +193,20 @@ export class Assembler {
         }
       }
     }
-
     return memoryDefinitions;
   }
-  private assembleMemoryDefinitions(line: any, assemblyData: AssemblyData): MemoryDefinition[] {
+
+  assembleMemoryDefinitions(line, assemblyData) {
     if (line.label !== null) {
       this.assembleLabel(line.label, assemblyData, MemoryType.Data);
     }
-
-    let definitions: MemoryDefinition[] = [];
-    let size: number = line.size;
+    const definitions = [];
+    const { size } = line;
     if (size !== null) {
       for (let i = 0; i < line.constants.length; i++) {
-        let constant = line.constants[i];
-
+        const constant = line.constants[i];
         if (constant.tag === 'String') {
-          let characters: string[] = <string[]>constant.value;
+          const characters = constant.value;
           for (let j = 0; j < characters.length; j++) {
             definitions.push(
               new MemoryDefinition(assemblyData.dataAddress, size, characters[j].charCodeAt(0)),
@@ -219,20 +219,15 @@ export class Assembler {
         }
       }
     }
-
     return definitions;
   }
 
-  private assembleTextSegment(textLines: any[], assemblyData: AssemblyData): EncodedInstruction[] {
-    let instructions: EncodedInstruction[] = [];
-
+  assembleTextSegment(textLines, assemblyData) {
+    const instructions = [];
     for (let i = 0; i < textLines.length; i++) {
       assemblyData.line = textLines[i].location.start.line - 1;
       try {
-        let instruction: EncodedInstruction = this.assembleInstruction(
-          textLines[i].line,
-          assemblyData,
-        );
+        const instruction = this.assembleInstruction(textLines[i].line, assemblyData);
         if (instruction !== null) {
           instructions.push(instruction);
           assemblyData.lineMap.mapLine(assemblyData.textAddress, assemblyData.line);
@@ -246,35 +241,26 @@ export class Assembler {
         }
       }
     }
-
     return instructions;
   }
 
-  private assembleInstruction(
-    line: { tag: string; label: any; instruction: any },
-    assemblyData: AssemblyData,
-  ): EncodedInstruction {
+  assembleInstruction(line, assemblyData) {
     if (line.label !== null) {
       this.assembleLabel(line.label, assemblyData, MemoryType.Text);
     }
-
     if (line.instruction !== null) {
       return this.parseInstruction(line.instruction, assemblyData);
-    } else {
-      return null;
     }
+
+    return null;
   }
-  private parseInstruction(
-    instruction: { tag: string; type: string; name: string; operands: any[] },
-    assemblyData: AssemblyData,
-  ): EncodedInstruction {
+
+  parseInstruction(instruction, assemblyData) {
     instruction.name = instruction.name.toUpperCase();
-
     if (!_.has(InstructionMapping, instruction.name)) {
-      throw new AssemblyException('Unknown instruction name ' + instruction.name);
+      throw new AssemblyException(`Unknown instruction name ${instruction.name}`);
     }
-
-    let instructionInstance: Instruction = new InstructionMapping[instruction.name]();
+    const instructionInstance = new InstructionMapping[instruction.name]();
     return new EncodedInstruction(
       instructionInstance,
       this.loadParameters(
@@ -286,28 +272,20 @@ export class Assembler {
     );
   }
 
-  private loadParameters(
-    instruction: Instruction,
-    operands: any[],
-    name: string,
-    assemblyData: AssemblyData,
-  ): Parameter[] {
+  loadParameters(instruction, operands, name, assemblyData) {
     if (operands !== undefined && operands.length == 2) {
       if (this.isMemoryDereference(operands[0])) {
         operands[0].size = operands[1].size;
       }
     }
-
     this.checkParameterCompatibility(instruction, operands, name);
-
-    let mapping = {};
+    const mapping = {};
     mapping[Parameter.Reg] = this.parseRegisterParameter;
     mapping[Parameter.Constant] = this.parseLabelParameter;
     mapping[Parameter.DerefConstant] = this.parseLabelParameter;
     mapping[Parameter.Memory] = this.parseMemoryParameter;
-
     return _.map(operands, (operand) => {
-      let innerOperand: any = this.getInnerParameter(operand);
+      const innerOperand = this.getInnerParameter(operand);
       return mapping[this.getTag(innerOperand)].call(
         this,
         this.getParameterSize(operand),
@@ -316,19 +294,13 @@ export class Assembler {
       );
     });
   }
-  private parseRegisterParameter(
-    size: number,
-    operand: any,
-    assemblyData: AssemblyData,
-  ): RegisterParameter {
+
+  parseRegisterParameter(size, operand, assemblyData) {
     return new RegisterParameter(size, REGISTER_INDEX[this.parseRegisterName(operand)].id);
   }
-  private parseLabelParameter(
-    size: number,
-    operand: any,
-    assemblyData: AssemblyData,
-  ): LabelParameter {
-    let labelParameter: LabelParameter;
+
+  parseLabelParameter(size, operand, assemblyData) {
+    let labelParameter;
     if (_.has(operand, 'deref') && operand.deref) {
       labelParameter = new DerefLabelParameter(
         size,
@@ -338,85 +310,70 @@ export class Assembler {
     } else {
       labelParameter = new LabelParameter(size, operand.tag === 'Label' ? operand.value : '');
     }
-
     if (operand.tag === 'Label') {
       assemblyData.labelResolver.markUnresolvedParameter(labelParameter, assemblyData.line);
     } else {
       labelParameter.resolveLabel(operand.value);
     }
-
     return labelParameter;
   }
-  private parseMemoryParameter(
-    size: number,
-    operand: any,
-    assemblyData: AssemblyData,
-  ): MemoryParameter {
-    let baseRegId: number = REGISTER_INDEX[this.parseRegisterName(operand.baseRegister)].id;
-    let indexer: Indexer = this.parseIndexer(operand.index);
 
+  parseMemoryParameter(size, operand, assemblyData) {
+    const baseRegId = REGISTER_INDEX[this.parseRegisterName(operand.baseRegister)].id;
+    const indexer = this.parseIndexer(operand.index);
     return new MemoryParameter(size, baseRegId, indexer);
   }
-  private parseIndexer(index: any): Indexer {
-    let indexReg: number = REGISTER_INDEX.NULL.id;
-    let multiplier: number = 1;
-    let constant: number = 0;
 
+  parseIndexer(index) {
+    let indexReg = REGISTER_INDEX.NULL.id;
+    let multiplier = 1;
+    let constant = 0;
     if (index !== null) {
       if (index.index != null) {
         indexReg = REGISTER_INDEX[this.parseRegisterName(index.index.register)].id;
         multiplier = index.index.multiplier;
       }
-
       if (index.constant != null) {
         constant = index.constant.value;
       }
     }
-
     return { indexReg, multiplier, constant };
   }
-  private parseRegisterName(operand: any): string {
-    let registerName: string = operand.name.toUpperCase();
-    if (!_.has(REGISTER_INDEX, registerName)) {
-      throw new AssemblyException('Unknown register ' + registerName);
-    }
 
+  parseRegisterName(operand) {
+    const registerName = operand.name.toUpperCase();
+    if (!_.has(REGISTER_INDEX, registerName)) {
+      throw new AssemblyException(`Unknown register ${registerName}`);
+    }
     return registerName;
   }
 
-  private checkParameterCompatibility(instruction: Instruction, operands: any[], name: string) {
+  checkParameterCompatibility(instruction, operands, name) {
     if (operands !== undefined && operands.length == 2) {
       // if (this.getParameterSize(operands[0]) != this.getParameterSize(operands[1]))
       // {
       //     throw new AssemblyException("Wrong size of operands");
       // }
     }
-
-    let parameterMask = _.map(operands, (operand) => this.getTag(this.getInnerParameter(operand)));
-    let validMasks: string[][] = instruction.validParameters;
-
+    const parameterMask = _.map(operands, (operand) =>
+      this.getTag(this.getInnerParameter(operand)),
+    );
+    const validMasks = instruction.validParameters;
     for (let i = 0; i < validMasks.length; i++) {
       if (_.isEqual(parameterMask, validMasks[i])) {
         return;
       }
     }
-
     throw new AssemblyException(
-      'Unknown parameter combination for instruction ' +
-        name +
-        '.' +
-        ' Got ' +
-        parameterMask.toString() +
-        ', expected one of ' +
-        JSON.stringify(validMasks),
+      `Unknown parameter combination for instruction ${name}.` +
+        ` Got ${parameterMask.toString()}, expected one of ${JSON.stringify(validMasks)}`,
     );
   }
 
-  private getTag(operand: any): string {
-    let tag: string = operand.tag;
+  getTag(operand) {
+    let { tag } = operand;
     if (_.includes(['Label', 'Number'], tag)) {
       tag = Parameter.Constant;
-
       if (_.has(operand, 'deref') && operand.deref) {
         tag = Parameter.DerefConstant;
       }
@@ -425,40 +382,39 @@ export class Assembler {
     } else if (tag === 'Reg') {
       tag = Parameter.Reg;
     } else {
-      throw new AssemblyException('Unexpected tag ' + tag);
+      throw new AssemblyException(`Unexpected tag ${tag}`);
     }
-
     return tag;
   }
-  private getInnerParameter(operand: any): any {
+
+  getInnerParameter(operand) {
     if (operand.tag === 'Cast') {
       return this.getInnerParameter(operand.value);
-    } else {
-      return operand;
     }
+
+    return operand;
   }
-  private getParameterSize(operand: any): number {
+
+  getParameterSize(operand) {
     if (operand.tag === 'Cast') {
       return operand.size > 0
         ? operand.size
         : operand.hasOwnProperty('value')
         ? this.getParameterSize(operand.value)
         : 4;
-    } else if (operand.hasOwnProperty('size')) {
+    }
+    if (operand.hasOwnProperty('size')) {
       return operand.size;
-    } else return 4;
+    }
+    return 4;
   }
 
-  private isMemoryDereference(operand: any): boolean {
+  isMemoryDereference(operand) {
     const tag = this.getTag(this.getInnerParameter(operand));
     return tag === Parameter.Memory || tag === Parameter.DerefConstant;
   }
 
-  private assembleLabel(
-    label: { tag: string; name: any; local: boolean },
-    assemblyData: AssemblyData,
-    memoryType: MemoryType,
-  ) {
+  assembleLabel(label, assemblyData, memoryType) {
     assemblyData.labelResolver.addLabel(
       assemblyData.getAddress(memoryType),
       label.name.value,
@@ -466,22 +422,37 @@ export class Assembler {
     );
   }
 }
-
-enum MemoryType {
-  Data = 0,
-  Text = 1,
-}
-
+let MemoryType;
+(function (MemoryType) {
+  MemoryType[(MemoryType.Data = 0)] = 'Data';
+  MemoryType[(MemoryType.Text = 1)] = 'Text';
+})(MemoryType || (MemoryType = {}));
 class AssemblyData {
-  constructor(
-    public textAddress: number = 0,
-    public dataAddress: number = 0,
-    public lineMap: LineMap = new LineMap(),
-    public labelResolver: LabelResolver = new LabelResolver(),
-    public line: number = 0,
-  ) {}
+  textAddress;
 
-  public getAddress(memoryType: MemoryType): number {
+  dataAddress;
+
+  lineMap;
+
+  labelResolver;
+
+  line;
+
+  constructor(
+    textAddress = 0,
+    dataAddress = 0,
+    lineMap = new LineMap(),
+    labelResolver = new LabelResolver(),
+    line = 0,
+  ) {
+    this.textAddress = textAddress;
+    this.dataAddress = dataAddress;
+    this.lineMap = lineMap;
+    this.labelResolver = labelResolver;
+    this.line = line;
+  }
+
+  getAddress(memoryType) {
     return memoryType === MemoryType.Data ? this.dataAddress : this.textAddress;
   }
 }

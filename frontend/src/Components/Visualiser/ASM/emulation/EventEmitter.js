@@ -1,21 +1,17 @@
 // Alternative to Angular's EventEmitter
 // Good enough for us -Erman
-class EventEmitter<T> {
-  callbacks: Array<(data: T) => unknown>;
-
+class EventEmitter {
+  callbacks;
   constructor() {
     this.callbacks = [];
   }
-
-  emit(data: T) {
+  emit(data) {
     this.callbacks.forEach((callback) => {
       callback(data);
     });
   }
-
-  subscribe(callback: (data: T) => unknown) {
+  subscribe(callback) {
     this.callbacks.push(callback);
   }
 }
-
 export { EventEmitter };
