@@ -56,8 +56,6 @@ function CCodeRunner({ code, tests }) {
         }),
     );
 
-    // TODO: kill worker on timeout
-
     prepTestTable();
 
     let encounteredError = false;
