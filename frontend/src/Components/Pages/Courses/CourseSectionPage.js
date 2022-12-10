@@ -3,13 +3,17 @@ import html from '../../../utils/html';
 import { renderButton } from './util';
 
 import C00 from './CourseSections/c-00-intro';
+import C99 from './CourseSections/c-99-coderunner-test';
 import ASM00 from './CourseSections/asm-00-intro';
 import ASM01 from './CourseSections/asm-01-hardware';
 import ASM02 from './CourseSections/asm-02-execution';
 import ASM03 from './CourseSections/asm-03-mode-adressage';
 
 const sections = {
-  c: [['c-00-intro', C00]],
+  c: [
+    ['c-00-intro', C00],
+    ['c-99-coderunner-test', C99],
+  ],
   asm: [
     ['asm-00-intro', ASM00],
     ['asm-01-hardware', ASM01],

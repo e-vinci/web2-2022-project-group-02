@@ -99,6 +99,12 @@ const courses = {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         progress: 0,
       },
+      {
+        id: 'c-99-coderunner-test',
+        title: 'Coderunner test',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        progress: 0,
+      },
     ],
   },
 };

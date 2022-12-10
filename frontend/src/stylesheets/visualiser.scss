@@ -12,7 +12,9 @@
     &__editor {
       position: relative;
       width: 100%;
+      max-height: 500px;
       flex-grow: 1;
+      font-size: 12px;
 
       > * {
         width: 100%;

@@ -1,7 +1,7 @@
 import anime from 'animejs';
 
 import html from '../../utils/html';
-import Editor from './Editor';
+import CodeEditor from '../CodeEditor/CodeEditor';
 
 import { Runtime } from './ASM/emulation/runtime';
 import { Assembler, AssemblyException } from './ASM/assembly/assembler';
@@ -83,7 +83,7 @@ function ASMVisualiser(code) {
     </div>
   `;
 
-  const editor = new Editor(editorEl, code);
+  const editor = new CodeEditor(editorEl, code);
   editor.getValue();
 
   let isRunning = false;

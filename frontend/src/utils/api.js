@@ -23,6 +23,8 @@ class API {
 
     if (!response.ok) throw new Error(response.statusText);
 
+    if (fetchOptions.raw) return response;
+
     const reply = await response.json();
 
     if (typeof reply !== 'object' || reply === null) throw new Error('Unexpected server response');

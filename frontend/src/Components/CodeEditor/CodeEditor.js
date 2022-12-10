@@ -1,6 +1,7 @@
 import { basicSetup } from 'codemirror';
 import { StreamLanguage } from '@codemirror/language';
 import { gas } from '@codemirror/legacy-modes/mode/gas';
+import { c } from '@codemirror/legacy-modes/mode/clike';
 
 import { StateField, StateEffect } from '@codemirror/state';
 import { EditorView, Decoration } from '@codemirror/view';
@@ -29,16 +30,19 @@ const lineHighlightField = StateField.define({
   provide: (f) => EditorView.decorations.from(f),
 });
 
-const initEditor = (parent, doc) =>
-  new EditorView({
-    extensions: [basicSetup, lineHighlightField, StreamLanguage.define(gas)],
+const initEditor = (parent, doc, lang) => {
+  const language = lang === 'asm' ? gas : c;
+
+  return new EditorView({
+    extensions: [basicSetup, lineHighlightField, StreamLanguage.define(language)],
     parent,
     doc,
   });
+};
 
-class Editor {
-  constructor(parent, doc) {
-    this.editor = initEditor(parent, doc);
+class CodeEditor {
+  constructor(parent, doc, lang = 'asm') {
+    this.editor = initEditor(parent, doc, lang);
   }
 
   getValue() {
@@ -51,4 +55,4 @@ class Editor {
   }
 }
 
-export default Editor;
+export default CodeEditor;
