@@ -10,7 +10,9 @@ class API {
    */
   static async call(endpoint, fetchOptions) {
     const controller = new AbortController();
-    setTimeout(() => controller.abort(), TIMEOUT);
+
+    if (!fetchOptions?.timeout || fetchOptions.timeout > 0)
+      setTimeout(() => controller.abort(), fetchOptions.timeout || TIMEOUT);
 
     const response = await fetch(this.resolvePath(endpoint), {
       ...(fetchOptions || {}),

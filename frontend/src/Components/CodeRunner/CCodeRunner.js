@@ -49,6 +49,7 @@ function CCodeRunner({ code, tests }) {
         method: 'post',
         body: JSON.stringify({ code: editor.getValue() }),
         raw: true,
+        timeout: 60 * 1000,
       })
         .then((res) => res.blob())
         .finally(() => {
