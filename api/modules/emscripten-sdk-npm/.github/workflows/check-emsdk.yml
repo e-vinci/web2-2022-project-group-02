@@ -1,0 +1,121 @@
+name: check-emsdk
+
+on:
+  push:
+    branches:
+      - 'master'
+  schedule:
+    # Daily, 7 AM UTC
+    - cron: '0 7 * * *'
+
+jobs:
+  check-emsdk:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout emsdk repo
+      uses: actions/checkout@v2
+      with:
+        repository: emscripten-core/emsdk
+        path: 'emsdk'
+    
+    - name: Checkout current repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        path: 'npm'
+
+    - name: Check for new versions
+      uses: actions/github-script@v3
+      id: new_versions
+      with:
+        script: |
+          const path = require('path');
+          const fs = require('fs');
+          const execSync = require('child_process').execSync;
+
+          const emsdkPath = path.join(process.env.GITHUB_WORKSPACE, 'emsdk');
+          const npmPath = path.join(process.env.GITHUB_WORKSPACE, 'npm');
+
+          function getReleaseTags() {
+            const tagsFile = path.join(emsdkPath, 'emscripten-releases-tags.txt');
+            const rawData = fs.readFileSync(tagsFile);
+            return JSON.parse(rawData);
+          }
+
+          const emsdkVersions = getReleaseTags().releases;
+          const npmVersions = execSync('git branch -r', { cwd: npmPath }).toString();
+
+          const result = {
+            versions: []
+          };
+
+          Object.keys(emsdkVersions).sort(/*compareVersions*/).reverse().forEach(function (ver) {
+            // We don't support <1.39.0
+            if (ver.includes('1.38'))
+              return;
+
+            if (npmVersions.includes(`sdk-${ver}`)) {
+              console.log(`sdk-${ver} already exists!`);
+              return;
+            }
+
+            console.log(`sdk-${ver} does not exist! Flagging...`);
+
+            result.versions.push(ver);
+            result.latest = ver;
+          });
+
+          return JSON.stringify(result);
+        # Let the next script handle the object
+        result-encoding: string
+
+    - name: Prepare new version branches
+      uses: actions/github-script@v3
+      with:
+        script: |
+          const path = require('path');
+          const fs = require('fs');
+          const execSync = require('child_process').execSync;
+
+          const emsdkPath = path.join(process.env.GITHUB_WORKSPACE, 'emsdk');
+          const npmPath = path.join(process.env.GITHUB_WORKSPACE, 'npm');
+
+          const newVersions = JSON.parse(`${{ steps.new_versions.outputs.result }}`);
+
+          if (!newVersions.versions.length) {
+            console.log('No versions to prepare!');
+            return;
+          }
+
+          console.log('Fixing repo for GitHub push...')
+          execSync('git config user.name "github-actions[bot]"', { cwd: npmPath });
+          execSync('git config user.email "41898282+github-actions[bot]@users.noreply.github.com"', { cwd: npmPath });
+
+          newVersions.versions.forEach(function (ver) {
+            const verBranch = `sdk-${ver}`;
+            console.log(`Preparing ${verBranch}...`);
+
+            execSync('git checkout master', { cwd: npmPath });
+            execSync('git pull', { cwd: npmPath });
+            execSync(`git checkout -b ${verBranch}`, { cwd: npmPath });
+
+            const versionJsPath = path.join(npmPath, 'src', 'version.js');
+            let versionJs = fs.readFileSync(versionJsPath, {encoding: 'utf8'});
+            versionJs = versionJs.replace('const version = null;', `const version = '${ver}';`);
+            fs.writeFileSync(versionJsPath, versionJs, {encoding: 'utf8'});
+
+            const packageJsonPath = path.join(npmPath, 'package.json');
+            let packageJson = fs.readFileSync(packageJsonPath, {encoding: 'utf8'});
+            packageJson = packageJson
+                .replace('"name": "emscripten-sdk-npm",', '"name": "emscripten-sdk",')
+                .replace('"version": "0.3.0",', `"version": "${ver}-0",`);
+            fs.writeFileSync(packageJsonPath, packageJson, {encoding: 'utf8'});
+
+            execSync(`git add "${versionJsPath}"`, { cwd: npmPath })
+            execSync(`git add "${packageJsonPath}"`, { cwd: npmPath })
+            execSync(`git commit -m "Emscripten v${ver}"`, { cwd: npmPath });
+
+            execSync(`git push --set-upstream origin ${verBranch}`, { cwd: npmPath });
+          });
