@@ -32,31 +32,23 @@ const pages = [
 			<ul>
 				<li>
 					Directe : Une adresse est fournie après l'instruction, et les données se trouvent à cette adrese.</br>
-					Par exemple : MOV   eax, label
+					Par exemple : MOV   eax, [label]
 				</li>
 
 				<li>
 					Indirecte : Une adresse est fournie après l'instruction. A cette adresse se trouve une seconde adresse, et c'est à cette seconde adresse que se trouve les données.
-					</br>Par exemple : MOV   eax, [label]</br>
+					</br>Par exemple : </br>
+					MOV   ebx, [label]</br>
+					MOV   eax, [ebx]</br>
 					<em>3 paracetamol / 20, would not use again.</em>
 				</li>
 			</ul>
 			<div class="notabene">
 				<p>
-					N.B. les labels sont toujours considérés comme des adresses, 
-					si une valeur numérique ou un registre est utilisé, une paire de crochets upplémentaires est nécésaire.</br>
-					Par exemple:
+					N.B. Le mode d'adressage indirecte n'est disponible qu'avec des registres.
+					On charge un registre depuis une adresse qui contient l'adresse de la donée,
+					puis on utilise un adressage directe pour arriver à la donnée.	
 				</p>
-				<table>
-					<tr>
-						<td>MOV   eax, ebx</td>
-						<td>==> immédiat</td>
-					</tr>
-					<tr>
-						<td>MOV   eax, [ebx]</td>
-						<td>==> directe</td>
-					</tr>
-				</table>
 			</div>
 		</div>
 	`,
@@ -74,7 +66,6 @@ const pages = [
 					Indirecte indexé : Une adresse est fournie après l'instruction. A cette adresse nous ajoutons un déplacement pour obtenir une deuxième adresse. 
 					A cette deuxième adresse se trouve une troisième adresse.
 					Les donnés se trouvent à la troisième adresse.</br>
-					Par exemple : MOV eax, [[label + ebx]]
 					</br><em>send halp.</em>
 				</li>
 			</ul>
@@ -104,7 +95,8 @@ const pages = [
     </ul>
     ${ASMVisualiser(`
 section .data
-valeur1:			db		2, 3, 4, 5, 6, 7, 8, 9, 10 
+valeur1:			dd		2, 3, 4, 5, 6, 7, 8, 9, 10
+valeur2:                       dd               0
 section .text
 
 		`)}

@@ -8,7 +8,7 @@ const courses = {
     sections: [
       {
         id: 'asm-00-intro',
-        title: 'Conversion des bases',
+        title: 'Introduction',
         description: 'introduction rapide au langage assembleur',
         progress: 0,
       },
@@ -21,26 +21,23 @@ const courses = {
       {
         id: 'asm-02-execution',
         title: "L' exécution d'un programme",
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+        description: 'How the computer goes beep boop',
         progress: 0,
       },
       {
         id: 'asm-03-mode-adressage',
         title: "Les modes d'adressage",
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+        description: "Les pages jaunes de l'ordinateur",
         progress: 0,
       },
       {
         id: 'asm-04-flags',
         title: 'Les flags',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+        description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.',
         progress: 0,
       },
       {
-        id: 'asm-05-loops',
+        id: 'asm-05-boucles',
         title: 'Les boucles',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',

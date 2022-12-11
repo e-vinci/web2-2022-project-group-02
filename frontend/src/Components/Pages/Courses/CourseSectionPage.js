@@ -8,6 +8,7 @@ import ASM00 from './CourseSections/asm-00-intro';
 import ASM01 from './CourseSections/asm-01-hardware';
 import ASM02 from './CourseSections/asm-02-execution';
 import ASM03 from './CourseSections/asm-03-mode-adressage';
+import ASM04 from './CourseSections/asm-04-flags';
 
 const sections = {
   c: [
@@ -19,6 +20,7 @@ const sections = {
     ['asm-01-hardware', ASM01],
     ['asm-02-execution', ASM02],
     ['asm-03-mode-adressage', ASM03],
+    ['asm-04-flags', ASM04],
   ],
 };
 

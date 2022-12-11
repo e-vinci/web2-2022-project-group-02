@@ -14,8 +14,8 @@ const registers = [
   ['EBX', true],
   ['ECX', true],
   ['EDX', true],
-  ['EIP', true],
-  ['ESP', true],
+  ['EIP', false],
+  ['ESP', false],
 ];
 
 function registerEl() {
