@@ -7,6 +7,8 @@ import CoursesMainPage from '../Pages/Courses/MainPage';
 import CourseOverviewPage from '../Pages/Courses/CourseOverviewPage';
 import CourseSectionPage from '../Pages/Courses/CourseSectionPage';
 import UserProfilePage from '../Pages/UserProfilePage';
+import meowrathonHome from '../Pages/meowrathon/meowrathonHome';
+import meowrathonASM from '../Pages/meowrathon/meowrathonASM';
 
 const routes = {
   '/': HomePage,
@@ -18,6 +20,8 @@ const routes = {
   '/logout': Logout,
   '/forum': ForumMainPage,
   '/profile': UserProfilePage,
+  '/meowrathon': meowrathonHome,
+  '/meowrathon/ASM': meowrathonASM,
 };
 
 export default routes;

@@ -21,7 +21,7 @@ const courses = [
   {
     id: 'c',
     title: 'C',
-    description: 'Langage très connue et révolutionnaire. A connaître absolument !',
+    description: 'Langage très connu et révolutionnaire. A connaître absolument !',
     image: CImage,
     progress: 0,
   },
