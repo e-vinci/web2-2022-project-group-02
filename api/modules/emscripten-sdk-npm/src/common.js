@@ -45,7 +45,7 @@ function run(command, args, opts = {}) {
         {
             stdio: [
                 'inherit',
-                'inherit',
+                'ignore',
                 'inherit'
             ],
             ...opts
