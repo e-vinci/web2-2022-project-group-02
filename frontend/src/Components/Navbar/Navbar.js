@@ -38,7 +38,9 @@ function renderNavbar() {
             ${authenticatedUser
               ? html`
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#" data-uri="/">Miaouwrathon</a>
+                    <a class="nav-link" aria-current="page" href="#" data-uri="/meowrathon"
+                      >Miaouwrathon</a
+                    >
                   </li>
                 `
               : html`<li class="nav-item" style="background-color: #80a7af">

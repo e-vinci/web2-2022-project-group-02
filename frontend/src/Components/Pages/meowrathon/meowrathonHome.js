@@ -4,18 +4,24 @@ import Navigate from '../../Router/Navigate';
 
 const ASMFacile = document.createElement('button');
 ASMFacile.innerHTML = 'Facile';
+ASMFacile.setAttribute('class', 'btn btn-info');
+ASMFacile.setAttribute('style', 'margin: 1%');
 ASMFacile.addEventListener('click', () => {
   Navigate('/meowrathon/ASM?d=facile');
 });
 
 const ASMMoyen = document.createElement('button');
 ASMMoyen.innerHTML = 'Moyen';
+ASMMoyen.setAttribute('class', 'btn btn-info');
+ASMMoyen.setAttribute('style', 'margin: 1%');
 ASMMoyen.addEventListener('click', () => {
   Navigate('/meowrathon/ASM?d=moyen');
 });
 
 const ASMDifficile = document.createElement('button');
 ASMDifficile.innerHTML = 'Difficile';
+ASMDifficile.setAttribute('class', 'btn btn-info');
+ASMDifficile.setAttribute('style', 'margin: 1%');
 ASMDifficile.addEventListener('click', () => {
   Navigate('/meowrathon/ASM?d=difficile');
 });
@@ -31,8 +37,8 @@ const meowrathonHome = async () => {
       </div>
       <div class="vertical centered notabene">
         <h3>C</h3>
-        <button>Ton Bouton ici!</button>
-        <button>A toi de jouer Shera!</button>
+        <button class="btn btn-info" style="margin: 1%;">Ton Bouton ici!</button>
+        <button class="btn btn-info" style="margin: 1%;">A toi de jouer Shera!</button>
       </div>
     </div>
   `;

@@ -120,3 +120,57 @@ td {
     border-radius: 10px;
   }
 }
+
+.stackPointer {
+  height: 50px;
+  width: 50px;
+  animation-name: animation-SP;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes animation-SP {
+  0% {
+  }
+  10% {
+    transform: translateY(100px);
+    background-color: blue;
+  }
+  20% {
+    transform: translateY(100px);
+    background-color: red;
+  }
+  30% {
+    transform: translateY(300px);
+    background-color: yellow;
+  }
+  40% {
+    transform: translateY(300px);
+    background-color: purple;
+  }
+  50% {
+    transform: translateY(500px);
+    background-color: antiquewhite;
+  }
+  60% {
+    transform: translateY(500px);
+    background-color: pink;
+  }
+  70% {
+    transform: translateY(700px);
+    background-color: greenyellow;
+  }
+  80% {
+    transform: translateY(700px);
+    background-color: brown;
+  }
+  90% {
+    transform: translateY(900px);
+    background-color: blueviolet;
+  }
+
+  100% {
+    transform: translateY(900px);
+    background-color: cyan;
+  }
+}
