@@ -125,7 +125,7 @@ router.post('/', async (req, res) => {
     // eslint-disable-next-line no-console
     console.error(err);
 
-    let errorString = Object.prototype.toString.call(err.stderr);
+    let errorString = err.stderr ? err.stderr.toString() : "Une erreur interne s'est produite";
     // Hide the temporary file paths
     errorString = errorString.replaceAll(`${path.join(tmpFolder.path, 'code.c')}:`, '');
     errorString = errorString.replaceAll(path.join(tmpFolder.path, 'code.c'), '');
