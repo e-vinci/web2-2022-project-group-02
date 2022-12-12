@@ -1,6 +1,7 @@
 import html from '../../../../utils/html';
 import image from '../../../../img/defaultUser.png';
 import CodeDemo from '../CodeDemoElement';
+import CCodeRunner from '../../../CodeRunner/CCodeRunner';
 
 const pages = [
   () => html`
@@ -29,20 +30,12 @@ const pages = [
     </p>
     </div>
   `,
-  () => html`
-    <h1>Hello World !</h1>
-    <p>PAGE 2</p>
-  `,
-  () => html`
-    <h1>Les variables</h1>
-    <p>PAGE 3</p>
-  `,
   () => {
     const page = html`
-      <h1>Code demo</h1>
+      <h1>Hello World !</h1>
       <p>
-        Il est possible d'ajouter des démos de code dans les leçons. Pour cela, il suffit d'ajouter
-        un élément <code>code-demo</code> dans le fichier de la leçon.
+        Voici à quoi ressemble la syntaxe du C, ici on va t'expliquer ligne par ligne, après ça sera
+        à toi de pratiquer
       </p>
       ${CodeDemo(
         `#include <stdio.h>
@@ -51,7 +44,25 @@ int main() {
   printf("Hello World!");
   return 0;
 }`,
-        html` <p>[Animation here]</p>
+        html` <p>
+            -> Le début du code commence toujours avec les en-têtes (headers), ce sont les import de
+            librairies dont on a besoin pour faire fonctionner notre code. <br />
+            <br />
+            Ici on a fait appel à « stdio.h » , c’est l’une des librairies la plus utilisée en C car
+            elle permet principalement la manipulation des flux de caractères, vers un fichiers ou
+            la console. Et cette librairie contient beaucoup de fonctions qu’on pourra utiliser pour
+            imprimer un message à l’écran par exemple !
+
+            <br />
+            <br />
+            -> Ici on déclare le main, rien de nouveau, tu remarqueras que le main renvoie un int,
+            on t’expliquera ça plus tard ! Même moi je sais pas frr
+
+            <br />
+            <br />
+            Et voilà notre fonction qui utilise la libraire expliqué plus haut ! C’est le
+            System.out.print() en Java.
+          </p>
           <p id="test"></p>`,
       )}
     `;
@@ -60,7 +71,72 @@ int main() {
       page,
       () => {
         // This function is called when the page is loaded
-        document.getElementById('test').innerText = 'Code demo page loaded';
+        //   document.getElementById('test').innerText = 'test';
+      },
+    ];
+  },
+  () => html`
+    <h1>A toi de jouer !</h1>
+    <p>Ecris un code qui affiche comme message " C facile "</p>
+    ${CCodeRunner({
+      code: `#include <stdio.h>
+   
+  int main() {
+   
+  }`,
+      tests: [
+        {
+          input: [''],
+          output: 'C facile',
+        },
+      ],
+    })}
+    <div class="notabene centered">
+      <p>
+        N.B. Les codesrunners qu'on a implémenté testent uniquement l'output, donc attention c'est
+        sensible à la case.
+        <br />
+        Il se peut que ton code soit fonctionnel, mais juste pour un espace, ton output et l'input
+        qu'on a intégré dans le code ne soient pas les mêmes qui fait que ça marque en rouge !
+      </p>
+    </div>
+  `,
+  () => {
+    const page = html`
+      <h1>Les types</h1>
+      <br /><br /><br />
+      <p>
+        Le langage C a un typage statique, c’est-à-dire au moment de déclarer une variable on lui
+        donne immédiatement son type (int, char, float, double,…).
+        <br />
+        La norme du langage, définit pour chaque opérateur quels sont les types admissibles des
+        opérandes, et comment déduire le type du résultat. <br /><br />
+      </p>
+      ${CodeDemo(
+        `#include <stdio.h>
+
+int main() {
+  int nb = 0;
+  printf("%d", nb);
+  return 0;
+}`,
+        html` <p>
+            Tu remarques ici le %d. Que signifie-t-il ?
+            <br />
+            En fait, printf c'est une fonction d'impression formatée, c'est-à-dire qu'elle va
+            convertir les arguments qu'on lui passe (ici la variable nb) au format qu'on a donné
+            après le % <br /><br />
+            Ici le %d c'est pour imprimer un entier, tu vas l'utilisé souvent donc ne l'oublie pas.
+          </p>
+          <p id="test"></p>`,
+      )}
+    `;
+
+    return [
+      page,
+      () => {
+        // This function is called when the page is loaded
+        //     document.getElementById('test').innerText = 'Code demo page loaded';
       },
     ];
   },
