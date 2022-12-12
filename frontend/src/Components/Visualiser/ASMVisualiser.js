@@ -65,14 +65,16 @@ function registerEl() {
 function ASMVisualiser(code) {
   const editorEl = html`<div class="visualiser__code__editor"></div>`;
   const runBtn = html`<button class="btn btn-primary">Exécuter</button>`;
+  const stopBtn = html`<button class="btn btn-danger">Arrêter</button>`;
 
   runBtn.onclick = () => run();
+  stopBtn.onclick = () => stop();
 
   const visualiser = html`
     <div class="visualiser">
       <div class="visualiser__code">
         ${editorEl}
-        <div class="d-flex justify-content-end my-3">${runBtn}</div>
+        <div class="d-flex justify-content-end my-3 gap-2">${[stopBtn, runBtn]}</div>
         <div class="visualiser__code__error d-none">
           <div class="alert alert-danger" role="alert"></div>
         </div>
@@ -87,6 +89,14 @@ function ASMVisualiser(code) {
   editor.getValue();
 
   let isRunning = false;
+  let cpu;
+
+  function stop() {
+    if (!isRunning) return;
+
+    cpu.halt();
+    isRunning = false;
+  }
 
   function run() {
     if (isRunning) return;
@@ -98,7 +108,6 @@ function ASMVisualiser(code) {
 
     const runtime = new Runtime();
     const assembler = new Assembler();
-    let cpu;
 
     try {
       const program = assembler.assemble(editor.getValue());
@@ -118,6 +127,7 @@ function ASMVisualiser(code) {
       });
 
       cpu.onExit.subscribe(() => {
+        editor.highlightLine(null);
         isRunning = false;
       });
 

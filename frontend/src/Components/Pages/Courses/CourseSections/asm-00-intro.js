@@ -1,4 +1,5 @@
 import html from '../../../../utils/html';
+import ASMVisualiser from '../../../Visualiser/ASMVisualiser';
 
 const pages = [
   () => html`
@@ -171,6 +172,26 @@ const pages = [
         </table>
       </div>
     </div>
+  `,
+  () => html`
+    <h1>Un exemple rapide d'assembleur</h1>
+    <div class="centered notabene">
+      <p>
+        Voici un rapide exemple d'assembleur, tu peux changer les valeurs et observer le résultat!
+      </p>
+    </div>
+    ${ASMVisualiser(`
+section .data
+input:				db			0
+section .text
+				   MOV			al, [input]
+boucle:	             	       
+				   MOV			bl, [input]
+				   CMP			al, 1
+				   JE			boucle
+
+	
+	`)}
   `,
 ];
 

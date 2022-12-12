@@ -50,6 +50,11 @@ class CodeEditor {
   }
 
   highlightLine(line) {
+    if (line === null) {
+      this.editor.dispatch({ effects: addLineHighlight.of(-1) });
+      return;
+    }
+
     const docPosition = this.editor.state.doc.line(line).from;
     this.editor.dispatch({ effects: addLineHighlight.of(docPosition) });
   }

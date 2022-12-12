@@ -1,4 +1,10 @@
 import html from '../../../../utils/html';
+import schema1 from '../../../../img/ASM_schema_1.png';
+import sp from '../../../../img/stackPointer.webp';
+import sch2Reg from '../../../../img/ASM_schema_2_reg.png';
+import sch2Alu from '../../../../img/ASM_schema_2_alu.png';
+import sch2Ptr from '../../../../img/ASM_schema_2_ptr.png';
+import ASMVisualiser from '../../../Visualiser/ASMVisualiser';
 
 const referenceObscure = document.createElement('p');
 referenceObscure.innerHTML =
@@ -24,7 +30,7 @@ const pages = [
         </p>
       </div>
       <div class="centered vertical padded">
-        <p>Illustration ici.</p>
+        <img src="${schema1}" width="20%" />
       </div>
     </div>
   `,
@@ -265,6 +271,10 @@ const pages = [
 	</div>
   `,
   () => html`
+    <p>Animation pile ici.</p>
+    <img src="${sp}" class="stackPointer" />
+  `,
+  () => html`
 		<h1 class="text-center">1b - Le processeur</h1>
 		<div class="centered horizontal">
 			<div class="vertical padded">
@@ -292,7 +302,7 @@ const pages = [
 				</ul>
 			</div>
 			<div class="centered vertical padded"></div>
-				<p>schéma CPU ici, registres mis en évidence</p>
+				<img src="${sch2Reg}" width="30%">
 			</div>
 		</div>
 
@@ -320,7 +330,7 @@ const pages = [
 				</div>
 			</div>
 			<div class="padded centered vertical"></div>
-				<p>schéma CPU ici, ALU mis en évidence</p>
+				<img src="${sch2Alu}" width="30%">
 			</div>
 		</div>
 	`,
@@ -337,7 +347,7 @@ const pages = [
 				</p>
 			</div>
 			<div class="padded centered vertical"></div>
-				<p>schéma CPU ici, PSW mis en évidence</p>
+				<img src="${sch2Ptr}" width="30%">
 			</div>
 		</div>
 	`,
@@ -380,6 +390,22 @@ const pages = [
 		</div>
 	</div>
 `,
+  () => html`
+    <h1 class="centered">Mis en pratique</h1>
+    <div class="centered notabene">
+      <p>
+        Dans ce programme, des nombres sont stockés dans la mémoire aux adresses 0x0 à 0xA. Ce
+        programme charge la valeur 3 dans EAX et la valeur contenue à l'adresse 3 dans EBX.
+      </p>
+    </div>
+    ${ASMVisualiser(`
+section .data
+donees:				db			10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
+section .text
+				MOV			al, 3
+				MOV			bl, [3]
+	`)}
+  `,
 ];
 
 export default pages;
