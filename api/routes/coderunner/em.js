@@ -1,12 +1,18 @@
 /* eslint-disable no-console */
 // const { execSync } = require('node:child_process');
-
+const os = require('os');
 const emsdk = require('emscripten-sdk-npm');
 
 class EM {
   constructor() {
     // Possible values: 'sdk', 'emception'
     this.EMType = 'sdk';
+
+    if (process.platform === 'win32') {
+      // Stinky Windows
+      emsdk.setEmsdkPath(`${os.homedir()}\\emsdk`);
+      console.info('EM: Windows detected, directory set to', emsdk.getEmsdkPath());
+    }
 
     // Windows causes problems with emsdk, so we use emception instead
     // if (process.platform === 'win32') {
