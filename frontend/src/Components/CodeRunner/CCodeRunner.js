@@ -62,6 +62,7 @@ function CCodeRunner({ code, tests }) {
       );
 
       prepTestTable();
+      toggleLoader(false);
 
       let encounteredError = false;
 
@@ -92,7 +93,6 @@ function CCodeRunner({ code, tests }) {
 
         worker.postMessage({ arguments: test.input });
         worker.onmessage = (e) => {
-          toggleLoader(false);
           done = true;
 
           if (e.data.error) {
