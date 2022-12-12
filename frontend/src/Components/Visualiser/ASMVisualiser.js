@@ -127,6 +127,7 @@ function ASMVisualiser(code) {
       });
 
       cpu.onExit.subscribe(() => {
+        editor.highlightLine(null);
         isRunning = false;
       });
 
