@@ -122,7 +122,10 @@ router.post('/', async (req, res) => {
     res.contentType('text/javascript');
     res.send(wasm);
   } catch (err) {
-    let errorString = err.stderr.toString();
+    // eslint-disable-next-line no-console
+    console.error(err);
+
+    let errorString = Object.prototype.toString.call(err.stderr);
     // Hide the temporary file paths
     errorString = errorString.replaceAll(`${path.join(tmpFolder.path, 'code.c')}:`, '');
     errorString = errorString.replaceAll(path.join(tmpFolder.path, 'code.c'), '');
