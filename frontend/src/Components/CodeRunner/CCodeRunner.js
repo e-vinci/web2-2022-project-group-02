@@ -22,8 +22,11 @@ function CCodeRunner({ code, tests }) {
             style="white-space:pre-wrap; font-size: 12px"
           ></div>
         </div>
-        <div class="spinner-border visualiser_loader d-none" role="status">
-          <span class="visually-hidden">Loading...</span>
+        <div
+          class="visualiser_loader d-none d-flex flex-column gap-3 align-items-center justify-content-center m-5"
+        >
+          <div class="spinner-border" role="status"></div>
+          <p>Compilation...</p>
         </div>
         <div class="test-table"></div>
       </div>
@@ -44,80 +47,84 @@ function CCodeRunner({ code, tests }) {
     toggleLoader(true);
     document.querySelector('.test-table').classList.add('d-none');
 
-    const codeBlob = URL.createObjectURL(
-      await API.call('/coderunner', {
-        method: 'post',
-        body: JSON.stringify({ code: editor.getValue() }),
-        raw: true,
-        timeout: 60 * 1000,
-      })
-        .then((res) => res.blob())
-        .finally(() => {
-          isRunning = false;
-        }),
-    );
+    try {
+      const codeBlob = URL.createObjectURL(
+        await API.call('/coderunner', {
+          method: 'post',
+          body: JSON.stringify({ code: editor.getValue() }),
+          raw: true,
+          timeout: 60 * 1000,
+        })
+          .then((res) => res.blob())
+          .finally(() => {
+            isRunning = false;
+          }),
+      );
 
-    prepTestTable();
+      prepTestTable();
 
-    let encounteredError = false;
+      let encounteredError = false;
 
-    tests.forEach((test) => {
-      if (encounteredError) return;
-      const testCommand = `./code ${test.input.join(' ')}`;
+      tests.forEach((test) => {
+        if (encounteredError) return;
+        const testCommand = `./code ${test.input.join(' ')}`;
 
-      const row = addTestResult({
-        test: testCommand,
-        expected: test.output,
-        status: 'running',
+        const row = addTestResult({
+          test: testCommand,
+          expected: test.output,
+          status: 'running',
+        });
+
+        let done = false;
+        const worker = new Worker(codeBlob);
+
+        setTimeout(() => {
+          if (!done) {
+            worker.terminate();
+            updateTestResult(row, {
+              test: testCommand,
+              expected: test.output,
+              status: 'error',
+              got: "[Le programme a pris trop de temps à s'exécuter]",
+            });
+          }
+        }, 5000);
+
+        worker.postMessage({ arguments: test.input });
+        worker.onmessage = (e) => {
+          toggleLoader(false);
+          done = true;
+
+          if (e.data.error) {
+            encounteredError = true;
+            renderError(e.data.error);
+          } else if (e.data.RETURN !== 0) {
+            updateTestResult(row, {
+              test: testCommand,
+              expected: test.output,
+              status: 'error',
+              got: "[Le programme n'a pas retourné 0]",
+            });
+          } else if (e.data.STDOUT !== test.output) {
+            updateTestResult(row, {
+              test: testCommand,
+              expected: test.output,
+              status: 'error',
+              got: e.data.STDOUT,
+            });
+          } else {
+            updateTestResult(row, {
+              test: testCommand,
+              expected: test.output,
+              status: 'ok',
+              got: e.data.STDOUT,
+            });
+          }
+        };
       });
-
-      let done = false;
-      const worker = new Worker(codeBlob);
-
-      setTimeout(() => {
-        if (!done) {
-          worker.terminate();
-          updateTestResult(row, {
-            test: testCommand,
-            expected: test.output,
-            status: 'error',
-            got: "[Le programme a pris trop de temps à s'exécuter]",
-          });
-        }
-      }, 5000);
-
-      worker.postMessage({ arguments: test.input });
-      worker.onmessage = (e) => {
-        toggleLoader(false);
-        done = true;
-
-        if (e.data.error) {
-          encounteredError = true;
-          renderError(e.data.error);
-        } else if (e.data.RETURN !== 0) {
-          updateTestResult(row, {
-            test: testCommand,
-            expected: test.output,
-            status: 'error',
-            got: "[Le programme n'a pas retourné 0]",
-          });
-        } else if (e.data.STDOUT !== test.output) {
-          updateTestResult(row, {
-            test: testCommand,
-            expected: test.output,
-            status: 'error',
-            got: e.data.STDOUT,
-          });
-        } else {
-          updateTestResult(row, {
-            test: testCommand,
-            expected: test.output,
-            status: 'ok',
-            got: e.data.STDOUT,
-          });
-        }
-      };
-    });
+    } catch (e) {
+      renderError(e.message);
+    }
   }
 
   function renderError(error) {
@@ -128,6 +135,8 @@ function CCodeRunner({ code, tests }) {
       errorEl.classList.add('d-none');
       return;
     }
+
+    toggleLoader(false);
 
     alertEl.innerText = error;
     errorEl.classList.remove('d-none');
