@@ -1,20 +1,11 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const express = require('express');
-const emsdk = require('emscripten-sdk-npm');
 const tmp = require('tmp-promise');
 
-const router = express.Router();
+const EM = require('./em');
 
-const EMPrep = (async () =>
-  emsdk
-    .checkout()
-    .then(() => emsdk.install('3.1.28'))
-    .then(() => emsdk.activate('3.1.28'))
-    .then(() => {})
-    .catch((err) => {
-      throw new Error(err);
-    }))();
+const router = express.Router();
 
 const preJS = `var stdoutBuffer = "";
 var stderrBuffer = "";
@@ -71,19 +62,32 @@ onmessage = function (e) {
   });
 };`;
 
+function sendError(res, err) {
+  res.contentType('text/javascript');
+  res.send(`
+    postMessage({
+      error: ${JSON.stringify(err.trim())},
+    });
+  `);
+}
+
 router.post('/', async (req, res) => {
   if (typeof req.body.code !== 'string') {
     res.status(400).json({ error: 'code is not a string' });
     return;
   }
 
-  await EMPrep;
+  if (!(await EM.ready)) {
+    sendError(res, 'Erreur interne');
+    return;
+  }
+
   const tmpFolder = await tmp.dir({ unsafeCleanup: true });
 
   try {
     fs.writeFile(path.join(tmpFolder.path, 'code.c'), req.body.code);
     fs.writeFile(path.join(tmpFolder.path, 'pre.js'), preJS);
-    await emsdk.run(
+    await EM.run(
       'emcc',
       [
         '-o',
@@ -132,12 +136,7 @@ router.post('/', async (req, res) => {
     errorString = errorString.replaceAll(/^emcc:.*$/gm, '');
     errorString = errorString.replaceAll(/^.+\/emscripten\/.+\/(?=.+\.h)/gm, '');
 
-    res.contentType('text/javascript');
-    res.send(`
-      postMessage({
-        error: ${JSON.stringify(errorString.trim())},
-      });
-    `);
+    sendError(res, errorString);
   } finally {
     tmpFolder.cleanup().catch(() => {});
   }
