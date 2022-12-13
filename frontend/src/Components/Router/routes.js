@@ -9,6 +9,7 @@ import CourseSectionPage from '../Pages/Courses/CourseSectionPage';
 import UserProfilePage from '../Pages/UserProfilePage';
 import meowrathonHome from '../Pages/meowrathon/meowrathonHome';
 import meowrathonASM from '../Pages/meowrathon/meowrathonASM';
+// import LeaderboardPage from  '../Pages/LeaderboardPage' ;
 
 const routes = {
   '/': HomePage,
@@ -22,6 +23,7 @@ const routes = {
   '/profile': UserProfilePage,
   '/meowrathon': meowrathonHome,
   '/meowrathon/ASM': meowrathonASM,
+  // '/leaderboard' : LeaderboardPage,
 };
 
 export default routes;

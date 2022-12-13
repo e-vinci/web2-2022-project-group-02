@@ -94,6 +94,12 @@ function getNextId() {
   return nextId;
 }
 
+/*function getScore() {
+const users = parse(jsonDbPath,defaultUsers);
+const score = users.map
+
+}*/
+
 module.exports = {
   login,
   register,
