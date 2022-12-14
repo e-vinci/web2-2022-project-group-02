@@ -4,6 +4,7 @@ import sp from '../../../../img/stackPointer.webp';
 import sch2Reg from '../../../../img/ASM_schema_2_reg.png';
 import sch2Alu from '../../../../img/ASM_schema_2_alu.png';
 import sch2Ptr from '../../../../img/ASM_schema_2_ptr.png';
+import sch3 from '../../../../img/ASM_schema_3.png';
 import ASMVisualiser from '../../../Visualiser/ASMVisualiser';
 
 const referenceObscure = document.createElement('p');
@@ -385,8 +386,7 @@ const pages = [
 			</div>
 		</div>
 		<div class="padded centered vertical"></div>
-			<p>schéma CPU/mémoire reliés par des bus</p>
-			<p>Peut-être une image du bus aussi. ça sera rigolo.</p>
+			<img src="${sch3}" width="25%">
 		</div>
 	</div>
 `,
