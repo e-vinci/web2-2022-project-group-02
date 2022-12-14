@@ -1,5 +1,5 @@
 import html from '../../../../utils/html';
-import image from '../../../../img/defaultUser.png';
+import image from '../../../../img/info.jpg';
 import CodeDemo from '../CodeDemoElement';
 import CCodeRunner from '../../../CodeRunner/CCodeRunner';
 
@@ -11,9 +11,9 @@ const pages = [
     on te conseille vivement de commencer le cours d’ASM avant de t’attaquer au C ! </p>
     <p> Maintenant que c’est dit, on peut commencer par expliquer c’est quoi le C ? Eh bien, c’est un langage de programmation considéré par la majorité comme bas niveau. 
     <br>
-    <div class="notabene centered" class="horizontal text_box">
+    <div class="notabene centered" id="NB" id="NB" class="horizontal text_box">
       <div class="vertical">
-       <img src="${image}" width="70%">
+       <img src="${image}" width="15%">
       </div>
       <div class="vertical">
       <p> Un langage est dit de bas niveau lorsque le codage de celui-ci se rapproche du langage maternel de l’ordinateur.</p>
@@ -34,8 +34,9 @@ const pages = [
     const page = html`
       <h1>Hello World !</h1>
       <p>
+        <br />
         Voici à quoi ressemble la syntaxe du C, ici on va t'expliquer ligne par ligne, après ça sera
-        à toi de pratiquer
+        à toi de pratiquer ! <br />
       </p>
       ${CodeDemo(
         `#include <stdio.h>
@@ -45,8 +46,8 @@ int main() {
   return 0;
 }`,
         html` <p>
-            -> Le début du code commence toujours avec les en-têtes (headers), ce sont les import de
-            librairies dont on a besoin pour faire fonctionner notre code. <br />
+            -> Le début du code commence toujours avec les en-têtes (headers), ce sont les 'import'
+            de librairies dont on a besoin pour faire fonctionner notre code. <br />
             <br />
             Ici on a fait appel à « stdio.h » , c’est l’une des librairies la plus utilisée en C car
             elle permet principalement la manipulation des flux de caractères, vers un fichiers ou
@@ -55,12 +56,12 @@ int main() {
 
             <br />
             <br />
-            -> Ici on déclare le main, rien de nouveau, tu remarqueras que le main renvoie un int,
-            on t’expliquera ça plus tard ! Même moi je sais pas frr
+            ->On déclare le main, rien de nouveau, tu remarqueras que le main renvoie un int, on
+            t’expliquera ça plus tard !
 
             <br />
             <br />
-            Et voilà notre fonction qui utilise la libraire expliqué plus haut ! C’est le
+            Et voilà notre fonction qui utilise la libraire expliquée plus haut ! C’est le
             System.out.print() en Java.
           </p>
           <p id="test"></p>`,
@@ -76,7 +77,8 @@ int main() {
     ];
   },
   () => html`
-    <h1>A toi de jouer !</h1>
+    <h1>À toi de jouer !</h1>
+    <br />
     <p>Ecris un code qui affiche comme message " C facile "</p>
     ${CCodeRunner({
       code: `#include <stdio.h>
@@ -91,20 +93,20 @@ int main() {
         },
       ],
     })}
-    <div class="notabene centered">
+    <div class="notabene centered" id="NB">
       <p>
-        N.B. Les codesrunners qu'on a implémenté testent uniquement l'output, donc attention c'est
+        NB: les codesrunners qu'on a implémenté testent uniquement l'output, donc attention c'est
         sensible à la case.
         <br />
-        Il se peut que ton code soit fonctionnel, mais juste pour un espace, ton output et l'input
-        qu'on a intégré dans le code ne soient pas les mêmes qui fait que ça marque en rouge !
+        Il se peut que ton code soit fonctionnel, mais juste pour un espace, ton output et celui
+        qu'on a intégré dans le code ne soient pas les mêmes et qui fait que ça marque en rouge !
       </p>
     </div>
   `,
   () => {
     const page = html`
       <h1>Les types</h1>
-      <br /><br /><br />
+      <br /><br />
       <p>
         Le langage C a un typage statique, c’est-à-dire au moment de déclarer une variable on lui
         donne immédiatement son type (int, char, float, double,…).
@@ -121,15 +123,51 @@ int main() {
   return 0;
 }`,
         html` <p>
-            Tu remarques ici le %d. Que signifie-t-il ?
+            Tu remarques au niveau du printf le "%d". Que signifie-t-il ?
             <br />
-            En fait, printf c'est une fonction d'impression formatée, c'est-à-dire qu'elle va
+            ->En fait, printf c'est une fonction d'impression formatée, c'est-à-dire qu'elle va
             convertir les arguments qu'on lui passe (ici la variable nb) au format qu'on a donné
-            après le % <br /><br />
-            Ici le %d c'est pour imprimer un entier, tu vas l'utilisé souvent donc ne l'oublie pas.
+            après le %. <br /><br />
+            Dans notre code, on veut simplement afficher un entier alors on va utilisé alors %d.
           </p>
+
           <p id="test"></p>`,
       )}
+      <br> <br>
+      Voilà les plus utilisées, mais sache qu'il y en bien d'autre: <br> 
+      <table>
+            <tr>
+              <td><div class="centered heavy-padded heavy">Format</div></td>
+              <td><div class="centered heavy-padded heavy">Type d'objet pointé</div></td>
+              <td><div class="centered heavy-padded heavy">Représentation de la donnée saisie</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">%d</div></td>
+              <td><div class="centered heavy-padded">int</div></td>
+              <td><div class="centered heavy-padded">décimale signée</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">%f</div></td>
+              <td><div class="centered heavy-padded">float</div></td>
+              <td><div class="centered heavy-padded">flottante virgule fixe</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">%lf</div></td>
+              <td><div class="centered heavy-padded">double</div></td>
+              <td><div class="centered heavy-padded">flottante virgule fixe</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">%c</div></td>
+              <td><div class="centered heavy-padded">char</div></td>
+              <td><div class="centered heavy-padded">caractère</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">%s</div></td>
+              <td><div class="centered heavy-padded">char*</div></td>
+              <td><div class="centered heavy-padded">chaîne de caractères</div></td>
+            </tr>
+          </table>
+          </p>
     `;
 
     return [
@@ -140,6 +178,26 @@ int main() {
       },
     ];
   },
+  () => html`
+    <h1>À toi de jouer !</h1>
+    <br />
+    <p>Ecris un code qui swap 2 variables et affiche leurs valeurs avant et après.</p>
+    ${CCodeRunner({
+      code: `
+ 
+int main() {
+ 
+}`,
+      tests: [
+        {
+          input: [''],
+          output: '',
+        },
+      ],
+    })}
+    Prends le temps de bien regarder le code, et remarque qu'il manque quelque chose de très
+    important dans le code.
+  `,
 ];
 
 export default pages;

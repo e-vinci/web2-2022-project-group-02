@@ -51,14 +51,14 @@ const courses = {
       {
         id: 'c-00-intro',
         title: "S'initier en C",
-        description: 'Objectif: écrire un petit code',
+        description:
+          'Objectif: comprendre chaque ligne du code (les includes, les types) + 2 petits exercices',
         progress: 0,
       },
       {
-        id: 'c-01-types',
-        title: 'Les types',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+        id: 'c-01-tableaux',
+        title: 'Les tableaux',
+        description: 'Objectif: apprendre a déclarer un tableau',
         progress: 0,
       },
       {
