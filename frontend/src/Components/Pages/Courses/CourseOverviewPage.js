@@ -1,6 +1,7 @@
 import { clearPage, renderPageTitle } from '../../../utils/render';
 import html from '../../../utils/html';
 import { progressColor, renderProgressBar, renderButton } from './util';
+import cEasy from '../../../img/c-facile-logo.png';
 
 const courses = {
   asm: {
@@ -46,19 +47,19 @@ const courses = {
     ],
   },
   c: {
-    fullTitle: 'C facile',
+    fullTitle: 'Langage C',
     sections: [
       {
         id: 'c-00-intro',
         title: "S'initier en C",
         description:
-          'Objectif: comprendre chaque ligne du code (les includes, les types) + 2 petits exercices',
+          'Objectif: comprendre chaque ligne du code (les includes, les types) + 2 petits exercices pour bien démarrer',
         progress: 0,
       },
       {
         id: 'c-01-tableaux',
         title: 'Les tableaux',
-        description: 'Objectif: apprendre a déclarer un tableau',
+        description: 'Objectif: apprendre a manipuler un tableau',
         progress: 0,
       },
       {
@@ -135,7 +136,9 @@ function renderOverview() {
   const content = html`
     <div class="container">
       <div class="row justify-content-center g-4">
-        <div class="col-12 col-md-4 col-lg-6">[Image here]</div>
+        <div class="col-12 col-md-4 col-lg-6">
+          <img src="${cEasy}" width="80%" />
+        </div>
         <div class="col-12 col-md-8 col-lg-6 accordion" id="courseSections">
           ${course.sections.map(
             (section, index) => html`

@@ -1,11 +1,11 @@
 import html from '../../../../utils/html';
-import image from '../../../../img/info.jpg';
+import image from '../../../../img/info.png';
 import CodeDemo from '../CodeDemoElement';
 import CCodeRunner from '../../../CodeRunner/CCodeRunner';
 
 const pages = [
   () => html`
-    <h1>Introduction</h1>
+    <h1>0 - Introduction</h1>
    <br>
     <p> Avant de débuter, si tu n’as pas encore des bases en assembleur 
     on te conseille vivement de commencer le cours d’ASM avant de t’attaquer au C ! </p>
@@ -79,20 +79,24 @@ int main() {
   () => html`
     <h1>À toi de jouer !</h1>
     <br />
-    <p>Ecris un code qui affiche comme message " C facile "</p>
-    ${CCodeRunner({
-      code: `#include <stdio.h>
+    <div class="horizontal">
+      <div class="vertical">
+        <p>Ecris un code qui affiche comme message " C facile "</p>
+        ${CCodeRunner({
+          code: `#include <stdio.h>
    
   int main() {
    
   }`,
-      tests: [
-        {
-          input: [''],
-          output: 'C facile',
-        },
-      ],
-    })}
+          tests: [
+            {
+              input: [''],
+              output: 'C facile',
+            },
+          ],
+        })}
+      </div>
+    </div>
     <div class="notabene centered" id="NB">
       <p>
         NB: les codesrunners qu'on a implémenté testent uniquement l'output, donc attention c'est
@@ -134,7 +138,7 @@ int main() {
           <p id="test"></p>`,
       )}
       <br> <br>
-      Voilà les plus utilisées, mais sache qu'il y en bien d'autre: <br> 
+      Voilà les plus utilisées, mais sache qu'il y en bien d'autre: 
       <table>
             <tr>
               <td><div class="centered heavy-padded heavy">Format</div></td>
@@ -181,20 +185,25 @@ int main() {
   () => html`
     <h1>À toi de jouer !</h1>
     <br />
-    <p>Ecris un code qui swap 2 variables et affiche leurs valeurs avant et après.</p>
-    ${CCodeRunner({
-      code: `
+    <div class="horizontal">
+      <div class="vertical">
+        <p>Ecris un code qui swap 2 variables et affiche leurs valeurs avant et après.</p>
+        ${CCodeRunner({
+          code: `
  
 int main() {
  
 }`,
-      tests: [
-        {
-          input: [''],
-          output: '',
-        },
-      ],
-    })}
+          tests: [
+            {
+              input: [''],
+              output: '',
+            },
+          ],
+        })}
+      </div>
+    </div>
+    <br />
     Prends le temps de bien regarder le code, et remarque qu'il manque quelque chose de très
     important dans le code.
   `,
