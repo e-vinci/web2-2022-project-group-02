@@ -2,11 +2,13 @@ import { setAuthenticatedUser } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
+// import gdpr from '../Pages/GDPR_rules';
 
 const RegisterPage = () => {
   clearPage();
   renderPageTitle('Register');
   renderRegisterForm();
+  // gdprRules();
 };
 
 function renderRegisterForm() {
@@ -31,6 +33,10 @@ function renderRegisterForm() {
   confirmPswd.required = true;
   confirmPswd.placeholder = 'confirm password';
   confirmPswd.className = 'form-control mb-3';
+
+  // const condition = document.querySelectorAll('html');
+  // condition.length = 'rules';
+
   const submit = document.createElement('input');
   submit.value = 'Register';
   submit.type = 'submit';

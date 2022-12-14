@@ -2,6 +2,14 @@
 
 @import './visualiser';
 
+body {
+  background-color: #f3dfbf;
+}
+
+.navbar {
+  background-color: #93b3c8;
+}
+
 .icon {
   width: 1em;
   height: 1em;
@@ -26,6 +34,10 @@
 
 .userSettings {
   min-width: 70%;
+}
+
+#NB {
+  background-color: rgb(131, 221, 131);
 }
 
 .centered {
