@@ -3,11 +3,11 @@
 @import './visualiser';
 
 body {
-  background-color: #f3dfbf;
+  background-color: #fff1da;
 }
 
 .navbar {
-  background-color: #93b3c8;
+  background-color: #b1e0ff;
 }
 
 .icon {
@@ -16,6 +16,15 @@ body {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+}
+
+#blagWobsite {
+  background-color: #b1e0ff;
+}
+
+.nav-item {
+  font-size: large;
+  font-weight: bold;
 }
 
 .hero {

@@ -27,7 +27,7 @@ const HomePage = async () => {
   const joke = await response.json();
 
   const homepage = html`
-    <div class="hero bg-secondary text-white">
+    <div class="hero" style="background-color: rgb(194, 255, 194);">
       <div class="container">
         <h1>Bienvenue sur CatByte</h1>
 
@@ -39,10 +39,10 @@ const HomePage = async () => {
       </div>
     </div>
     <div class="container">
-        <div class="alert alert-info">
-        <p>
-            Blague du jour:
-        </p> 
+        <div class="alert" id="blagWobsite">
+        <h4 class="heavy">
+            Blague du jour
+        </h4> 
           <h6>Catégorie: ${joke.category}</h6>
           <q>${joke.joke}</q>
         </div>
