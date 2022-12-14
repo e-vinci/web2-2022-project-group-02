@@ -398,13 +398,15 @@ const pages = [
         programme charge la valeur 3 dans EAX et la valeur contenue à l'adresse 3 dans EBX.
       </p>
     </div>
-    ${ASMVisualiser(`
+    <div class="centered notabene">
+      ${ASMVisualiser(`
 section .data
 donees:				db			10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 section .text
 				MOV			al, 3
 				MOV			bl, [3]
 	`)}
+    </div>
   `,
 ];
 

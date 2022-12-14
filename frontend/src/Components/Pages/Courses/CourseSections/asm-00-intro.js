@@ -180,7 +180,8 @@ const pages = [
         Voici un rapide exemple d'assembleur, tu peux changer les valeurs et observer le résultat!
       </p>
     </div>
-    ${ASMVisualiser(`
+    <div class="centered notabene">
+      ${ASMVisualiser(`
 section .data
 input:				db			0
 section .text
@@ -192,6 +193,7 @@ boucle:
 
 	
 	`)}
+    </div>
   `,
 ];
 

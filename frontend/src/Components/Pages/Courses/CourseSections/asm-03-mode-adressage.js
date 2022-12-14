@@ -93,13 +93,15 @@ const pages = [
       <li>cl --> directe indexé</li>
       <li>dl --> indirecte</li>
     </ul>
-    ${ASMVisualiser(`
+    <div class="centered notabene">
+      ${ASMVisualiser(`
 section .data
 valeur1:			dd		2, 3, 4, 5, 6, 7, 8, 9, 10
 valeur2:                       dd               0
 section .text
 
 		`)}
+    </div>
   `,
 ];
 

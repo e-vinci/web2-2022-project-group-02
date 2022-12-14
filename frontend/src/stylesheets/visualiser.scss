@@ -4,6 +4,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1em;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 1%;
 
   &__code {
     display: flex;
@@ -74,13 +77,13 @@
     padding: 20px 20px 20px 80px;
     line-height: 1;
 
-    border: 2px solid #dddddd;
+    border: 2px solid #8a8a8a;
     border-radius: 20px;
 
     .register {
       position: relative;
       padding: 20px 10px;
-      border: 2px solid #dddddd;
+      border: 2px solid #8a8a8a;
       border-radius: 20px;
 
       &__label {

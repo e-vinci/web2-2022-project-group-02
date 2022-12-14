@@ -43,7 +43,7 @@ function renderNavbar() {
                     >
                   </li>
                 `
-              : html`<li class="nav-item" style="background-color: #80a7af">
+              : html`<li class="nav-item" style="background-color: #73c7ff">
                   <a class="nav-link">🔒 Miaouwrathon</a>
                 </li>`}
             <li class="nav-item">

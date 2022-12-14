@@ -23,6 +23,7 @@ body {
 }
 
 .nav-item {
+  border-radius: 5px;
   font-size: large;
   font-weight: bold;
 }
@@ -92,7 +93,7 @@ td {
   align-items: center;
   background-color: lightgray;
   border-style: solid;
-  border-color: white;
+  border-color: #fff1da;
   border-width: 3px;
   min-width: 5em;
   height: 1.5em;

@@ -36,7 +36,8 @@ const pages = [
         <p>A toi de jouer !</p>
         <p>teste les opérations qui affectent le zero flag</p>
       </div>
-      ${ASMVisualiser(`
+      <div class="centered notabene">
+        ${ASMVisualiser(`
 section .text
 			MOV		eax, 3
 			CMP		 eax, 3
@@ -44,6 +45,7 @@ section .text
 			MOV		eax, 4
 			CMP		 eax, 3
 			`)}
+      </div>
     </div>
   `,
   () => html`
@@ -70,7 +72,8 @@ section .text
         <p>A toi de jouer !</p>
         <p>teste les opérations qui affectent le carry flag</p>
       </div>
-      ${ASMVisualiser(`
+      <div class="centered notabene">
+        ${ASMVisualiser(`
 section .text
 			CLC
 			MOV		al, 200
@@ -80,6 +83,7 @@ section .text
 			MOV		al, 100
 			SUB		 al, 200
 			`)}
+      </div>
     </div>
   `,
   () => html`
@@ -108,7 +112,8 @@ section .text
         <p>A toi de jouer !</p>
         <p>teste les opérations qui affectent l'overflow flag</p>
       </div>
-      ${ASMVisualiser(`
+      <div class="centered notabene">
+        ${ASMVisualiser(`
 section .text
 			MOV		al, 100
 			ADD		 al, 50
@@ -116,6 +121,7 @@ section .text
 			MOV		al, 100
 			SUB		 al, 200
 			`)}
+      </div>
     </div>
   `,
   () => html`
@@ -146,7 +152,8 @@ section .text
         <p>A toi de jouer !</p>
         <p>teste les opérations qui affectent le sign flag</p>
       </div>
-      ${ASMVisualiser(`
+      <div class="centered notabene">
+        ${ASMVisualiser(`
 section .text
 			MOV		al, 100
 			ADD		 al, 50
@@ -154,6 +161,7 @@ section .text
 			MOV		al, 100
 			SUB		 al, 200
 			`)}
+      </div>
     </div>
   `,
 ];
