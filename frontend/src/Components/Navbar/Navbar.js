@@ -32,24 +32,24 @@ function renderNavbar() {
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
+            <li class="nav-item ecart">
               <a class="nav-link" aria-current="page" href="#" data-uri="/courses">Leçons</a>
             </li>
             ${authenticatedUser
               ? html`
-                  <li class="nav-item">
+                  <li class="nav-item ecart">
                     <a class="nav-link" aria-current="page" href="#" data-uri="/meowrathon"
                       >Miaouwrathon</a
                     >
                   </li>
                 `
-              : html`<li class="nav-item" style="background-color: #73c7ff">
+              : html`<li class="nav-item ecart" style="background-color: #73c7ff">
                   <a class="nav-link">🔒 Miaouwrathon</a>
                 </li>`}
-            <li class="nav-item">
+            <li class="nav-item ecart">
               <a class="nav-link" aria-current="page" href="#" data-uri="/">Leaderboard</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ecart">
               <a class="nav-link" aria-current="page" href="#" data-uri="/forum">Forum</a>
             </li>
           </ul>
@@ -64,18 +64,18 @@ function renderNavbar() {
           <ul class="navbar-nav navbar-right mb-2 mb-lg-0">
             ${authenticatedUser
               ? html`
-                  <li class="nav-item">
+                  <li class="nav-item ecart">
                     <a class="nav-link" href="#" data-uri="/logout">Déconnexion</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item ecart">
                     <a class="nav-link" href="#" data-uri="/profile">Mon profil</a>
                   </li>
                 `
               : html`
-                  <li class="nav-item">
+                  <li class="nav-item ecart">
                     <a class="nav-link" href="#" data-uri="/login">Connexion</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item ecart">
                     <a class="nav-link" href="#" data-uri="/register">S'inscrire</a>
                   </li>
                 `}

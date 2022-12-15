@@ -49,7 +49,7 @@ const HomePage = async () => {
   </div>
     </div>
     <div class="container text-center">
-      <h3>Suggestion des cours</h3>
+      <h3 class="vertical-space">Suggestion des cours</h3>
       <div class="row justify-content-center g-4">
         <div class="col-12 col-md-4">
         ${btnASM}

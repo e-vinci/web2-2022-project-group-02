@@ -13,7 +13,7 @@ const LoginPage = () => {
 function renderRegisterForm() {
   const main = document.querySelector('main');
   const form = document.createElement('form');
-  form.className = 'p-5';
+  form.className = 'p-5 form-box';
   const username = document.createElement('input');
   username.type = 'text';
   username.id = 'username';

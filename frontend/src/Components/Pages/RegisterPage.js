@@ -7,7 +7,7 @@ import Navigate from '../Router/Navigate';
 
 const RegisterPage = () => {
   clearPage();
-  renderPageTitle('Register');
+  renderPageTitle('S’inscrire');
   renderRegisterForm();
   // gdprRules();
 };
@@ -15,7 +15,7 @@ const RegisterPage = () => {
 function renderRegisterForm() {
   const main = document.querySelector('main');
   const form = document.createElement('form');
-  form.className = 'p-5';
+  form.className = 'p-5 form-box';
   const username = document.createElement('input');
   username.type = 'text';
   username.id = 'username';
@@ -39,7 +39,7 @@ function renderRegisterForm() {
   // condition.length = 'rules';
 
   const submit = document.createElement('input');
-  submit.value = 'Register';
+  submit.value = 'S’inscrire';
   submit.type = 'submit';
   submit.className = 'btn btn-info';
   form.appendChild(username);
@@ -69,10 +69,10 @@ async function onRegister(e) {
       Navigate('/');
       return true;
     } catch (err) {
-      alert('pseudo ou mots de passe est invalide');
+      alert('Pseudonyme ou mot de passe est invalide');
     }
   } else {
-    alert("You didn't enter the same password, dingus");
+    alert('Veuillez re-entrer votre mot de passe correctement');
   }
 
   Navbar();
