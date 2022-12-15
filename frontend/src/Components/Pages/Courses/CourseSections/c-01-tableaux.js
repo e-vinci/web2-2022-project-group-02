@@ -1,6 +1,7 @@
 import html from '../../../../utils/html';
 import warning from '../../../../img/warning.gif';
 import CodeDemo from '../CodeDemoElement';
+import CCodeRunner from '../../../CodeRunner/CCodeRunner';
 
 const pages = [
   () => html`
@@ -55,13 +56,12 @@ int main() {
     return 0;
 }`,
               html` <p>
-            <br />
-           Attention il y a une faute très grave ici, cherche avant de continuer de lire !<br>
+        <strong>Attention</strong> il y a une faute très grave ici, cherche avant de continuer de lire !<br>
            ... <br>
-           Alors ?<br>
+           Alors ?<br><br>
            <-- regarde ici... oui i commence de 0 jusque 5 donc il va arriver à tab[5] alors qu'il n'y a que 5 valeurs dans le tableau. Jusque là tu vas me dire qu'il n'y a pas le feu, le compilateur va génèrer une erreur, comme en Java.<br>
             <strong>Eh bien NON !! Oublie Java, le langage C n'impose pas à une implémentation de vérifier les accès, en écriture comme en lecture, hors des limites d'un tableau.</strong>
-            <br />
+            <p> C'est-à-dire qu'il n'y a pas de vérification ni à la compilation ni durant l'éxecution que l'indice reste dans les limites de l'index, à savoir [0, TAILLE-1]. </p>
             <p>Donc il faut être très très attentif au code, c'est la faiblesse du C. Il va simplement afficher une valeur random à la position tab[5] (ce qui se trouve dans la mémoire). </p>
           </p>
 
@@ -118,17 +118,19 @@ int main() {
                 <td>
                   <ul>
                     <li class="heavy">
-                      Les valeurs entre accolades doivent être des constantes (l'utilisation de
-                      variables provoquera une erreur du compilateur),
+                      Les valeurs entre accolades doivent être des #defines (l'utilisation de simple
+                      variables ou const provoquera une erreur du compilateur),
                     </li>
                     <li class="heavy">
                       Si le nombre de valeurs entre accolades est inférieur au nombre d'éléments du
-                      tableau, les derniers éléments sont initialisés à 0,
+                      tableau, les derniers éléments sont initialisés à 0 (plus de détails à la page
+                      suivant),
                     </li>
                     <li class="heavy">Il doit y avoir au moins une valeur entre accolades,</li>
                     <li class="heavy">
                       Le nombre de valeurs entre accolades ne doit pas être supérieur au nombre
-                      d'éléments du tableau.
+                      d'éléments du tableau. (le compilateur ne va pas générer d'erreur, plus de
+                      détails à la page suivante).
                     </li>
                   </ul>
                 </td>
@@ -141,7 +143,8 @@ int main() {
   `,
   () => html`
       <div>
-        <p>2 choses à savoir, la première concerne les valeurs non initialisés auront comme valeur dépendant de leur type:</p>
+        <h3>Deux points très important à savoir concernant les tableaux:</h3><br>
+        <p>La <strong>première</strong> étant les valeurs non initialisés auront comme valeur dépendant de leurs types:</p>
                 <ul>
                   <li>Pour les chiffres (int, double, float,...) c'est 0, </li>
                   <li>Pour le bool c'est false,</li>
@@ -159,9 +162,71 @@ int main() {
           </p>
             </tr>
         </div>
-            <p>Deuxième chose très très importante, c'est la taille du tableau ! Ce que je ne t'ai pas encore dit, c'est que le C n'est pas un langage orienté objet !
-            </p>     
-      `,
+            <p><strong>Deuxième</strong> chose très très importante, c'est la taille du tableau ! Ce que je ne t'ai pas encore dit, c'est que le C n'est pas un langage orienté objet ! Donc tab.length à l'oubliette !
+              <br> C'est la responsabilité au développeur/se de stocker la taille du tableau dans une variable.
+           <br> <p class="heavy">On est tellement libre que siIl n'y a pas de vérification de </p>
+            </p> 
+            
+            <h1>À toi de jouer !</h1>
+    <div class="horizontal">
+      <div class="vertical">
+        <p>Déclare un tableau de taille 10 qui stocke uniquement les nombres paires <= 20 et ensuite affiche le ! Utilise le #define pour le taille.</p>
+        ${CCodeRunner({
+          code: `#include <stdio.h>
+   
+  int main() {
+    //Déclarer le tableau
+    int nb = 20;
+
+    for( ; ; ){
+    // initialiser 
+    printf("%d,", );//afficher
+    }
+  }`,
+          tests: [
+            {
+              input: [''],
+              output: '2,4,6,8,10,12,14,16,18,20,',
+            },
+          ],
+        })}
+      </div>
+    </div>
+  `,
+  () => html`
+    <h1>À toi de jouer !</h1>
+    <div class="horizontal">
+      <div class="vertical">
+        <p>
+          Déclare un tableau de bool de taille 10 qui stocke met à true uniquement les indices
+          paires < 10 ! Utilise le #define pour la taille et < stdbool.h > dans le #include pour
+          utiliser la libraire des booléens.
+        </p>
+        ${CCodeRunner({
+          code: `#include <stdio.h>
+   
+  int main() {
+    //Déclarer le tableau
+
+    for( ; ; ){
+    // initialiser 
+    }
+
+    //affichage
+    for( int i = 0; i < TAILLE; i++ ){
+      printf("%s,", tab[i] ? "true" : "false");
+    }
+  }`,
+          tests: [
+            {
+              input: [''],
+              output: 'true,false,true,false,true,false,true,false,true,false,',
+            },
+          ],
+        })}
+      </div>
+    </div>
+  `,
 ];
 
 export default pages;

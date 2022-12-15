@@ -33,15 +33,14 @@ const HomePage = async () => {
 
         <p>
           Sur ce site, tu peux apprendre la théorie tout en pratiquant ! Pour plus de fun, on te
-          conseille de t'inscrire pour bénéficier des défis, de poser tes question sur le forum
-          aussi de pouvoir reprendre tes leçons là où tu t'es arrêté !
+          conseille de t'inscrire pour débloquer le Miaouwrathon et de pouvoir reprendre tes leçons là où tu t'es arrêté !
         </p>
       </div>
     </div>
     <div class="container">
         <div class="alert" id="blagWobsite">
         <h4 class="heavy">
-            Blague du jour
+            Blague du click !
         </h4> 
           <h6>Catégorie: ${joke.category}</h6>
           <q>${joke.joke}</q>
