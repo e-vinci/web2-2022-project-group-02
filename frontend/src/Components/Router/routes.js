@@ -3,6 +3,7 @@ import Logout from '../Logout/Logout';
 import LoginPage from '../Pages/LoginPage';
 import RegisterPage from '../Pages/RegisterPage';
 import ForumMainPage from '../Pages/Forum/ForumMainPage';
+import ForumThreadPage from '../Pages/Forum/ForumThreadPage';
 import CoursesMainPage from '../Pages/Courses/MainPage';
 import CourseOverviewPage from '../Pages/Courses/CourseOverviewPage';
 import CourseSectionPage from '../Pages/Courses/CourseSectionPage';
@@ -20,6 +21,7 @@ const routes = {
   '/register': RegisterPage,
   '/logout': Logout,
   '/forum': ForumMainPage,
+  '/forum/thread': ForumThreadPage,
   '/profile': UserProfilePage,
   '/meowrathon': meowrathonHome,
   '/meowrathon/ASM': meowrathonASM,

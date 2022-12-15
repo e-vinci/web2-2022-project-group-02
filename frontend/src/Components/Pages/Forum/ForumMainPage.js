@@ -1,5 +1,6 @@
 import { clearPage, renderPageTitle } from '../../../utils/render';
 import html from '../../../utils/html';
+import Navigate from '../../Router/Navigate';
 
 const ForumPage = () => {
   clearPage();
@@ -10,6 +11,16 @@ const ForumPage = () => {
 function render() {
   const main = document.querySelector('main');
 
+  const anchorEl = html`
+    <a href="#" class="fw-bold stretched-link text-reset text-decoration-none">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit
+    </a>
+  `;
+  anchorEl.onclick = (e) => {
+    e.preventDefault();
+    Navigate('/forum/thread?id=1');
+  };
+
   const form = html`
     <div class="container">
       <div class="d-flex justify-content-end align-items-center">
@@ -18,9 +29,7 @@ function render() {
 
       <div class="border rounded p-3 my-3 d-flex gap-3">
         <div class="position-relative flex-shrink-1">
-          <a href="#" class="fw-bold stretched-link text-reset text-decoration-none">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit
-          </a>
+          ${anchorEl}
           <div class="text-muted">
             Fusce euismod eros commodo lectus aliquet ultrices eget sed felis. Nulla placerat
             ultricies orci, eu finibus est mollis eu. Donec ut ligula in tortor scelerisque
