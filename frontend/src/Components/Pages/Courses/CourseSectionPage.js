@@ -11,6 +11,7 @@ import ASM01 from './CourseSections/asm-01-hardware';
 import ASM02 from './CourseSections/asm-02-execution';
 import ASM03 from './CourseSections/asm-03-mode-adressage';
 import ASM04 from './CourseSections/asm-04-flags';
+import Navigate from '../../Router/Navigate';
 
 const sections = {
   c: [
@@ -106,11 +107,14 @@ function nextSectionBtn() {
   const nextSection = getNextSection(section);
   if (!nextSection) return '';
 
-  return html`
-    <a href="/courses/course?section=${nextSection}" class="btn btn-primary btn-lg" role="button">
-      Section suivante
-    </a>
-  `;
+  const el = html`<a href="#" class="btn btn-primary btn-lg" role="button">Section suivante</a>`;
+
+  el.onclick = (e) => {
+    e.preventDefault();
+    Navigate(`/courses/course?section=${nextSection}`);
+  };
+
+  return el;
 }
 
 function getNextSection(section) {
