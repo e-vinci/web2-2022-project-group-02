@@ -1,6 +1,6 @@
-import API from '../../utils/api';
 import html from '../../utils/html';
 import CodeEditor from '../CodeEditor/CodeEditor';
+import emception from './emception/emception';
 
 function CCodeRunner({ code, tests }) {
   const editorEl = html`<div class="visualiser__code__editor"></div>`;
@@ -23,10 +23,10 @@ function CCodeRunner({ code, tests }) {
           ></div>
         </div>
         <div
-          class="visualiser_loader d-none d-flex flex-column gap-3 align-items-center justify-content-center m-5"
+          class="visualiser_loader d-flex flex-column gap-3 align-items-center justify-content-center m-5"
         >
           <div class="spinner-border" role="status"></div>
-          <p>Compilation...</p>
+          <p>Préparation de la compilateur...</p>
         </div>
         <div class="test-table"></div>
       </div>
@@ -38,6 +38,10 @@ function CCodeRunner({ code, tests }) {
 
   let isRunning = false;
 
+  emception.prepare().then(() => {
+    if (!isRunning) toggleLoader(false);
+  });
+
   async function run() {
     if (isRunning) return;
 
@@ -48,17 +52,12 @@ function CCodeRunner({ code, tests }) {
     document.querySelector('.test-table').classList.add('d-none');
 
     try {
+      const codee = await emception.compile(editor.getValue());
+
       const codeBlob = URL.createObjectURL(
-        await API.call('/coderunner', {
-          method: 'post',
-          body: JSON.stringify({ code: editor.getValue() }),
-          raw: true,
-          timeout: 60 * 1000,
-        })
-          .then((res) => res.blob())
-          .finally(() => {
-            isRunning = false;
-          }),
+        new Blob([codee], {
+          type: 'application/javascript',
+        }),
       );
 
       prepTestTable();
@@ -93,6 +92,8 @@ function CCodeRunner({ code, tests }) {
 
         worker.postMessage({ arguments: test.input });
         worker.onmessage = (e) => {
+          console.log(e.data);
+
           done = true;
 
           if (e.data.error) {
@@ -123,7 +124,10 @@ function CCodeRunner({ code, tests }) {
         };
       });
     } catch (e) {
+      console.error(e);
       renderError(e.message);
+    } finally {
+      isRunning = false;
     }
   }
 
@@ -144,11 +148,13 @@ function CCodeRunner({ code, tests }) {
     document.querySelector('.test-table').classList.add('d-none');
   }
 
-  function toggleLoader(toggled) {
+  function toggleLoader(message) {
     const loader = document.querySelector('.visualiser_loader');
 
-    if (toggled) {
+    if (message) {
       loader.classList.remove('d-none');
+
+      loader.querySelector('p').innerText = message === true ? 'Compilation...' : message;
     } else {
       loader.classList.add('d-none');
     }

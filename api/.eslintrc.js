@@ -12,5 +12,4 @@ module.exports = {
     'linebreak-style': 0,
     'no-use-before-define': ['error', 'nofunc'],
   },
-  ignorePatterns: ['**/node_modules/*', '**/modules/*'],
 };
