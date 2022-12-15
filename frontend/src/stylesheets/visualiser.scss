@@ -10,6 +10,12 @@
   padding: 1%;
   box-shadow: 5px 10px 20px #a0a0a0e0;
 
+  --code-font: 'JetBrains Mono', monospace;
+
+  &.visualiser-asm {
+    --code-font: 'Press Start 2P', monospace;
+  }
+
   &__code {
     display: flex;
     flex-direction: column;
@@ -26,7 +32,7 @@
         height: 100%;
 
         * {
-          font-family: 'Press Start 2P', monospace !important;
+          font-family: var(--code-font) !important;
         }
       }
 

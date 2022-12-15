@@ -9,7 +9,7 @@ function CCodeRunner({ code, tests }) {
   runBtn.onclick = () => run();
 
   const visualiser = html`
-    <div class="visualiser">
+    <div class="visualiser visualiser-c">
       <div class="visualiser__code">
         ${editorEl}
         <div class="d-flex justify-content-end my-3">${runBtn}</div>
