@@ -94,14 +94,52 @@ function getNextId() {
   return nextId;
 }
 
-/*function getScore() {
-const users = parse(jsonDbPath,defaultUsers);
-const score = users.map
+async function getScore(username, coursReq) {
+  const users = parse(jsonDbPath, defaultUsers);
+  const indexOfUserFound = users.findIndex((user) => user.username === username);
+  const user = users[indexOfUserFound];
+  if (user.cours === undefined) {
+    user.cours = [
+      {
+        titre: coursReq,
+        chapitre: 0,
+        progres: 0,
+        score: 0,
+      },
+    ];
+  }
+  const listeCours = users[indexOfUserFound].cours;
+  const indexOfCours = listeCours.findIndex((cours) => cours.titre === coursReq);
+  const coursTrouve = listeCours[indexOfCours];
+  return coursTrouve.score;
+}
 
-}*/
+async function updateScore(username, coursReq, scoreReq) {
+  const users = parse(jsonDbPath, defaultUsers);
+  const indexOfUserFound = users.findIndex((user) => user.username === username);
+  const user = users[indexOfUserFound];
+  if (user.cours === undefined) {
+    user.cours = [
+      {
+        titre: coursReq,
+        chapitre: 0,
+        progres: 0,
+        score: scoreReq,
+      },
+    ];
+  } else {
+    const listeCours = user.cours;
+    const indexOfCours = listeCours.findIndex((cours) => cours.titre === coursReq);
+    user.cours[indexOfCours].score = scoreReq;
+  }
+  serialize(jsonDbPath, users);
+  return true;
+}
 
 module.exports = {
   login,
   register,
   readOneUserFromUsername,
+  getScore,
+  updateScore,
 };

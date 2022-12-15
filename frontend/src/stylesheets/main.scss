@@ -154,60 +154,24 @@ td {
   border-style: solid;
 }
 
-@keyframes animation-SP {
-  0% {
-    border-color: cyan;
-    background-color: darkorange;
-  }
-  10% {
-    transform: translateY(100px);
-    border-color: darkorange;
-    background-color: blue;
-  }
-  20% {
-    transform: translateY(100px);
-    background-color: red;
-    border-color: blue;
-  }
-  30% {
-    transform: translateY(300px);
-    border-color: red;
-    background-color: yellow;
-  }
-  40% {
-    transform: translateY(300px);
-    border-color: yellow;
-    background-color: purple;
-  }
-  50% {
-    transform: translateY(500px);
-    border-color: purple;
-    background-color: antiquewhite;
-  }
-  60% {
-    transform: translateY(500px);
-    border-color: antiquewhite;
-    background-color: pink;
-  }
-  70% {
-    transform: translateY(700px);
-    border-color: pink;
-    background-color: greenyellow;
-  }
-  80% {
-    transform: translateY(700px);
-    border-color: greenyellow;
-    background-color: brown;
-  }
-  90% {
-    transform: translateY(900px);
-    border-color: brown;
-    background-color: blueviolet;
-  }
+.animationScore {
+  opacity: 0;
+  animation-name: anim-score;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  width: 0;
+}
+.affichageScore {
+  width: 15em;
+  float: top;
+}
 
+@keyframes anim-score {
+  0% {
+    opacity: 1;
+  }
   100% {
-    transform: translateY(900px);
-    border-color: blueviolet;
-    background-color: cyan;
+    transform: translateY(-150px);
+    opacity: 0;
   }
 }
