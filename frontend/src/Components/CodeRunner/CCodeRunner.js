@@ -92,8 +92,6 @@ function CCodeRunner({ code, tests }) {
 
         worker.postMessage({ arguments: test.input });
         worker.onmessage = (e) => {
-          console.log(e.data);
-
           done = true;
 
           if (e.data.error) {
@@ -124,7 +122,6 @@ function CCodeRunner({ code, tests }) {
         };
       });
     } catch (e) {
-      console.error(e);
       renderError(e.message);
     } finally {
       isRunning = false;

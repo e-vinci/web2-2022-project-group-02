@@ -90,26 +90,38 @@ const preJS = `
 class EM {
   constructor() {
     this.isPrepared = false;
+    this.loadAttempts = 0;
   }
 
   prepare() {
     if (this.isPrepared) return this.isPrepared;
 
-    this.isPrepared = new Promise((resolve) => {
-      const worker = new Worker(
-        `${process.env.PATH_PREFIX}emception/emception.worker.bundle.worker.js`,
-      );
-      const emception = Comlink.wrap(worker);
+    this.isPrepared = (async () => {
+      while (this.loadAttempts < 3) {
+        try {
+          this.loadAttempts += 1;
 
-      // emception.onstdout = Comlink.proxy((str) => console.log(str));
+          const worker = new Worker(
+            `${process.env.PATH_PREFIX}emception/emception.worker.bundle.worker.js`,
+          );
+          const emception = Comlink.wrap(worker);
 
-      this.emception = emception;
-      this.Comlink = Comlink;
+          // emception.onstdout = Comlink.proxy((str) => console.log(str));
 
-      emception.init().then(() => {
-        resolve();
-      });
-    });
+          this.emception = emception;
+          this.Comlink = Comlink;
+
+          // This rule is a false positive
+          // eslint-disable-next-line no-await-in-loop
+          return await emception.init();
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error(e);
+        }
+      }
+
+      throw new Error('Failed to load emcc');
+    })();
 
     return this.isPrepared;
   }
