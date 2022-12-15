@@ -1,3 +1,4 @@
+import API from '../../utils/api';
 import { setAuthenticatedUser } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
@@ -56,37 +57,27 @@ async function onRegister(e) {
   const password = document.querySelector('#password').value;
   const confirmPswd = document.querySelector('#confirmPswd').value;
 
-  const options = {
-    method: 'POST',
-    body: JSON.stringify({
-      username,
-      password,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
   if (password === confirmPswd) {
-    const response = await fetch('/api/auths/register', options);
+    try {
+      const authenticatedUser = await API.POST('/auths/register', {
+        username,
+        password,
+      });
 
-    if (!response.ok) {
+      console.log('Newly registered & authenticated user : ', authenticatedUser);
+      setAuthenticatedUser(authenticatedUser);
+      Navigate('/');
+      return true;
+    } catch (err) {
       alert('pseudo ou mots de passe est invalide');
-      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
-
-    const authenticatedUser = await response.json();
-
-    console.log('Newly registered & authenticated user : ', authenticatedUser);
-    setAuthenticatedUser(authenticatedUser);
-    Navigate('/');
-    return true;
+  } else {
+    alert("You didn't enter the same password, dingus");
   }
 
   Navbar();
 
-  Navigate('/registerPage');
-  alert("You didn't enter the same password, dingus");
+  Navigate('/register');
 
   return false;
 }

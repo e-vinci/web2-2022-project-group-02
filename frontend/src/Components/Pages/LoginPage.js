@@ -1,3 +1,4 @@
+import API from '../../utils/api';
 import { setAuthenticatedUser } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
@@ -42,33 +43,22 @@ async function onLogin(e) {
   const username = document.querySelector('#username').value;
   const password = document.querySelector('#password').value;
 
-  const options = {
-    method: 'POST',
-    body: JSON.stringify({
+  try {
+    const authenticatedUser = await API.POST('/auths/login', {
       username,
       password,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+    });
 
-  const response = await fetch('/api/auths/login', options);
+    console.log('Authenticated user : ', authenticatedUser);
 
-  if (!response.ok) {
+    setAuthenticatedUser(authenticatedUser);
+
+    Navbar();
+
+    Navigate('/');
+  } catch (err) {
     alert("échec de l'authentification.");
-    throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
   }
-
-  const authenticatedUser = await response.json();
-
-  console.log('Authenticated user : ', authenticatedUser);
-
-  setAuthenticatedUser(authenticatedUser);
-
-  Navbar();
-
-  Navigate('/');
 }
 
 export default LoginPage;
