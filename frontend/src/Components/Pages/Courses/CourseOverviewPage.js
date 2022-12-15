@@ -2,6 +2,8 @@ import { clearPage, renderPageTitle } from '../../../utils/render';
 import html from '../../../utils/html';
 import { progressColor, renderProgressBar, renderButton } from './util';
 import cEasy from '../../../img/c-facile-logo.png';
+import { getAuthenticatedUser } from '../../../utils/auths';
+import API from '../../../utils/api';
 
 const courses = {
   asm: {
@@ -11,30 +13,35 @@ const courses = {
         id: 'asm-00-intro',
         title: 'Introduction',
         description: 'introduction rapide au langage assembleur',
+        chapitre: 0,
         progress: 0,
       },
       {
         id: 'asm-01-hardware',
         title: 'Le matériel',
         description: 'Influance du hardware sur le langage assembleur',
+        chapitre: 1,
         progress: 0,
       },
       {
         id: 'asm-02-execution',
         title: "L' exécution d'un programme",
         description: 'How the computer goes beep boop',
+        chapitre: 2,
         progress: 0,
       },
       {
         id: 'asm-03-mode-adressage',
         title: "Les modes d'adressage",
         description: "Les pages jaunes de l'ordinateur",
+        chapitre: 3,
         progress: 0,
       },
       {
         id: 'asm-04-flags',
         title: 'Les flags',
         description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.',
+        chapitre: 4,
         progress: 0,
       },
       {
@@ -42,6 +49,7 @@ const courses = {
         title: 'Les boucles',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+        chapitre: 5,
         progress: 0,
       },
     ],
@@ -54,12 +62,14 @@ const courses = {
         title: "S'initier en C",
         description:
           'Objectif: comprendre chaque ligne du code (les includes, les types) + 2 petits exercices pour bien démarrer',
+        chapitre: 0,
         progress: 0,
       },
       {
         id: 'c-01-tableaux',
         title: 'Les tableaux',
         description: 'Objectif: apprendre a manipuler un tableau',
+        chapitre: 1,
         progress: 0,
       },
       {
@@ -67,6 +77,7 @@ const courses = {
         title: 'Les variables',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+        chapitre: 2,
         progress: 0,
       },
       {
@@ -74,6 +85,7 @@ const courses = {
         title: 'Les fonctions',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+        chapitre: 3,
         progress: 0,
       },
       {
@@ -81,6 +93,8 @@ const courses = {
         title: 'Les pointeurs',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+
+        chapitre: 4,
         progress: 0,
       },
       {
@@ -88,6 +102,7 @@ const courses = {
         title: 'Les structures',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+        chapitre: 5,
         progress: 0,
       },
       {
@@ -95,12 +110,14 @@ const courses = {
         title: 'Les tableaux',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+        chapitre: 6,
         progress: 0,
       },
       {
         id: 'c-99-coderunner-test',
         title: 'Coderunner test',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        chapitre: 7,
         progress: 0,
       },
     ],
@@ -115,7 +132,7 @@ const getCourse = () => {
   return courses[course];
 };
 
-const CoursesOverviewPage = () => {
+const CoursesOverviewPage = async () => {
   const course = getCourse();
 
   if (!course) {
@@ -125,14 +142,56 @@ const CoursesOverviewPage = () => {
 
   clearPage();
   renderPageTitle(`${course.fullTitle} - les leçons`);
-  renderOverview();
+  await renderOverview();
 };
 
-function renderOverview() {
+async function updateUserProgres(cours) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const user = getAuthenticatedUser();
+  const titreCours = urlParams.get('course');
+  console.log(user);
+  let userProgress = {
+    titre: cours,
+    chapitre: 0,
+    progres: 0,
+    score: 0,
+  };
+  if (user !== undefined) {
+    userProgress = await API.POST('/users/getProgress', {
+      username: user.username,
+      cours: titreCours,
+    });
+  }
+
+  const listeCours = [];
+
+  console.log(userProgress);
+
+  for (let i = 0; i < cours.sections.length; i += 1) {
+    let progress = 0;
+    if (cours.sections[i].chapitre < userProgress.chapitre) {
+      progress = 100;
+    }
+    if (cours.sections[i].chapitre === userProgress.chapitre) {
+      progress = userProgress.progres;
+    }
+    listeCours.push({
+      id: cours.sections[i].id,
+      title: cours.sections[i].title,
+      description: cours.sections[i].description,
+      chapitre: cours.sections[i].chapitre,
+      progress: progress,
+    });
+  }
+
+  console.log(listeCours);
+  return listeCours;
+}
+
+async function renderOverview() {
   const course = getCourse();
-
+  course.sections = await updateUserProgres(course);
   const highlightedSection = course.sections.findIndex((section) => section.progress < 100);
-
   const content = html`
     <div class="container">
       <div class="row justify-content-center g-4">

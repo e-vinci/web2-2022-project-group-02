@@ -136,10 +136,55 @@ async function updateScore(username, coursReq, scoreReq) {
   return true;
 }
 
+async function getProgress(username, titreCours) {
+  const users = parse(jsonDbPath, defaultUsers);
+  const indexOfUserFound = users.findIndex((user) => user.username === username);
+  const user = users[indexOfUserFound];
+  if (user === undefined) return -1;
+  if (user.cours === undefined) {
+    user.cours = [
+      {
+        titre: titreCours,
+        chapitre: 0,
+        progres: 0,
+        score: 0,
+      },
+    ];
+  }
+  const indexOfCours = user.cours.findIndex((cours) => cours.titre === titreCours);
+
+  return user.cours[indexOfCours];
+}
+
+async function setProgress(username, titreCours, chapitre, progres) {
+  const users = parse(jsonDbPath, defaultUsers);
+  const indexOfUser = users.findIndex((user) => user.username === username);
+  const user = users[indexOfUser];
+  if (user.cours === undefined) {
+    user.cours = [
+      {
+        titre: titreCours,
+        chapitre: 0,
+        progres: 0,
+        score: 0,
+      },
+    ];
+  }
+  const indexOfCours = user.cours.findIndex((cours) => cours.titre === titreCours);
+  const cours = user.cours[indexOfCours];
+  console.log(cours);
+  cours.chapitre = chapitre;
+  cours.progres = progres;
+  serialize(jsonDbPath, users);
+  return true;
+}
+
 module.exports = {
   login,
   register,
   readOneUserFromUsername,
   getScore,
   updateScore,
+  getProgress,
+  setProgress,
 };

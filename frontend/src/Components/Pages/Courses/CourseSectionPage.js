@@ -1,7 +1,7 @@
 import { clearPage } from '../../../utils/render';
 import html from '../../../utils/html';
 import { renderButton } from './util';
-
+import API from '../../../utils/api';
 import C00 from './CourseSections/c-00-intro';
 // eslint-disable-next-line import/no-named-as-default
 import C01 from './CourseSections/c-01-tableaux';
@@ -12,6 +12,7 @@ import ASM02 from './CourseSections/asm-02-execution';
 import ASM03 from './CourseSections/asm-03-mode-adressage';
 import ASM04 from './CourseSections/asm-04-flags';
 import Navigate from '../../Router/Navigate';
+import { getAuthenticatedUser } from '../../../utils/auths';
 
 const sections = {
   c: [
@@ -77,7 +78,7 @@ function renderSection() {
           'Précédent',
           () => {
             window.history.replaceState(undefined, undefined, `#${pageNum}`);
-            CoursesSectionPage();
+            updateProgress().then(CoursesSectionPage());
           },
           pageNum === 0,
         )}
@@ -85,7 +86,7 @@ function renderSection() {
           'Suivant',
           () => {
             window.history.replaceState(undefined, undefined, `#${pageNum + 2}`);
-            CoursesSectionPage();
+            updateProgress().then(CoursesSectionPage());
           },
           pageNum >= section.length - 1,
         )}
@@ -99,6 +100,31 @@ function renderSection() {
   document.querySelector('main').append(content);
 
   if (func) func();
+}
+
+async function updateProgress() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const sectionKey = urlParams.get('section');
+  const sectionValues = sectionKey.split('-');
+  const course = sectionValues[0];
+  const chapitre = parseInt(sectionValues[1], 10);
+  const section = getSection();
+  const totalPages = section.length + 1;
+  let pageNum = parseInt(window.location.hash.replace('#', ''), 10);
+  if (Number.isNaN(pageNum)) pageNum = 1;
+  const progress = Math.round((pageNum / totalPages) * 1000) / 10;
+  const user = getAuthenticatedUser();
+  console.log(course);
+  console.log(chapitre);
+  console.log(typeof chapitre);
+  if (user !== undefined) {
+    await API.POST('/users/setProgress', {
+      username: user.username,
+      cours: course,
+      chapitre: chapitre,
+      progres: progress,
+    });
+  }
 }
 
 function nextSectionBtn() {
