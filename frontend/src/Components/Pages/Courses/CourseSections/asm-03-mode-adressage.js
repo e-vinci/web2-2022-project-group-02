@@ -28,7 +28,6 @@ const pages = [
   () => html` 
 		<h1>3 - Les modes d'adressage</h1>
 		<div class="vertical">
-			<h3 class="centered">Mais qu'est-ce que c'est que cette chose là ?</h3>
 			<ul>
 				<li>
 					Directe : Une adresse est fournie après l'instruction, et les données se trouvent à cette adrese.</br>
@@ -55,7 +54,6 @@ const pages = [
   () => html` 
 		<h1>3 - Les modes d'adressage</h1>
 		<div class="vertical">
-			<h3 class="centered">Mais qu'est-ce que c'est que cette chose là ?</h3>
 			<ul>
 				<li>
 					Directe indexé : Une adresse est fournie après l'instruction, un déplacement est ensuite ajouté à cette adresse pour obtenir l'adresse des données.</br>
@@ -74,7 +72,6 @@ const pages = [
   () => html` 
 		<h1>3 - Les modes d'adressage</h1>
 		<div class="vertical">
-			<h3 class="centered">Mais qu'est-ce que c'est que cette chose là ?</h3>
 			<ul>
 				<li>
 					Relatif : après l'instruction est fourni un déplacement. Ce déplacement est ajouté à la valeur de l'IP pour obtenir l'adresse des données.</br>

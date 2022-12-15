@@ -179,7 +179,7 @@ async function updateUserProgres(cours) {
       title: cours.sections[i].title,
       description: cours.sections[i].description,
       chapitre: cours.sections[i].chapitre,
-      progress: progress,
+      progress,
       page: currentPage,
     });
   }

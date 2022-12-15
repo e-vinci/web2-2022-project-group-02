@@ -118,7 +118,7 @@ async function updateProgress() {
     await API.POST('/users/setProgress', {
       username: user.username,
       cours: course,
-      chapitre: chapitre,
+      chapitre,
       progres: progress,
       page: pageNum,
     });
