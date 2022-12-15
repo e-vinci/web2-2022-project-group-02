@@ -137,7 +137,9 @@ function renderOverview() {
     <div class="container">
       <div class="row justify-content-center g-4">
         <div class="col-12 col-md-4 col-lg-6">
-          <img src="${cEasy}" width="80%" />
+          ${new URLSearchParams(window.location.search).get('course') === 'c'
+            ? html`<img src="${cEasy}" width="80%" />`
+            : html`[ASM IMAGE]`}
         </div>
         <div class="col-12 col-md-8 col-lg-6 accordion" id="courseSections">
           ${course.sections.map(
