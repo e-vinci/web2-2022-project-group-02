@@ -71,7 +71,7 @@ function ASMVisualiser(code) {
   stopBtn.onclick = () => stop();
 
   const visualiser = html`
-    <div class="visualiser">
+    <div class="visualiser visualiser-asm">
       <div class="visualiser__code">
         ${editorEl}
         <div class="d-flex justify-content-end my-3 gap-2">${[stopBtn, runBtn]}</div>

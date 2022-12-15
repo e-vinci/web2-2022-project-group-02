@@ -18,6 +18,12 @@
   padding: 2%;
   box-shadow: 5px 10px 20px #a0a0a0e0;
 
+  --code-font: 'JetBrains Mono', monospace;
+
+  &.visualiser-asm {
+    --code-font: 'Press Start 2P', monospace;
+  }
+
   &__code {
     display: flex;
     flex-direction: column;
@@ -32,6 +38,10 @@
       > * {
         width: 100%;
         height: 100%;
+
+        * {
+          font-family: var(--code-font) !important;
+        }
       }
 
       .activeLine {
