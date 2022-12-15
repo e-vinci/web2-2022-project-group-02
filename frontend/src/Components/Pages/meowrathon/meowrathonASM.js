@@ -56,10 +56,8 @@ const meowrathonASM = async () => {
     const exercice = html`
       <div class="centered vertical padded">
         <div class="centered notabene">${ex.task}</div>
-        <div class="horizontal centered padded">
-          <div class="centered">${ASMVisualiser(ex.exampleCode)}</div>
-          <div class="centered notabene affichageScore"><h2 class="scoreAffiche">0 pts</h2></div>
-        </div>
+        <div class="centered">${ASMVisualiser(ex.exampleCode)}</div>
+        <div class="centered notabene affichageScore"><h2 class="scoreAffiche">0 pts</h2></div>
         ${completeExercice}
       </div>
     `;

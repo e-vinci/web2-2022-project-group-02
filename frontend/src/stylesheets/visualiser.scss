@@ -1,4 +1,5 @@
 @import 'https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap';
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
 
 .visualiser {
   display: grid;
@@ -7,6 +8,7 @@
   background-color: #fff;
   border-radius: 15px;
   padding: 1%;
+  box-shadow: 5px 10px 20px #a0a0a0e0;
 
   &__code {
     display: flex;
@@ -17,14 +19,15 @@
       width: 100%;
       max-height: 500px;
       flex-grow: 1;
-      font-size: 12px;
+      font-size: 15px;
+      font-weight: bold;
 
       > * {
         width: 100%;
         height: 100%;
 
         * {
-          font-family: 'JetBrains Mono', monospace !important;
+          font-family: 'Press Start 2P', monospace !important;
         }
       }
 

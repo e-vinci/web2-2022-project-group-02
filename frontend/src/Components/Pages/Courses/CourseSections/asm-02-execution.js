@@ -28,14 +28,12 @@ const pages = [
     <h1 class="centered">2 - L'exécution</h1>
     <div class="centered vertical">
       <h3>A toi de jouer !</h3>
-      <div class="centered notabene">
-        ${ASMVisualiser(`
+      ${ASMVisualiser(`
 section .text
 	mov		eax, 1
 	mov		ebx, 2
 	add		eax, ebx
 		`)}
-      </div>
     </div>
   `,
 ];

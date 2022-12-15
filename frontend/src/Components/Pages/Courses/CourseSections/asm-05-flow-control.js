@@ -41,7 +41,6 @@ const pages = [
 				complète l'instruction jump pour exécuter le second morceau de code avant le premier.
 			</p>
 		</div>
-		<div class="centered notabene">
 
 		${ASMVisualiser(`
 section .text
@@ -53,7 +52,6 @@ jump:
 				MOV			eax, 2
 				MOV			ebx, 1
 		`)}
-		</div>
 	`,
   () => html`
 		<h1 class="centered">5b - Les branch</h1>
@@ -86,7 +84,6 @@ jump:
 				utilisez le bon branch pour n'exécuter aucun move
 			</p>
 		</div>
-		<div class="centered notabene">
 
 		${ASMVisualiser(`
 section .text
@@ -98,7 +95,6 @@ jump:
 				MOV			eax, 2
 				MOV			ebx, 1
 		`)}
-		</div>
 	`,
 ];
 
