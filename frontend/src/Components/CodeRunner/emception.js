@@ -96,7 +96,9 @@ class EM {
     if (this.isPrepared) return this.isPrepared;
 
     this.isPrepared = new Promise((resolve) => {
-      const worker = new Worker('/emception/emception.worker.bundle.worker.js');
+      const worker = new Worker(
+        `${process.env.PATH_PREFIX}emception/emception.worker.bundle.worker.js`,
+      );
       const emception = Comlink.wrap(worker);
 
       // emception.onstdout = Comlink.proxy((str) => console.log(str));

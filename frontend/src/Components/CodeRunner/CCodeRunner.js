@@ -1,6 +1,6 @@
 import html from '../../utils/html';
 import CodeEditor from '../CodeEditor/CodeEditor';
-import emception from './emception/emception';
+import emception from './emception';
 
 function CCodeRunner({ code, tests }) {
   const editorEl = html`<div class="visualiser__code__editor"></div>`;
