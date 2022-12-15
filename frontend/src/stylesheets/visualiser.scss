@@ -1,14 +1,28 @@
 @import 'https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap';
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
 
+.CSpecific * {
+  font-family: 'JetBrains Mono';
+}
+
+.ASMSpecific * {
+  font-family: 'Press Start 2P';
+}
+
 .visualiser {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1em;
   background-color: #fff;
   border-radius: 15px;
-  padding: 1%;
+  padding: 2%;
   box-shadow: 5px 10px 20px #a0a0a0e0;
+
+  --code-font: 'JetBrains Mono', monospace;
+
+  &.visualiser-asm {
+    --code-font: 'Press Start 2P', monospace;
+  }
 
   &__code {
     display: flex;
@@ -16,17 +30,17 @@
 
     &__editor {
       position: relative;
-      width: 100%;
+
       max-height: 500px;
       flex-grow: 1;
-      font-size: 15px;
+      font-size: 13.5px;
 
       > * {
         width: 100%;
         height: 100%;
 
         * {
-          font-family: 'Press Start 2P', monospace !important;
+          font-family: var(--code-font) !important;
         }
       }
 
@@ -59,7 +73,7 @@
     border: solid 2px #000;
     border-radius: 10px;
 
-    font-family: 'JetBrains Mono';
+    font-family: 'Press Start 2P';
     color: #fff;
     font-size: 24px;
     display: flex;
@@ -74,9 +88,9 @@
     flex-direction: column;
     gap: 8px;
 
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Press Start 2P', monospace;
     font-size: 24px;
-    padding: 20px 20px 20px 80px;
+    padding: 30px 30px 30px 100px;
     line-height: 1;
 
     border: 2px solid #8a8a8a;

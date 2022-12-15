@@ -63,7 +63,7 @@ function registerEl() {
 }
 
 function ASMVisualiser(code) {
-  const editorEl = html`<div class="visualiser__code__editor"></div>`;
+  const editorEl = html`<div class="visualiser__code__editor ASMSpecific"></div>`;
   const runBtn = html`<button class="btn btn-primary">Exécuter</button>`;
   const stopBtn = html`<button class="btn btn-danger">Arrêter</button>`;
 
@@ -71,7 +71,7 @@ function ASMVisualiser(code) {
   stopBtn.onclick = () => stop();
 
   const visualiser = html`
-    <div class="visualiser">
+    <div class="visualiser visualiser-asm">
       <div class="visualiser__code">
         ${editorEl}
         <div class="d-flex justify-content-end my-3 gap-2">${[stopBtn, runBtn]}</div>
