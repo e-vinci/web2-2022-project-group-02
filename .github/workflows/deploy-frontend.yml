@@ -22,7 +22,7 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: frontend/dest
+          folder: frontend/dist
           branch: gh-pages
           git-config-name: "GitHub Actions"
           git-config-email: "github-pages-deploy-action@users.noreply.github.com"
