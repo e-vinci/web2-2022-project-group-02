@@ -26,7 +26,7 @@ function CCodeRunner({ code, tests }) {
           class="visualiser_loader d-flex flex-column gap-3 align-items-center justify-content-center m-5"
         >
           <div class="spinner-border" role="status"></div>
-          <p>Préparation de la compilateur...</p>
+          <p>Préparation du compilateur...</p>
         </div>
         <div class="test-table"></div>
       </div>
@@ -85,7 +85,7 @@ function CCodeRunner({ code, tests }) {
               test: testCommand,
               expected: test.output,
               status: 'error',
-              got: "[Le programme a pris trop de temps à s'exécuter]",
+              got: "[Le programme a pris trop de temps a s'exécuter]",
             });
           }
         }, 5000);

@@ -3,7 +3,6 @@ import html from '../../../utils/html';
 import { renderButton } from './util';
 import API from '../../../utils/api';
 import C00 from './CourseSections/c-00-intro';
-// eslint-disable-next-line import/no-named-as-default
 import C01 from './CourseSections/c-01-tableaux';
 import C99 from './CourseSections/c-99-coderunner-test';
 import ASM00 from './CourseSections/asm-00-intro';
