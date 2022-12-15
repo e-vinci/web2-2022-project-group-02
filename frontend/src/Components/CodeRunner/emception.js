@@ -106,6 +106,15 @@ class EM {
           );
           const emception = Comlink.wrap(worker);
 
+          const onprocessstart = (argv) => {
+            console.log(argv);
+          };
+          const onprocessend = () => {
+            console.log('process end');
+          };
+          emception.onprocessstart = Comlink.proxy(onprocessstart);
+          emception.onprocessend = Comlink.proxy(onprocessend);
+
           // emception.onstdout = Comlink.proxy((str) => console.log(str));
 
           this.emception = emception;
