@@ -156,7 +156,7 @@ async function getProgress(username, titreCours) {
   return user.cours[indexOfCours];
 }
 
-async function setProgress(username, titreCours, chapitre, progres) {
+async function setProgress(username, titreCours, chapitre, progres, page) {
   const users = parse(jsonDbPath, defaultUsers);
   const indexOfUser = users.findIndex((user) => user.username === username);
   const user = users[indexOfUser];
@@ -167,14 +167,15 @@ async function setProgress(username, titreCours, chapitre, progres) {
         chapitre: 0,
         progres: 0,
         score: 0,
+        page: 0,
       },
     ];
   }
   const indexOfCours = user.cours.findIndex((cours) => cours.titre === titreCours);
   const cours = user.cours[indexOfCours];
-  console.log(cours);
   cours.chapitre = chapitre;
   cours.progres = progres;
+  cours.page = page;
   serialize(jsonDbPath, users);
   return true;
 }

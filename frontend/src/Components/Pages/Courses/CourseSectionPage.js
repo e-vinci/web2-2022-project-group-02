@@ -114,15 +114,13 @@ async function updateProgress() {
   if (Number.isNaN(pageNum)) pageNum = 1;
   const progress = Math.round((pageNum / totalPages) * 1000) / 10;
   const user = getAuthenticatedUser();
-  console.log(course);
-  console.log(chapitre);
-  console.log(typeof chapitre);
   if (user !== undefined) {
     await API.POST('/users/setProgress', {
       username: user.username,
       cours: course,
       chapitre: chapitre,
       progres: progress,
+      page: pageNum,
     });
   }
 }

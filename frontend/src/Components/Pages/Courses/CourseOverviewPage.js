@@ -149,7 +149,6 @@ async function updateUserProgres(cours) {
   const urlParams = new URLSearchParams(window.location.search);
   const user = getAuthenticatedUser();
   const titreCours = urlParams.get('course');
-  console.log(user);
   let userProgress = {
     titre: cours,
     chapitre: 0,
@@ -165,15 +164,15 @@ async function updateUserProgres(cours) {
 
   const listeCours = [];
 
-  console.log(userProgress);
-
   for (let i = 0; i < cours.sections.length; i += 1) {
     let progress = 0;
+    let currentPage = 0;
     if (cours.sections[i].chapitre < userProgress.chapitre) {
       progress = 100;
     }
     if (cours.sections[i].chapitre === userProgress.chapitre) {
       progress = userProgress.progres;
+      currentPage = userProgress.page;
     }
     listeCours.push({
       id: cours.sections[i].id,
@@ -181,10 +180,10 @@ async function updateUserProgres(cours) {
       description: cours.sections[i].description,
       chapitre: cours.sections[i].chapitre,
       progress: progress,
+      page: currentPage,
     });
   }
 
-  console.log(listeCours);
   return listeCours;
 }
 
@@ -229,7 +228,10 @@ async function renderOverview() {
                     <p>${section.description}</p>
                     <div class="d-flex gap-4 align-items-end">
                       <div class="flex-grow-1">${renderProgressBar(section.progress)}</div>
-                      ${renderButton('Commencer', `/courses/course?section=${section.id}`)}
+                      ${renderButton(
+                        'Commencer',
+                        `/courses/course?section=${section.id}#${section.page}`,
+                      )}
                     </div>
                   </div>
                 </div>

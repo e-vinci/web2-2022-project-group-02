@@ -30,11 +30,11 @@ router.post('/setProgress', async (req, res) => {
   const cours = req.body?.cours ? req.body.cours : undefined;
   const chapitre = req.body?.cours ? req.body.chapitre : 0;
   const progres = req.body?.progres ? req.body.progres : 0;
+  const page = req.body?.page ? req.body.page : 0;
 
   if (username === undefined) res.sendStatus(418);
   if (cours === undefined) res.sendStatus(418);
-  const reponse = await setProgress(username, cours, chapitre, progres);
-  console.log(reponse);
+  const reponse = await setProgress(username, cours, chapitre, progres, page);
   res.send(reponse);
 });
 
