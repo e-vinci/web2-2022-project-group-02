@@ -118,8 +118,9 @@ int main() {
                 <td>
                   <ul>
                     <li class="heavy">
-                      Les valeurs entre accolades doivent être des #defines (l'utilisation de simple
-                      variables ou const provoquera une erreur du compilateur),
+                      A la déclaration, les valeurs entre accolades doivent être des #defines
+                      (l'utilisation de simple variables ou const provoquera une erreur du
+                      compilateur),
                     </li>
                     <li class="heavy">
                       Si le nombre de valeurs entre accolades est inférieur au nombre d'éléments du
@@ -221,6 +222,81 @@ int main() {
             {
               input: [''],
               output: 'true,false,true,false,true,false,true,false,true,false,',
+            },
+          ],
+        })}
+      </div>
+    </div>
+  `,
+  () => html`
+    <h1>Les matrices</h1>
+
+    <p>Attache ta ceinture, ça va swiiinguer ! &#128526;</p>
+
+    <p>
+      C'est un tableau d'un tableau ou plutôt un tableau qui pointe vers un tableau,exemples :<br />
+      - int matrice[N][N]={0}; (où N a été déclaré dans le #define). <br />
+      - int tab[4][5] = {{1,2,3},{3,4}}; (le reste est initialisé à 0).
+    </p>
+
+    <p>C'est la même logique que Java, avec 2 boucles imbriquées pour initialiser et parcourir.</p>
+    <p>Voici un exemple complet:</p>
+    <div class="centered">
+      ${CodeDemo(
+        `#include <stdio.h>
+
+#define N 50
+
+int main() {
+  int tab[N][N]= {0};
+  
+  for(int i = 0; i < N ; i++){
+    for(int j = 0; j < N , j++){
+      tab[i][j] = j;
+      printf("%d", tab[i][j]);
+    }
+  }
+    return 0;
+}`,
+        html` <p>
+            <br /><br /><br /><br /><br /><br /><br />
+            Rien de particulier à dire pour les matrices, ce sont les mêmes règles que le tableau.
+            Toujours être attentif à la bonne gestion de la taille du tableau et l'indice.
+            <br />
+          </p>
+
+          <p id="test"></p>`,
+      )}
+    </div>
+  `,
+  () => html`
+    <h1>À toi de jouer !</h1>
+    <div class="horizontal">
+      <div class="vertical">
+        <p>
+          Affiche la table de multiplication de 1 à 10 ! Utilise le #define pour la taille du
+          tableau.
+        </p>
+        ${CCodeRunner({
+          code: `#include <stdio.h>
+   /*
+   PRE:
+   POST:
+   RES: void 
+   */
+  void main() {
+    //Déclarer
+    
+    //Initialiser et afficher    
+    
+    printf("%3d", );
+    printf("\\n");
+  }`,
+          tests: [
+            {
+              input: [''],
+              output:
+                '1 2 3 4 5 6 7 8 9 10 2 4 6 8 10 12 14 16 18 20 3 6 9 12 15 18 21 24 27 30 4 8 12 16 20 24 28 32 36 40 5 10 15 20 25 30 35 40 45 50 6 12 18 24 30 36 42 48 54 60 7 14 21 28 35 42 49 56 63 70 8 16 24 32 40 48 56 64 72 80 9 18 27 36 45 54 63 72 81 90 10 20 30 40 50 60 70 80 90100',
             },
           ],
         })}
