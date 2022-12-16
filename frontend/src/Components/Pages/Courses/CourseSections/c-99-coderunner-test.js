@@ -36,8 +36,11 @@ int* prime_numbers(int n, int* sz) {
 }
 
 int main(int argc, char** argv) {
+	int num;
+	scanf("%d", &num);
+
 	int sz = 0;
-	int* prime = prime_numbers(atoi(argv[1]), &sz);
+	int* prime = prime_numbers(num, &sz);
 
 	if (prime == NULL) {
 		printf("Erreur allocation memoire");
@@ -55,15 +58,18 @@ int main(int argc, char** argv) {
 }`,
     tests: [
       {
-        input: ['3'],
+        args: [],
+        input: '3\n',
         output: '2',
       },
       {
-        input: ['10'],
+        args: [],
+        input: '10\n',
         output: '2, 3, 5, 7',
       },
       {
-        input: ['40'],
+        args: [],
+        input: '40\n',
         output: '2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37',
       },
     ],

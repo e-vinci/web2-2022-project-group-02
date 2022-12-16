@@ -90,7 +90,7 @@ int main() {
   }`,
           tests: [
             {
-              input: [''],
+              args: [''],
               output: 'C facile',
             },
           ],
@@ -196,7 +196,7 @@ int main() {
 }`,
           tests: [
             {
-              input: [''],
+              args: [''],
               output: '',
             },
           ],
