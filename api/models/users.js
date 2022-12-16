@@ -172,7 +172,20 @@ async function setProgress(username, titreCours, chapitre, progres, page) {
     ];
   }
   const indexOfCours = user.cours.findIndex((cours) => cours.titre === titreCours);
-  const cours = user.cours[indexOfCours];
+  let cours = user.cours[indexOfCours];
+
+  if (!cours) {
+    cours = {
+      titre: titreCours,
+      chapitre: 0,
+      progres: 0,
+      score: 0,
+      page: 0,
+    };
+
+    user.cours.push(cours);
+  }
+
   cours.chapitre = chapitre;
   cours.progres = progres;
   cours.page = page;
