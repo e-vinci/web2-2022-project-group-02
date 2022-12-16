@@ -18,6 +18,8 @@ const flags = [
   'INVOKE_RUN=0',
   '-s',
   'EXIT_RUNTIME=1',
+  '-std=c11 -pedantic -Wall -Wvla -Werror -Wno-unused-variable',
+  '-Wno-newline-eof',
 ].join(' ');
 
 const preJS = `

@@ -23,10 +23,17 @@ function CCodeRunner({ code, tests }) {
           ></div>
         </div>
         <div
-          class="visualiser_loader d-flex flex-column gap-3 align-items-center justify-content-center m-5"
+          class="visualiser_loader d-flex flex-column gap-3 align-items-center justify-content-center m-5 text-center"
         >
           <div class="spinner-border" role="status"></div>
-          <p>Préparation du compilateur...</p>
+          <div class="loader-text">
+            Préparation du
+            compilateur...${navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+              ? ''
+              : html`<br /><span class="text-muted"
+                    >(si ce message reste affiché, essayez avec Firefox)</span
+                  >`}
+          </div>
         </div>
         <div class="test-table"></div>
       </div>
@@ -60,16 +67,17 @@ function CCodeRunner({ code, tests }) {
         }),
       );
 
-      prepTestTable();
+      prepTestTable(tests.some((test) => test.input !== undefined));
       toggleLoader(false);
 
       let encounteredError = false;
 
       tests.forEach((test) => {
         if (encounteredError) return;
-        const testCommand = `./code ${test.input.join(' ')}`;
+        const testCommand = `./code ${test.args.join(' ')}`;
 
         const row = addTestResult({
+          ...test,
           test: testCommand,
           expected: test.output,
           status: 'running',
@@ -82,6 +90,7 @@ function CCodeRunner({ code, tests }) {
           if (!done) {
             worker.terminate();
             updateTestResult(row, {
+              ...test,
               test: testCommand,
               expected: test.output,
               status: 'error',
@@ -90,7 +99,7 @@ function CCodeRunner({ code, tests }) {
           }
         }, 5000);
 
-        worker.postMessage({ arguments: test.input });
+        worker.postMessage({ arguments: test.args, input: test.input });
         worker.onmessage = (e) => {
           done = true;
 
@@ -99,6 +108,7 @@ function CCodeRunner({ code, tests }) {
             renderError(e.data.error);
           } else if (e.data.RETURN !== 0) {
             updateTestResult(row, {
+              ...test,
               test: testCommand,
               expected: test.output,
               status: 'error',
@@ -106,6 +116,7 @@ function CCodeRunner({ code, tests }) {
             });
           } else if (e.data.STDOUT !== test.output) {
             updateTestResult(row, {
+              ...test,
               test: testCommand,
               expected: test.output,
               status: 'error',
@@ -113,6 +124,7 @@ function CCodeRunner({ code, tests }) {
             });
           } else {
             updateTestResult(row, {
+              ...test,
               test: testCommand,
               expected: test.output,
               status: 'ok',
@@ -151,23 +163,27 @@ function CCodeRunner({ code, tests }) {
     if (message) {
       loader.classList.remove('d-none');
 
-      loader.querySelector('p').innerText = message === true ? 'Compilation...' : message;
+      loader.querySelector('.loader-text').innerText =
+        message === true ? 'Compilation...' : message;
     } else {
       loader.classList.add('d-none');
     }
   }
 
-  function prepTestTable() {
+  function prepTestTable(hasInputColumn = false) {
     const table = html`
       <table style="min-width: 100%; font-size: 14px; margin: 0">
         <tr>
           <th>Test</th>
+          <th class="input-col">Entrée</th>
           <th>Attendu</th>
           <th>Obtenu</th>
           <th>&nbsp;</th>
         </tr>
       </table>
     `;
+
+    if (!hasInputColumn) table.querySelector('.input-col').remove();
 
     document.querySelector('.test-table').classList.remove('d-none');
     document.querySelector('.test-table').replaceChildren(table);
@@ -194,16 +210,17 @@ function CCodeRunner({ code, tests }) {
         <div class="spinner-border" style="width:1em;height:1em"></div>
       </td>`;
 
-    row.replaceChildren(
-      html`
-        <td>${test.test}</td>
-        <td>${test.expected}</td>
-        <td>
-          ${test.got ?? html`<div class="spinner-border" style="width:1em;height:1em"></div>`}
-        </td>
-        ${statusCell}
-      `,
-    );
+    const rowEl = html`
+      <td>${test.test}</td>
+      <td class="input-cell">${test.input}</td>
+      <td>${test.expected}</td>
+      <td>${test.got ?? html`<div class="spinner-border" style="width:1em;height:1em"></div>`}</td>
+      ${statusCell}
+    `;
+
+    if (test.input === undefined) rowEl.querySelector('.input-cell').remove();
+
+    row.replaceChildren(rowEl);
 
     return row;
   }
