@@ -23,10 +23,17 @@ function CCodeRunner({ code, tests }) {
           ></div>
         </div>
         <div
-          class="visualiser_loader d-flex flex-column gap-3 align-items-center justify-content-center m-5"
+          class="visualiser_loader d-flex flex-column gap-3 align-items-center justify-content-center m-5 text-center"
         >
           <div class="spinner-border" role="status"></div>
-          <p>Préparation du compilateur...</p>
+          <div class="loader-text">
+            Préparation du
+            compilateur...${navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+              ? ''
+              : html`<br /><span class="text-muted"
+                    >(si ce message reste affiché, essayez avec Firefox)</span
+                  >`}
+          </div>
         </div>
         <div class="test-table"></div>
       </div>
@@ -151,7 +158,8 @@ function CCodeRunner({ code, tests }) {
     if (message) {
       loader.classList.remove('d-none');
 
-      loader.querySelector('p').innerText = message === true ? 'Compilation...' : message;
+      loader.querySelector('.loader-text').innerText =
+        message === true ? 'Compilation...' : message;
     } else {
       loader.classList.add('d-none');
     }
