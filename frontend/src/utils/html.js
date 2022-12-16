@@ -1,3 +1,5 @@
+import * as DOMPurify from 'dompurify';
+
 /**
  * A better alternative to document.createElement, which allows you to create
  * an element from a template literal. (Think of it as a pseudo-JSX)
@@ -30,7 +32,7 @@ export default function html(raw, ...keys) {
       return `<div id="__PLACEHOLDER__${id}__"></div>`;
     }
 
-    if (typeof key === 'string') return escapeHTML(key);
+    if (typeof key === 'string') return DOMPurify.sanitize(key);
 
     return key;
   });
@@ -50,13 +52,4 @@ export default function html(raw, ...keys) {
     return templateElement.content.firstElementChild;
 
   return templateElement.content;
-}
-
-function escapeHTML(unsafe) {
-  return unsafe
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
 }

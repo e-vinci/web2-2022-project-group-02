@@ -28,7 +28,12 @@ class API {
       signal: controller.signal,
     });
 
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      const reply = await response.json().catch(() => null);
+      if (reply?.error) throw new Error(reply.error);
+
+      throw new Error(response.statusText);
+    }
 
     if (fetchOptions?.raw) return response;
 
@@ -59,6 +64,16 @@ class API {
    */
   static POST(endpoint, data) {
     return this.call(endpoint, { method: 'post', body: data ? JSON.stringify(data) : null });
+  }
+
+  /**
+   * Call the API with DELETE
+   * @param {string} endpoint - The API endpoint
+   * @param {object?} data - The data to send, if any
+   * @returns {Promise<object>} - The response
+   */
+  static DELETE(endpoint, data) {
+    return this.call(endpoint, { method: 'delete', body: data ? JSON.stringify(data) : null });
   }
 
   /**

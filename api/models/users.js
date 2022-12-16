@@ -19,20 +19,21 @@ const defaultUsers = [
 ];
 
 async function login(username, password) {
-  const userFound = readOneUserFromUsername(username);
-  if (!userFound) return undefined;
+  const user = readOneUserFromUsername(username);
+  if (!user) return undefined;
 
-  const passwordMatch = await bcrypt.compare(password, userFound.password);
+  const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) return undefined;
 
   const token = jwt.sign(
-    { username }, // session data added to the payload (payload : part 2 of a JWT)
+    { id: user.id, username: user.username }, // session data added to the payload (payload : part 2 of a JWT)
     jwtSecret, // secret used for the signature (signature part 3 of a JWT)
     { expiresIn: lifetimeJwt }, // lifetime of the JWT (added to the JWT payload)
   );
 
   const authenticatedUser = {
-    username,
+    id: user.id,
+    username: user.username,
     token,
   };
 
@@ -43,16 +44,17 @@ async function register(username, password) {
   const userFound = readOneUserFromUsername(username);
   if (userFound) return undefined;
 
-  await createOneUser(username, password);
+  const user = await createOneUser(username, password);
 
   const token = jwt.sign(
-    { username }, // session data added to the payload (payload : part 2 of a JWT)
+    { id: user.id, username: user.username }, // session data added to the payload (payload : part 2 of a JWT)
     jwtSecret, // secret used for the signature (signature part 3 of a JWT)
     { expiresIn: lifetimeJwt }, // lifetime of the JWT (added to the JWT payload)
   );
 
   const authenticatedUser = {
-    username,
+    id: user.id,
+    username: user.username,
     token,
   };
 
@@ -65,6 +67,13 @@ function readOneUserFromUsername(username) {
   if (indexOfUserFound < 0) return undefined;
 
   return users[indexOfUserFound];
+}
+
+function readOneUserFromId(id) {
+  const users = parse(jsonDbPath, defaultUsers);
+  const user = users.find((u) => u.id === Number(id));
+
+  return user;
 }
 
 async function createOneUser(username, password) {
@@ -197,6 +206,7 @@ module.exports = {
   login,
   register,
   readOneUserFromUsername,
+  readOneUserFromId,
   getScore,
   updateScore,
   getProgress,
