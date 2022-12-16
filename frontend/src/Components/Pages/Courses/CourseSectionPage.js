@@ -77,28 +77,28 @@ function renderSection() {
   const content = html`
     <div class="container">
       ${page}
-
-      <div class="mt-5 d-flex justify-content-center gap-3">
-        ${renderButton(
-          'Précédent',
-          () => {
-            window.history.replaceState(undefined, undefined, `#${pageNum}`);
-            updateProgress().then(CoursesSectionPage());
-          },
-          pageNum === 0,
-        )}
-        ${renderButton(
-          'Suivant',
-          () => {
-            window.history.replaceState(undefined, undefined, `#${pageNum + 2}`);
-            updateProgress().then(CoursesSectionPage());
-          },
-          pageNum >= section.length - 1,
-        )}
-      </div>
-      ${pageNum === section.length - 1
-        ? html`<div class="text-center mt-5">${nextSectionBtn()}</div>`
-        : ''}
+      ${pageNum !== section.length - 1
+        ? html`
+            <div class="mt-5 d-flex justify-content-center gap-3">
+              ${renderButton(
+                'Précédent',
+                () => {
+                  window.history.replaceState(undefined, undefined, `#${pageNum}`);
+                  updateProgress().then(CoursesSectionPage());
+                },
+                pageNum === 0,
+              )}
+              ${renderButton(
+                'Suivant',
+                () => {
+                  window.history.replaceState(undefined, undefined, `#${pageNum + 2}`);
+                  updateProgress().then(CoursesSectionPage());
+                },
+                pageNum >= section.length - 1,
+              )}
+            </div>
+          `
+        : html`<div class="text-center mt-5">${nextSectionBtn()}</div>`}
     </div>
   `;
 

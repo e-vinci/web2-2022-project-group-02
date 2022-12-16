@@ -1,3 +1,5 @@
+import { getAuthenticatedUser } from './auths';
+
 const CALL_PREFIX = process.env.API_BASE_URL;
 const TIMEOUT = 10000;
 
@@ -12,12 +14,15 @@ class API {
     const controller = new AbortController();
 
     if (!fetchOptions?.timeout || fetchOptions.timeout > 0)
-      setTimeout(() => controller.abort(), fetchOptions.timeout || TIMEOUT);
+      setTimeout(() => controller.abort(), fetchOptions?.timeout || TIMEOUT);
+
+    const user = getAuthenticatedUser();
 
     const response = await fetch(this.resolvePath(endpoint), {
       ...(fetchOptions || {}),
       headers: {
         'Content-Type': 'application/json',
+        ...(user ? { Authorization: user.token } : {}),
         ...(fetchOptions?.headers || {}),
       },
       signal: controller.signal,
@@ -25,7 +30,7 @@ class API {
 
     if (!response.ok) throw new Error(response.statusText);
 
-    if (fetchOptions.raw) return response;
+    if (fetchOptions?.raw) return response;
 
     const reply = await response.json();
 
