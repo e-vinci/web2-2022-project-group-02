@@ -55,7 +55,7 @@ int main() {
   }
     return 0;
 }`,
-              html` <p>
+              html` <p >
         <strong>Attention</strong> il y a une faute très grave ici, cherche avant de continuer de lire !<br>
            ... <br>
            Alors ?<br><br>
@@ -69,19 +69,18 @@ int main() {
             )}
           </div>
           <br />
-          <div id="NB">
+          <div id="NB" class="notabene centered">
             <p class="heavy">
               Attention ! Quand tu déclares un tableau statique, comme l'exemple plus haut, tu ne
               peux plus modifier ses valeurs, cela va générer une segmentation fault !
-            </p>
-            <p>
+              <br /><br />
               En fait c'est parce que les valeurs statiques sont stockés dans la partie Read-Only de
               la mémoire, et donc c'est uniquement accessible à la lecture. On utilise rarement les
               variables statiques mais c'est une information tout de même utile.
             </p>
           </div>
           <br />
-          <p>-> L'autre manière est de passer par le 'define'.</p>
+          <p>-> L'autre manière est de passer par le #define:</p>
 
           <p>Exemple:</p>
           <div class="centered">
@@ -109,7 +108,7 @@ int main() {
                 <p id="test"></p>`,
             )}
           </div>
-          <table border="0">
+          <table>
             <tbody>
               <tr>
                 <td>
@@ -124,8 +123,8 @@ int main() {
                     </li>
                     <li class="heavy">
                       Si le nombre de valeurs entre accolades est inférieur au nombre d'éléments du
-                      tableau, les derniers éléments sont initialisés à 0 (plus de détails à la page
-                      suivant),
+                      tableau, les derniers éléments seront initialisés aux valeurs par défaut
+                      dépendant de leur type (plus de détails à la page suivant),
                     </li>
                     <li class="heavy">Il doit y avoir au moins une valeur entre accolades,</li>
                     <li class="heavy">
@@ -236,12 +235,12 @@ int main() {
     <p>Attache ta ceinture, ça va swiiinguer ! &#128526;</p>
 
     <p>
-      C'est un tableau d'un tableau ou plutôt un tableau qui pointe vers un tableau,exemples :<br />
-      - int matrice[N][N]={0}; (où N a été déclaré dans le #define). <br />
-      - int tab[4][5] = {{1,2,3},{3,4}}; (le reste est initialisé à 0).
+      C'est un tableau d'un tableau ou plutôt un tableau qui pointe vers un tableau, exemples:<br />
+      - int matrice[N][N]={0}; &nbsp; &nbsp; (où N a été déclaré dans le #define). <br />
+      - int tab[4][5] = {{1,2,3},{3,4}}; &nbsp; &nbsp;(le reste est initialisé à 0).
     </p>
 
-    <p>C'est la même logique que Java, avec 2 boucles imbriquées pour initialiser et parcourir.</p>
+    <p>Sinon, la logique reste la même, le parcours se fait avec 2 boucles imbriquées.</p>
     <p>Voici un exemple complet:</p>
     <div class="centered">
       ${CodeDemo(
@@ -307,9 +306,11 @@ void main() {
         NB: les codesrunners qu'on a implémenté testent uniquement l'output, donc attention c'est
         sensible à la case.
         <br />
+        <br />
         Il se peut que ton code soit fonctionnel, mais juste pour un espace, ton output et celui
-        qu'on a intégré dans le code ne soient pas les mêmes et qui fait que ça marque en rouge ! À
-        ce moment là, c'est mieux que tu vérifies par toi même, si le résultat est le même.
+        qu'on a intégré dans le code ne soient pas les mêmes et qui fait que ça marque en rouge !
+        <br />
+        <br />À ce moment là, c'est mieux que tu vérifies par toi même, si le résultat est le même.
       </p>
     </div>
   `,

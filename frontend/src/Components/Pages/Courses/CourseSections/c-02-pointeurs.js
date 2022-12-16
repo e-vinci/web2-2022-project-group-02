@@ -14,9 +14,12 @@ const pages = [
        <p>Non c'est bon, je suis là ! LETSGOOO !!!</p>
         <p> Je vais commencer à l'envers, et aller droit au but. <strong> Un pointeur c'est une variable qui contient une adresse mémoire.</strong></p>
         <p>Qui dit manipulation d'adresse dit être très <strong>vigilent</strong>.. si tu as le malheur de perdre l'adresse où débute ta variable FINITO ! Tu es CUITS l'ami !  </p>
-        <p>Tiens j'aimerai te faire présenter à quelqu'un de très cher. Tous les programmeurs/ses en C le connaissent, certains le décrivent comme spontané, d'autre comme lourd. Tu verras par toi même !
-        <br> Jusque là, il fait que dormir paisiblement, et il se doit de rester en phase de sommeil, jamais Jamais <strong>JAMAIS</strong> tu essaies de le réveiller do u hear me?! Très difficile de le rendormir après. </p>
-        <p>Comment le réveiller tu vas me demander ? Très bonne question, il se trouve que dès qu'on manipule des pointeurs, il pointe le bout de son nez ! </p>
+        <p>Tiens j'aimerai te faire présenter à quelqu'un de très cher. Tous les programmeurs/ses en C le connaissent, certains le décrivent comme spontané, d'autre comme lourd. Tu jugeras par toi même !
+        <br> Jusque là, il fait que dormir paisiblement, et il se doit de rester en phase de sommeil, jamais Jamais <strong>JAMAIS(!!!)</strong> tu essaies de le réveiller, do you hear me?! 
+       </p>
+       
+       
+        <p>Qu'est ce qu'il peut bien le réveiller tu vas me demander ? Très bonne question, il se trouve que dès qu'on manipule des pointeurs, il pointe le bout de son nez ! </p>
         <p>Oui ce monstre tu vas le rencontrer plus que ton propre entourage, moi je te dis ! Et il a un nom ce monstre, of course.</p>
         <p>J'ai l'immense joie et plaisir de te présenter à ton nouveau calvaire, <strong>Segmentation fault</strong>, *t'entends le rire de sorcière en fond ? * &#128520;</p>
     </p>
