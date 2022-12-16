@@ -118,8 +118,7 @@ const CoursesOverviewPage = async () => {
   }
 
   clearPage();
-  renderPageTitle(`${course.fullTitle} - les leçons`);
-  await renderOverview();
+  await renderOverview(course);
 };
 
 async function updateUserProgres(cours) {
@@ -164,9 +163,12 @@ async function updateUserProgres(cours) {
   return listeCours;
 }
 
-async function renderOverview() {
-  const course = getCourse();
+async function renderOverview(course) {
+  renderPageTitle(`${course.fullTitle} - les leçons`);
+
+  // eslint-disable-next-line no-param-reassign
   course.sections = await updateUserProgres(course);
+
   const highlightedSection = course.sections.findIndex((section) => section.progress < 100);
   const content = html`
     <div class="container">
@@ -220,7 +222,7 @@ async function renderOverview() {
     </div>
   `;
 
-  document.querySelector('main').append(content);
+  document.querySelector('main').replaceChildren(content);
 }
 
 export default CoursesOverviewPage;
