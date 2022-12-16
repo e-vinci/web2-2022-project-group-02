@@ -1,7 +1,7 @@
 import { basicSetup } from 'codemirror';
 import { StreamLanguage } from '@codemirror/language';
 import { gas } from '@codemirror/legacy-modes/mode/gas';
-import { c } from '@codemirror/legacy-modes/mode/clike';
+import { cpp } from '@codemirror/lang-cpp';
 
 import { StateField, StateEffect } from '@codemirror/state';
 import { EditorView, Decoration } from '@codemirror/view';
@@ -31,10 +31,13 @@ const lineHighlightField = StateField.define({
 });
 
 const initEditor = (parent, doc, lang) => {
-  const language = lang === 'asm' ? gas : c;
+  const extensions = [basicSetup, lineHighlightField];
+
+  if (lang === 'asm') extensions.push(StreamLanguage.define(gas));
+  if (lang === 'c') extensions.push(cpp());
 
   return new EditorView({
-    extensions: [basicSetup, lineHighlightField, StreamLanguage.define(language)],
+    extensions,
     parent,
     doc,
   });
@@ -43,6 +46,7 @@ const initEditor = (parent, doc, lang) => {
 class CodeEditor {
   constructor(parent, doc, lang = 'asm') {
     this.editor = initEditor(parent, doc, lang);
+    this.editor.contentDOM.setAttribute('data-lt-active', 'false');
   }
 
   getValue() {
