@@ -1,10 +1,11 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
 
-const usersRouter = require('./routes/users');
-const authsRouter = require('./routes/auths');
-const leaderboardRouter = require('./routes/leaderboards');
+import usersRouter from './routes/users.js';
+import authsRouter from './routes/auths.js';
+import codeRunnerRouter from './routes/coderunner/coderunner.js';
+import leaderboardRouter from './routes/leaderboards.js';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cookieParser());
 
 app.use('/users', usersRouter);
 app.use('/auths', authsRouter);
+app.use('/coderunner', codeRunnerRouter);
 app.use('/leaderboard', leaderboardRouter);
 
-module.exports = app;
+export default app;

@@ -1,5 +1,5 @@
-const express = require('express');
-const { getProgress, setProgress } = require('../models/users');
+import * as express from 'express';
+import { getProgress, setProgress } from '../models/users.js';
 /*
 const { LoginPage } = require('../../frontend/src/Components/Pages/LoginPage');
 //const dbPath = require('../data/users.json');
@@ -38,4 +38,4 @@ router.post('/setProgress', async (req, res) => {
   res.send(reponse);
 });
 
-module.exports = router;
+export default router;

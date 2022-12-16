@@ -14,7 +14,6 @@
     "@babel/preset-env": "^7.14.4",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^9.1.0",
-    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.2",
     "eslint": "^8.19.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -35,6 +34,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "@codemirror/lang-cpp": "^6.0.2",
     "@codemirror/language": "^6.3.1",
     "@codemirror/legacy-modes": "^6.3.1",
     "@codemirror/state": "^6.1.4",
@@ -43,7 +43,6 @@
     "animejs": "^3.2.1",
     "bootstrap": "^5.2.2",
     "codemirror": "^6.0.1",
-    "comlink": "^4.3.1",
     "gh-pages": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash-es": "^4.17.21"

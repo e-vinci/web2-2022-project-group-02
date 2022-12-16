@@ -1,5 +1,5 @@
-const { updateScore, getScore } = require('../models/users');
-const router = require('./users');
+import { updateScore, getScore } from '../models/users.js';
+import router from './users.js';
 
 router.post('/getScore', async (req, res) => {
   const username = req.body?.username ? req.body.username : undefined;
@@ -25,4 +25,4 @@ router.post('/majScore', async (req, res) => {
   return res.statusCode;
 });
 
-module.exports = router;
+export default router;

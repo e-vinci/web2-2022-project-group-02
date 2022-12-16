@@ -7,7 +7,7 @@ import C01 from './CourseSections/c-01-tableaux';
 import C02 from './CourseSections/c-02-pointeurs';
 import C03 from './CourseSections/c-03-chars';
 import C04 from './CourseSections/c-04-functions';
-// import C99 from './CourseSections/c-99-coderunner-test';
+import C99 from './CourseSections/c-99-coderunner-test';
 import ASM00 from './CourseSections/asm-00-intro';
 import ASM01 from './CourseSections/asm-01-hardware';
 import ASM02 from './CourseSections/asm-02-execution';
@@ -23,7 +23,7 @@ const sections = {
     ['c-02-pointeurs', C02],
     ['c-03-chars', C03],
     ['c-04-functions', C04],
-    //  ['c-99-coderunner-test', C99],
+    ['c-99-coderunner-test', C99],
   ],
   asm: [
     ['asm-00-intro', ASM00],

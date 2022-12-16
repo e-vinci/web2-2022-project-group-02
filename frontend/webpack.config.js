@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 
@@ -128,9 +127,6 @@ module.exports = {
       'process.env.BUILD_MODE': JSON.stringify(buildMode),
       'process.env.API_BASE_URL': JSON.stringify(API_BASE_URL),
       'process.env.PATH_PREFIX': JSON.stringify(PATH_PREFIX),
-    }),
-    new CopyPlugin({
-      patterns: [{ from: 'src/public', to: '' }],
     }),
   ],
 };

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('node:path');
+import fs from 'fs';
+import path from 'node:path';
 
 /**
  * Parse items given in a .json file
@@ -44,4 +44,4 @@ function createPotentialLastDirectory(filePath) {
   fs.mkdirSync(pathToLastDirectory);
 }
 
-module.exports = { parse, serialize };
+export { parse, serialize };

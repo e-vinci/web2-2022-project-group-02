@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const { readOneUserFromUsername } = require('../models/users');
+import jwt from 'jsonwebtoken';
+import { readOneUserFromUsername } from '../models/users.js';
 
 const jwtSecret = 'iloveCats!';
 
@@ -31,4 +31,4 @@ const isAdmin = (req, res, next) => {
   return next();
 };
 
-module.exports = { authorize, isAdmin };
+export { authorize, isAdmin };

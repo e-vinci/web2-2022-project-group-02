@@ -1,7 +1,13 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const path = require('node:path');
-const { parse, serialize } = require('../utils/json');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import path from 'node:path';
+import { parse, serialize } from '../utils/json.js';
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const jwtSecret = 'iloveCats!';
 const lifetimeJwt = 24 * 60 * 60 * 1000; // in ms : 24 * 60 * 60 * 1000 = 24h
@@ -180,7 +186,7 @@ async function setProgress(username, titreCours, chapitre, progres, page) {
   return true;
 }
 
-module.exports = {
+export {
   login,
   register,
   readOneUserFromUsername,

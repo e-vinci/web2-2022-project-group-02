@@ -1,5 +1,5 @@
-const express = require('express');
-const { register, login } = require('../models/users');
+import * as express from 'express';
+import { register, login } from '../models/users.js';
 
 const router = express.Router();
 
@@ -31,4 +31,4 @@ router.post('/login', async (req, res) => {
   return res.json(authenticatedUser);
 });
 
-module.exports = router;
+export default router;

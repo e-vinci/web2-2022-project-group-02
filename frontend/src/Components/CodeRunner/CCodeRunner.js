@@ -1,6 +1,6 @@
+import API from '../../utils/api';
 import html from '../../utils/html';
 import CodeEditor from '../CodeEditor/CodeEditor';
-import emception from './emception';
 
 function CCodeRunner({ code, tests }) {
   const editorEl = html`<div class="visualiser__code__editor"></div>`;
@@ -23,7 +23,7 @@ function CCodeRunner({ code, tests }) {
           ></div>
         </div>
         <div
-          class="visualiser_loader d-flex flex-column gap-3 align-items-center justify-content-center m-5"
+          class="visualiser_loader d-none d-flex flex-column gap-3 align-items-center justify-content-center m-5"
         >
           <div class="spinner-border" role="status"></div>
           <p>Préparation du compilateur...</p>
@@ -38,10 +38,6 @@ function CCodeRunner({ code, tests }) {
 
   let isRunning = false;
 
-  emception.prepare().then(() => {
-    if (!isRunning) toggleLoader(false);
-  });
-
   async function run() {
     if (isRunning) return;
 
@@ -52,12 +48,17 @@ function CCodeRunner({ code, tests }) {
     document.querySelector('.test-table').classList.add('d-none');
 
     try {
-      const codee = await emception.compile(editor.getValue());
-
       const codeBlob = URL.createObjectURL(
-        new Blob([codee], {
-          type: 'application/javascript',
-        }),
+        await API.call('/coderunner', {
+          method: 'post',
+          body: JSON.stringify({ code: editor.getValue() }),
+          raw: true,
+          timeout: 60 * 1000,
+        })
+          .then((res) => res.blob())
+          .finally(() => {
+            isRunning = false;
+          }),
       );
 
       prepTestTable();
