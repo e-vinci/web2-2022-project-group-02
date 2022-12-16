@@ -117,7 +117,6 @@ const CoursesOverviewPage = async () => {
     return;
   }
 
-  clearPage();
   await renderOverview(course);
 };
 
@@ -164,8 +163,6 @@ async function updateUserProgres(cours) {
 }
 
 async function renderOverview(course) {
-  renderPageTitle(`${course.fullTitle} - les leçons`);
-
   // eslint-disable-next-line no-param-reassign
   course.sections = await updateUserProgres(course);
 
@@ -222,7 +219,9 @@ async function renderOverview(course) {
     </div>
   `;
 
-  document.querySelector('main').replaceChildren(content);
+  clearPage();
+  renderPageTitle(`${course.fullTitle} - les leçons`);
+  document.querySelector('main').append(content);
 }
 
 export default CoursesOverviewPage;
