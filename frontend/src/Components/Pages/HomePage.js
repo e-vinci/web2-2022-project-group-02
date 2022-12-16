@@ -16,7 +16,7 @@ btnC.setAttribute('class', 'btn btn-primary p-4');
 btnC.setAttribute('aria-current', 'page');
 btnC.setAttribute('href', '#');
 btnC.setAttribute('data-uri', '/Cfacile');
-btnC.innerHTML = 'Language C';
+btnC.innerHTML = 'Langage C';
 btnC.addEventListener('click', () => {
   navigate('/courses/overview?course=c');
 });

@@ -68,56 +68,33 @@ const courses = {
       {
         id: 'c-01-tableaux',
         title: 'Les tableaux',
-        description: 'Objectif: apprendre a manipuler un tableau',
+        description: 'Objectif: apprendre a manipuler un tableau + 3 exercices',
         chapitre: 1,
         progress: 0,
       },
       {
-        id: 'c-02-variables',
-        title: 'Les variables',
+        id: 'c-02-pointeurs',
+        title: 'Les pointeurs',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+          "Objectif: comprendre l'utilité des pointeurs et savoir les manipuler + 3 exercices.",
         chapitre: 2,
         progress: 0,
       },
       {
-        id: 'c-03-functions',
-        title: 'Les fonctions',
+        id: 'c-04-chars',
+        title: 'Les chaînes de caractères',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
         chapitre: 3,
         progress: 0,
       },
       {
-        id: 'c-03-pointers',
-        title: 'Les pointeurs',
+        id: 'c-05-functions',
+        title: 'Les fonctions',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
 
         chapitre: 4,
-        progress: 0,
-      },
-      {
-        id: 'c-04-structures',
-        title: 'Les structures',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
-        chapitre: 5,
-        progress: 0,
-      },
-      {
-        id: 'c-05-tables',
-        title: 'Les tableaux',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
-        chapitre: 6,
-        progress: 0,
-      },
-      {
-        id: 'c-99-coderunner-test',
-        title: 'Coderunner test',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        chapitre: 7,
         progress: 0,
       },
     ],

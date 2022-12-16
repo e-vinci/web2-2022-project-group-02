@@ -24,7 +24,7 @@ const pages = [
         </p>
         <div class="notabene centered">
           <p>
-            N.B. Il n'éxiste pas qu'un langage assembleur. Les langages assembleurs sont une
+            N.B. Il n'existe pas qu'un langage assembleur. Les langages assembleurs sont une
             abstraction du fonctionnement électrique du processeur, des processeurs différents ont
             donc des assembleurs différents.
           </p>

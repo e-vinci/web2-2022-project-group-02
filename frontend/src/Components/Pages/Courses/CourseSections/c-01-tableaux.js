@@ -165,7 +165,7 @@ int main() {
         </div>
             <p><strong>Deuxième</strong> chose très très importante, c'est la taille du tableau ! Ce que je ne t'ai pas encore dit, c'est que le C n'est pas un langage orienté objet ! Donc tab.length à l'oubliette !
               <br> C'est la responsabilité au développeur/se de stocker la taille du tableau dans une variable.
-           <br> <p class="heavy">On est tellement libre que siIl n'y a pas de vérification de </p>
+           <br> <p class="heavy">Le compilateur ne nous corrige pas, à tel point que le risque d'erreur est énorme.</p>
             </p> 
             
             <h1>À toi de jouer !</h1>
@@ -175,15 +175,16 @@ int main() {
         ${CCodeRunner({
           code: `#include <stdio.h>
    
-  int main() {
-    //Déclarer le tableau
-    int nb = 20;
+int main() {
+  //Déclarer le tableau
+  int nb = 20;
 
-    for( ; ; ){
-    // initialiser 
-    printf("%d,", );//afficher
-    }
-  }`,
+  for( ; ; ){
+  // initialiser 
+  printf("%d,", );//afficher
+  }
+  return 0;
+}`,
           tests: [
             {
               input: [''],
@@ -217,6 +218,7 @@ int main() {
     for( int i = 0; i < TAILLE; i++ ){
       printf("%s,", tab[i] ? "true" : "false");
     }
+    return 0;
   }`,
           tests: [
             {
@@ -261,7 +263,7 @@ int main() {
         html` <p>
             <br /><br /><br /><br /><br /><br /><br />
             Rien de particulier à dire pour les matrices, ce sont les mêmes règles que le tableau.
-            Toujours être attentif à la bonne gestion de la taille du tableau et l'indice.
+            Toujours être attentif à la bonne gestion de la taille du tableau et de l'indice.
             <br />
           </p>
 
@@ -274,33 +276,41 @@ int main() {
     <div class="horizontal">
       <div class="vertical">
         <p>
-          Affiche la table de multiplication de 1 à 10 ! Utilise le #define pour la taille du
-          tableau.
+          <br />Affiche la table de multiplication de 1 à 10. Veille bien à utiliser le #define pour
+          la taille du tableau
         </p>
         ${CCodeRunner({
           code: `#include <stdio.h>
-   /*
-   PRE:
-   POST:
-   RES: void 
-   */
-  void main() {
-    //Déclarer
-    
-    //Initialiser et afficher    
-    
-    printf("%3d", );
-    printf("\\n");
-  }`,
+/*
+POST: affiche la table
+de multiplication de 1 à 10.
+*/
+void main() {
+  //Déclarer
+  
+  //Initialiser et afficher    
+  
+  printf("%3d", );
+}`,
           tests: [
             {
               input: [''],
               output:
-                '1 2 3 4 5 6 7 8 9 10 2 4 6 8 10 12 14 16 18 20 3 6 9 12 15 18 21 24 27 30 4 8 12 16 20 24 28 32 36 40 5 10 15 20 25 30 35 40 45 50 6 12 18 24 30 36 42 48 54 60 7 14 21 28 35 42 49 56 63 70 8 16 24 32 40 48 56 64 72 80 9 18 27 36 45 54 63 72 81 90 10 20 30 40 50 60 70 80 90100',
+                '1 2 3 4 5 6 7 8 9 10 2 4 6 8 10 12 14 16 18 20 3 6 9 12 15 18 21 24 27 30 4 8 12 16 20 24 28 32 36 40 5 10 15 20 25 30 35 40 45 50 6 12 18 24 30 36 42 48 54 60 7 14 21 28 35 42 49 56 63 70 8 16 24 32 40 48 56 64 72 80 9 18 27 36 45 54 63 72 81 90 10 20 30 40 50 60 70 80 90 100 ',
             },
           ],
         })}
       </div>
+    </div>
+    <div class="notabene centered" id="NB">
+      <p>
+        NB: les codesrunners qu'on a implémenté testent uniquement l'output, donc attention c'est
+        sensible à la case.
+        <br />
+        Il se peut que ton code soit fonctionnel, mais juste pour un espace, ton output et celui
+        qu'on a intégré dans le code ne soient pas les mêmes et qui fait que ça marque en rouge ! À
+        ce moment là, c'est mieux que tu vérifies par toi même, si le résultat est le même.
+      </p>
     </div>
   `,
 ];
