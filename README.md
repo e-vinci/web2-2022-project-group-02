@@ -14,7 +14,9 @@ No configuration is necessary. Optional environment variables:
 # Database FOLDER path. Defaults to api/data
 DB_PATH=/home
 # Default admin password. Defaults to admin
-DEFAULT_ADMIN_PASSWORD=1234
+DEFAULT_ADMIN_PASSWORD=catbyte
+# JWT secret. Defaults to iloveCats!
+JWT_SECRET=iloveCats!
 ```
 
 ## Usage
