@@ -46,7 +46,10 @@ function render() {
       ${fetcher
         .then(
           (thread) => html`
-            <h4 class="text-center vertical-space">${thread.title}</h4>
+            <h4 class="text-center vertical-space">
+              ${thread.locked ? Icon('lock') : ''} ${thread.pinned ? Icon('pin') : ''}
+              ${thread.title}
+            </h4>
 
             <div class="text-start">${backLink}</div>
 
@@ -76,7 +79,9 @@ function renderThread(thread) {
       ${thread.replies.length === 0
         ? html`<div class="m-3 text-muted">(aucune réponse)</div>`
         : thread.replies.map((reply) => renderPost(reply, thread))}
-      ${renderReplyForm(thread)}
+      ${thread.locked
+        ? html`<div class="m-3 text-muted">(ce fil de discussion est verrouillé)</div>`
+        : renderReplyForm(thread)}
     </div>
   `;
 }

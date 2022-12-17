@@ -106,6 +106,8 @@ async function replyToThread(threadId, reply) {
 
   if (threadIndex === -1) throw new Error('Fil de discussion introuvable');
 
+  if (threads[threadIndex].locked) throw new Error('Le fil de discussion est verrouillé');
+
   const newReply = {
     id: Date.now(),
     content,

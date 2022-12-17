@@ -50,9 +50,12 @@ function render() {
 }
 
 function renderPosts(posts) {
-  return posts.length === 0
-    ? html`<div class="m-3 text-muted">(aucune fil de discussion)</div>`
-    : html` ${posts.map((reply) => renderPost(reply))} `;
+  if (posts.length === 0) return html`<div class="m-3 text-muted">(aucune fil de discussion)</div>`;
+
+  const pinned = posts.filter((post) => post.pinned);
+  const unpinned = posts.filter((post) => !post.pinned);
+
+  return html`${[...pinned, ...unpinned].map((reply) => renderPost(reply))}`;
 }
 
 function renderPost(post) {
@@ -117,7 +120,9 @@ function renderPost(post) {
   } else actions.push(html`<div>&nbsp;</div>`);
 
   const anchorEl = html`
-    <a href="#" class="fw-bold stretched-link text-reset text-decoration-none">${post.title}</a>
+    <a href="#" class="fw-bold stretched-link text-reset text-decoration-none">
+      ${post.locked ? Icon('lock') : ''} ${post.pinned ? Icon('pin') : ''} ${post.title}
+    </a>
   `;
   anchorEl.onclick = (e) => {
     e.preventDefault();
