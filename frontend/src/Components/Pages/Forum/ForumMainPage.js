@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { clearPage, renderPageTitle } from '../../../utils/render';
 import html from '../../../utils/html';
 import API from '../../../utils/api';
@@ -60,9 +61,23 @@ function renderPost(post) {
   const user = getAuthenticatedUser();
 
   if (user) {
-    if (user.id === post.author.id || user.username === 'admin')
-      actions.push(html`<a href="#" class="link-dark">${Icon('trash')}</a>`);
-    else actions.push(html`<div>&nbsp;</div>`);
+    if (user.id === post.author.id || user.username === 'admin') {
+      const deleteBtn = html`<a href="#" class="link-dark">${Icon('trash')}</a>`;
+      actions.push(deleteBtn);
+
+      deleteBtn.onclick = async (ev) => {
+        ev.preventDefault();
+
+        if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) return;
+
+        try {
+          await API.DELETE(`/forum/${post.id}`);
+          ForumPage();
+        } catch (err) {
+          alert(`Une erreur est survenue: ${err.message}`);
+        }
+      };
+    } else actions.push(html`<div>&nbsp;</div>`);
     // else actions.push(html`<a href="#" class="link-dark">${Icon('flag')}</a>`);
   } else actions.push(html`<div>&nbsp;</div>`);
 
