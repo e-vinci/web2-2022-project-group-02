@@ -1,5 +1,5 @@
 import { Modal as BootstrapModal } from 'bootstrap';
-import { clearPage } from '../../utils/render';
+import { clearPage, renderPageTitle } from '../../utils/render';
 import html from '../../utils/html';
 import { getAuthenticatedUser } from '../../utils/auths';
 import API, { CALL_PREFIX } from '../../utils/api';
@@ -8,6 +8,7 @@ import Logout from '../Logout/Logout';
 
 function UserProfilePage() {
   clearPage();
+  renderPageTitle('Profil utilisateur');
   renderPage();
 }
 
@@ -19,13 +20,19 @@ async function renderPage() {
 
   const userId = new URLSearchParams(window.location.search).get('id') ?? '';
 
-  return main.replaceChildren(
-    html`${renderUserPage(userId, !userId || Number(userId) === currentUser.id)}`,
-  );
+  return main.append(html`${renderUserPage(userId, !userId || Number(userId) === currentUser.id)}`);
 }
 
 async function renderUserPage(userId, isCurrentUser = false) {
-  const user = await API.GET(`/users/${userId}`);
+  let user;
+
+  try {
+    user = await API.GET(`/users/${userId}`);
+  } catch (e) {
+    return html`<div class="alert alert-danger container">
+      ${e.message === 'Not Found' ? 'Utilisateur introuvable' : e.message}
+    </div>`;
+  }
 
   const editAvatarBtn = html`<button class="btn btn-link">Modifier l'avatar</button>`;
   editAvatarBtn.onclick = editAvatar;
