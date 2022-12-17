@@ -28,11 +28,12 @@ app.use((err, req, res, next) => {
 
   // If the error is not an instance of Error, it's probably an internal error
   if (Object.getPrototypeOf(err) instanceof Error) {
+    // eslint-disable-next-line no-console
     console.error(err);
     return res.json({ error: 'Internal server error' });
   }
 
-  res.json({ error: err.message });
+  return res.json({ error: err.message });
 });
 
 module.exports = app;

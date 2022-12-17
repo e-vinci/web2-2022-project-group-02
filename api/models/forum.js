@@ -25,8 +25,8 @@ const defaultThreads = [
 function getInfo(_thread) {
   if (!_thread) return _thread;
 
-  // Clone the thread to avoid modifying the original object
   try {
+    // Clone the thread to avoid modifying the original object
     const thread = JSON.parse(JSON.stringify(_thread));
 
     // Add author info
@@ -41,7 +41,6 @@ function getInfo(_thread) {
 
     return thread;
   } catch (e) {
-    console.error(e);
     return _thread;
   }
 }
@@ -110,7 +109,7 @@ function replyToThread(threadId, reply) {
 
   const newReply = {
     id: Date.now(),
-    content: content,
+    content,
     author: reply.author,
     date: Math.round(new Date().getTime() / 1000).toString(),
   };

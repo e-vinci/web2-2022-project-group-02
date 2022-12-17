@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 
 /* Get one thread */
 router.get('/:id', async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   const thread = await readOneThread(id);
 
   if (!thread) return res.sendStatus(404);
@@ -40,8 +40,8 @@ router.post('/', authorize, async (req, res) => {
 });
 
 /* Reply to a thread */
-router.post('/:id/reply', authorize, async (req, res, next) => {
-  const id = req.params.id;
+router.post('/:id/reply', authorize, async (req, res) => {
+  const { id } = req.params;
   const reply = req.body;
 
   if (!reply || typeof reply !== 'object') throw new Error('Invalid reply');
@@ -53,7 +53,7 @@ router.post('/:id/reply', authorize, async (req, res, next) => {
 
 /* Delete a thread */
 router.delete('/:id', authorize, async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   const thread = await readOneThread(id);
 
   if (!thread) throw new Error('Thread not found');
@@ -67,13 +67,13 @@ router.delete('/:id', authorize, async (req, res) => {
 
 /* Delete a reply */
 router.delete('/:id/reply/:replyId', authorize, async (req, res) => {
-  const id = req.params.id;
-  const replyId = req.params.replyId;
+  const { id } = req.params;
+  const { replyId } = req.params;
   const thread = await readOneThread(id);
 
   if (!thread) throw new Error('Thread not found');
 
-  const reply = thread.replies.find((reply) => reply.id === Number(replyId));
+  const reply = thread.replies.find((rep) => rep.id === Number(replyId));
 
   if (!reply) throw new Error('Reply not found');
 
