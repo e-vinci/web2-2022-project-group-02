@@ -62,7 +62,7 @@ export default function html(raw, ...keys) {
 
     const placeholder = templateElement.content.querySelector(`#__PLACEHOLDER__${id}__`);
 
-    placeholder.replaceWith(element);
+    if (placeholder) placeholder.replaceWith(element);
   });
 
   if (templateElement.content.children.length === 1)

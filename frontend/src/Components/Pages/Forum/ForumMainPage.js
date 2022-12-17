@@ -7,23 +7,7 @@ import Navigate from '../../Router/Navigate';
 import Icon from '../../Icon/Icon';
 import renderText from './util';
 
-const fetchPosts = async () => {
-  try {
-    const posts = await API.GET(`/forum`);
-
-    document
-      .querySelector('#posts')
-      .replaceChildren(
-        posts.length === 0
-          ? html`<div class="m-3 text-muted">(aucune fil de discussion)</div>`
-          : html` ${posts.map((reply) => renderPost(reply))} `,
-      );
-  } catch (e) {
-    document.querySelector('#posts').replaceChildren(html`
-      <div class="alert alert-danger my-3">${`Une erreur est survenue: ${e.message}`}</div>
-    `);
-  }
-};
+const fetchPosts = async () => API.GET(`/forum`);
 
 const ForumPage = () => {
   clearPage();
@@ -45,18 +29,30 @@ function render() {
     };
   }
 
+  const fetcher = fetchPosts();
+
   const form = html`
     <div class="container">
       <div class="d-flex justify-content-end align-items-center">${askQuestionButton}</div>
 
       <div id="posts">
-        <div class="d-flex gap-3 align-items-center justify-content-center m-5">
-          <div class="spinner-border" role="status"></div>
-        </div>
+        ${fetcher
+          .then(renderPosts)
+          .catch(
+            (e) => html`
+              <div class="alert alert-danger my-3">${`Une erreur est survenue: ${e.message}`}</div>
+            `,
+          )}
       </div>
     </div>
   `;
   main.appendChild(form);
+}
+
+function renderPosts(posts) {
+  return posts.length === 0
+    ? html`<div class="m-3 text-muted">(aucune fil de discussion)</div>`
+    : html` ${posts.map((reply) => renderPost(reply))} `;
 }
 
 function renderPost(post) {

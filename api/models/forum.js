@@ -128,19 +128,22 @@ async function deleteReply(threadId, replyId) {
 async function deleteAuthorPosts(authorId) {
   const threads = await getThreads();
 
-  return Promise.all(
-    threads.map(async (thread) => {
-      if (thread.author === authorId) {
-        await deleteThread(thread.id);
-      } else {
-        thread.replies.forEach(async (reply) => {
-          if (reply.author === authorId) {
-            await deleteReply(thread.id, reply.id);
-          }
-        });
+  // The linter complains about this but I need to run these in sequence
+  // eslint-disable-next-line no-restricted-syntax
+  for (const thread of threads) {
+    if (thread.author === authorId) {
+      // eslint-disable-next-line no-await-in-loop
+      await deleteThread(thread.id);
+    } else {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const reply of thread.replies) {
+        if (reply.author === authorId) {
+          // eslint-disable-next-line no-await-in-loop
+          await deleteReply(thread.id, reply.id);
+        }
       }
-    }),
-  );
+    }
+  }
 }
 
 module.exports = {

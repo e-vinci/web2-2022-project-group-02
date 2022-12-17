@@ -10,24 +10,8 @@ import renderText from './util';
 
 const fetchThread = async () => {
   const id = new URLSearchParams(window.location.search).get('id');
-  let thread;
 
-  try {
-    thread = await API.GET(`/forum/${id}`);
-  } catch (e) {
-    document.querySelector('#thread').replaceChildren(html`
-      <div class="alert alert-danger my-3">
-        ${e.message.match(/Not Found/)
-          ? "Le fil de discussion n'a pas été trouvé"
-          : `Une erreur est survenue: ${e.message}`}
-      </div>
-    `);
-  }
-
-  if (thread) {
-    document.querySelector('#thread').replaceChildren(renderThread(thread));
-    document.querySelector('#thread-title').textContent = thread.title;
-  }
+  return API.GET(`/forum/${id}`);
 };
 
 const ForumThreadPage = () => {
@@ -55,17 +39,30 @@ backLink.onclick = (e) => {
 function render() {
   const main = document.querySelector('main');
 
+  const fetcher = fetchThread();
+
   const form = html`
     <div class="container">
-      <h4 class="text-center vertical-space" id="thread-title">&nbsp;</h4>
+      ${fetcher
+        .then(
+          (thread) => html`
+            <h4 class="text-center vertical-space">${thread.title}</h4>
 
-      <div class="text-start">${backLink}</div>
+            <div class="text-start">${backLink}</div>
 
-      <div id="thread" class="my-3">
-        <div class="d-flex gap-3 align-items-center justify-content-center m-5">
-          <div class="spinner-border" role="status"></div>
-        </div>
-      </div>
+            <div class="my-3" id="thread">${renderThread(thread)}</div>
+          `,
+        )
+        .catch(
+          (e) => html`
+            <div class="text-start">${backLink}</div>
+            <div class="alert alert-danger my-3">
+              ${e.message.match(/Not Found/)
+                ? "Le fil de discussion n'a pas été trouvé"
+                : `Une erreur est survenue: ${e.message}`}
+            </div>
+          `,
+        )}
     </div>
   `;
 
@@ -132,7 +129,7 @@ function renderPost(post, thread = null) {
           try {
             if (thread) {
               await API.DELETE(`/forum/${thread.id}/${post.id}`);
-              await fetchThread();
+              ForumThreadPage();
             } else {
               await API.DELETE(`/forum/${post.id}`);
               Navigate('/forum');
