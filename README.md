@@ -1,10 +1,12 @@
 # CatByte
 
-Deployed at https://e-vinci.github.io/web2-2022-project-group-02/
-
 ## Description
 
 CatByte is a website that allows you to learn programming languages by solving challenges.
+
+## Deployment
+
+CatByte is currently deployed on [https://e-vinci.github.io/web2-2022-project-group-02/](https://e-vinci.github.io/web2-2022-project-group-02/). The API server is deployed on [https://catbyte.azurewebsites.net/](https://catbyte.azurewebsites.net/).
 
 ## Configuration
 
