@@ -51,7 +51,11 @@ class API {
    * @returns {Promise<object>} - The response
    */
   static GET(endpoint, query = {}) {
-    if (typeof query === 'object') return this.call(`${endpoint}?${new URLSearchParams(query)}`);
+    const params = new URLSearchParams(query);
+    const paramSep = endpoint.includes('?') ? '&' : '?';
+
+    if (typeof query === 'object')
+      return this.call(`${endpoint}${params.toString() ? `${paramSep}${params}` : ''}`);
 
     return this.call(endpoint);
   }
