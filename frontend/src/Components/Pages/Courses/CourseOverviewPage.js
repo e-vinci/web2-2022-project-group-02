@@ -13,35 +13,35 @@ const courses = {
         id: 'asm-00-intro',
         title: 'Introduction',
         description: 'introduction rapide au langage assembleur',
-        chapitre: 0,
+        chapter: 0,
         progress: null,
       },
       {
         id: 'asm-01-hardware',
         title: 'Le matériel',
         description: 'Influance du hardware sur le langage assembleur',
-        chapitre: 1,
+        chapter: 1,
         progress: null,
       },
       {
         id: 'asm-02-execution',
         title: "L' exécution d'un programme",
         description: 'How the computer goes beep boop',
-        chapitre: 2,
+        chapter: 2,
         progress: null,
       },
       {
         id: 'asm-03-mode-adressage',
         title: "Les modes d'adressage",
         description: "Les pages jaunes de l'ordinateur",
-        chapitre: 3,
+        chapter: 3,
         progress: null,
       },
       {
         id: 'asm-04-flags',
         title: 'Les flags',
         description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.',
-        chapitre: 4,
+        chapter: 4,
         progress: null,
       },
       {
@@ -49,7 +49,7 @@ const courses = {
         title: 'Les boucles',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
-        chapitre: 5,
+        chapter: 5,
         progress: null,
       },
     ],
@@ -62,14 +62,14 @@ const courses = {
         title: "S'initier en C",
         description:
           'Objectif: comprendre chaque ligne du code (les includes, les types) + 2 petits exercices pour bien démarrer',
-        chapitre: 0,
+        chapter: 0,
         progress: null,
       },
       {
         id: 'c-01-tableaux',
         title: 'Les tableaux',
         description: 'Objectif: apprendre a manipuler un tableau + 3 exercices',
-        chapitre: 1,
+        chapter: 1,
         progress: null,
       },
       {
@@ -77,7 +77,7 @@ const courses = {
         title: 'Les pointeurs',
         description:
           "Objectif: comprendre l'utilité des pointeurs et savoir les manipuler + 3 exercices.",
-        chapitre: 2,
+        chapter: 2,
         progress: null,
       },
       {
@@ -85,7 +85,7 @@ const courses = {
         title: 'Les chaînes de caractères',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
-        chapitre: 3,
+        chapter: 3,
         progress: null,
       },
       {
@@ -94,7 +94,7 @@ const courses = {
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
 
-        chapitre: 4,
+        chapter: 4,
         progress: null,
       },
     ],
@@ -122,49 +122,51 @@ const CoursesOverviewPage = async () => {
   fetchUserProgress(course);
 };
 
-async function fetchUserProgress(cours) {
-  const urlParams = new URLSearchParams(window.location.search);
+async function fetchUserProgress(course) {
   const user = getAuthenticatedUser();
+
+  if (!user) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
   const titreCours = urlParams.get('course');
   let userProgress = {
-    titre: cours,
-    chapitre: 0,
-    progres: 0,
+    title: course,
+    chapter: 0,
+    progress: 0,
     score: 0,
   };
-  if (user !== undefined) {
-    userProgress = await API.POST('/users/getProgress', {
-      username: user.username,
-      cours: titreCours,
-    });
-  }
 
-  const listeCours = [];
+  userProgress = await API.POST('/users/getProgress', {
+    username: user.username,
+    course: titreCours,
+  });
 
-  for (let i = 0; i < cours.sections.length; i += 1) {
+  const sectionList = [];
+
+  for (let i = 0; i < course.sections.length; i += 1) {
     let progress = 0;
     let currentPage = 0;
-    if (cours.sections[i].chapitre < userProgress.chapitre) {
+    if (course.sections[i].chapter < userProgress.chapter) {
       progress = 100;
     }
-    if (cours.sections[i].chapitre === userProgress.chapitre) {
-      progress = userProgress.progres;
+    if (course.sections[i].chapter === userProgress.chapter) {
+      progress = userProgress.progress;
       currentPage = userProgress.page;
     }
 
-    listeCours.push({
-      id: cours.sections[i].id,
-      title: cours.sections[i].title,
-      description: cours.sections[i].description,
-      chapitre: cours.sections[i].chapitre,
+    sectionList.push({
+      id: course.sections[i].id,
+      title: course.sections[i].title,
+      description: course.sections[i].description,
+      chapter: course.sections[i].chapter,
       progress,
       page: currentPage,
     });
   }
 
   renderOverview({
-    ...cours,
-    sections: listeCours,
+    ...course,
+    sections: sectionList,
   });
 }
 

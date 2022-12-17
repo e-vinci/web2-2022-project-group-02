@@ -125,6 +125,24 @@ async function deleteReply(threadId, replyId) {
   await db.delete(`/forum[${threadIndex}]/replies[${replyIndex}]`);
 }
 
+async function deleteAuthorPosts(authorId) {
+  const threads = await getThreads();
+
+  return Promise.all(
+    threads.map(async (thread) => {
+      if (thread.author === authorId) {
+        await deleteThread(thread.id);
+      } else {
+        thread.replies.forEach(async (reply) => {
+          if (reply.author === authorId) {
+            await deleteReply(thread.id, reply.id);
+          }
+        });
+      }
+    }),
+  );
+}
+
 module.exports = {
   readAllThreads,
   readOneThread,
@@ -134,4 +152,6 @@ module.exports = {
 
   deleteThread,
   deleteReply,
+
+  deleteAuthorPosts,
 };

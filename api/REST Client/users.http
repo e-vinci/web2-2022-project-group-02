@@ -11,6 +11,11 @@ Content-Type: application/json
     "password":"admin"
 }
 
+### Get user
+GET {{baseUrl}}/users/{{user.response.body.id}}
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
 ### Get user progress
 POST {{baseUrl}}/users/getProgress
 Content-Type: application/json

@@ -14,6 +14,7 @@ const defaultUsers = [
     email: 'admin@example.com',
     username: 'admin',
     password: bcrypt.hashSync(process.env.DEFAULT_ADMIN_PASSWORD ?? 'admin', saltRounds),
+    registerTime: Math.floor(Date.now() / 1000),
   },
 ];
 
@@ -94,6 +95,7 @@ async function createOneUser(email, username, password) {
     email,
     username,
     password: hashedPassword,
+    registerTime: Math.floor(Date.now() / 1000),
   };
 
   await db.push('/users[]', createdUser);
@@ -116,20 +118,20 @@ async function getScore(username, coursReq) {
 
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   const user = users[indexOfUserFound];
-  if (user.cours === undefined) {
-    user.cours = [
+  if (user.courses === undefined) {
+    user.courses = [
       {
-        titre: coursReq,
-        chapitre: 0,
-        progres: 0,
+        title: coursReq,
+        chapter: 0,
+        progress: 0,
         score: 0,
       },
     ];
   }
 
-  const listeCours = users[indexOfUserFound].cours;
-  const indexOfCours = listeCours.findIndex((cours) => cours.titre === coursReq);
-  const coursTrouve = listeCours[indexOfCours];
+  const courseList = users[indexOfUserFound].courses;
+  const courseIndex = courseList.findIndex((courses) => courses.title === coursReq);
+  const coursTrouve = courseList[courseIndex];
 
   return coursTrouve.score;
 }
@@ -139,19 +141,19 @@ async function updateScore(username, coursReq, scoreReq) {
 
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   const user = users[indexOfUserFound];
-  if (user.cours === undefined) {
-    user.cours = [
+  if (user.courses === undefined) {
+    user.courses = [
       {
-        titre: coursReq,
-        chapitre: 0,
-        progres: 0,
+        title: coursReq,
+        chapter: 0,
+        progress: 0,
         score: scoreReq,
       },
     ];
   } else {
-    const listeCours = user.cours;
-    const indexOfCours = listeCours.findIndex((cours) => cours.titre === coursReq);
-    user.cours[indexOfCours].score = scoreReq;
+    const courseList = user.courses;
+    const courseIndex = courseList.findIndex((courses) => courses.title === coursReq);
+    user.courses[courseIndex].score = scoreReq;
   }
 
   await db.push(`/users[${indexOfUserFound}]`, user);
@@ -159,66 +161,76 @@ async function updateScore(username, coursReq, scoreReq) {
   return true;
 }
 
-async function getProgress(userId, titreCours) {
+async function getProgress(userId, courseTitle) {
   const users = await db.get('/users');
 
   const indexOfUserFound = users.findIndex((user) => user.id === Number(userId));
   const user = users[indexOfUserFound];
   if (user === undefined) return -1;
-  if (user.cours === undefined) {
-    user.cours = [
+  if (user.courses === undefined) {
+    user.courses = [
       {
-        titre: titreCours,
-        chapitre: 0,
-        progres: 0,
+        title: courseTitle,
+        chapter: 0,
+        progress: 0,
         score: 0,
       },
     ];
   }
 
-  const indexOfCours = user.cours.findIndex((cours) => cours.titre === titreCours);
+  const courseIndex = user.courses.findIndex((courses) => courses.title === courseTitle);
 
-  return user.cours[indexOfCours];
+  return user.courses[courseIndex];
 }
 
-async function setProgress(userId, titreCours, chapitre, progres, page) {
+async function setProgress(userId, courseTitle, chapter, progress, page) {
   const users = await db.get('/users');
 
   const indexOfUser = users.findIndex((user) => user.id === Number(userId));
   const user = users[indexOfUser];
-  if (user.cours === undefined) {
-    user.cours = [
+  if (user.courses === undefined) {
+    user.courses = [
       {
-        titre: titreCours,
-        chapitre: 0,
-        progres: 0,
+        title: courseTitle,
+        chapter: 0,
+        progress: 0,
         score: 0,
         page: 0,
       },
     ];
   }
-  const indexOfCours = user.cours.findIndex((cours) => cours.titre === titreCours);
-  let cours = user.cours[indexOfCours];
+  const courseIndex = user.courses.findIndex((courses) => courses.title === courseTitle);
+  let courses = user.courses[courseIndex];
 
-  if (!cours) {
-    cours = {
-      titre: titreCours,
-      chapitre: 0,
-      progres: 0,
+  if (!courses) {
+    courses = {
+      title: courseTitle,
+      chapter: 0,
+      progress: 0,
       score: 0,
       page: 0,
     };
 
-    user.cours.push(cours);
+    user.courses.push(courses);
   }
 
-  cours.chapitre = chapitre;
-  cours.progres = progres;
-  cours.page = page;
+  courses.chapter = chapter;
+  courses.progress = progress;
+  courses.page = page;
 
   await db.push(`/users[${indexOfUser}]`, user);
 
   return true;
+}
+
+/* Delete account */
+async function deleteAccount(userId) {
+  const users = await db.get('/users');
+  const indexOfUser = users.findIndex((user) => user.id === Number(userId));
+
+  if (indexOfUser < 0) return false;
+
+  return db.delete(`/users[${indexOfUser}]`);
 }
 
 module.exports = {
@@ -231,4 +243,5 @@ module.exports = {
   updateScore,
   getProgress,
   setProgress,
+  deleteAccount,
 };

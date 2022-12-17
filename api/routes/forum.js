@@ -16,6 +16,12 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   const threads = await readAllThreads();
 
+  if (req.query.author) {
+    const { author } = req.query;
+    console.log(threads, author, typeof author, Number(author));
+    return res.json(threads.filter((thread) => thread.author.id === Number(author)));
+  }
+
   return res.json(threads);
 });
 

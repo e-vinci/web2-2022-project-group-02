@@ -150,11 +150,21 @@ function renderPost(post, thread = null) {
     // else actions.push(html`<a href="#" class="link-dark">${Icon('flag')}</a>`);
   } else actions.push(html`<div>&nbsp;</div>`);
 
+  const renderAuthorLink = (child) => {
+    const el = html`<a href="#" class="fw-bold link-dark text-decoration-none">${child}</a>`;
+    el.onclick = (e) => {
+      e.preventDefault();
+      Navigate(`/profile?id=${post.author?.id}`);
+    };
+
+    return el;
+  };
+
   return html`
     <div class="border rounded p-3 d-flex gap-3">
-      <div>${ProfilePicture(post.author?.id)}</div>
+      <div>${renderAuthorLink(ProfilePicture(post.author?.id))}</div>
       <div class="flex-grow-1">
-        <div><span class="fw-bold">${post.author?.username}</span></div>
+        <div>${renderAuthorLink(post.author?.username)}</div>
         <div>${renderText(post.content)}</div>
       </div>
       <div class="text-nowrap d-flex flex-column justify-content-between text-end">

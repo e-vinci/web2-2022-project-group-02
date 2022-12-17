@@ -1,150 +1,191 @@
-import { clearPage, renderPageTitle } from '../../utils/render';
+import { Modal as BootstrapModal } from 'bootstrap';
+import { clearPage } from '../../utils/render';
 import html from '../../utils/html';
-import { CALL_PREFIX } from '../../utils/api';
 import { getAuthenticatedUser } from '../../utils/auths';
+import API, { CALL_PREFIX } from '../../utils/api';
 import Navigate from '../Router/Navigate';
+import Logout from '../Logout/Logout';
 
-const defaultUser = {
-  username: 'Jean-Eud',
-  picture: '../../img/defaultUser.png',
-  questions: [
-    {
-      titre: "C'est quoi le temps UNIX?",
-      date: '01/01/1970',
-    },
-    {
-      titre: 'Comment mettre la date sur 64-bit ??? (URGENT)',
-      date: '19/01/2038',
-    },
-  ],
-  cours: [
-    {
-      titre: 'ASM',
-      chapitre: 1,
-    },
-    {
-      titre: 'C',
-      chapitre: 7,
-    },
-  ],
-  highscore: [
-    {
-      cours: 'ASM',
-      score: 69420,
-    },
-    {
-      cours: 'C',
-      score: 713705,
-    },
-  ],
-};
-
-function getHighScores() {
-  const scores = document.createElement('ul');
-  scores.setAttribute('class', 'invisible-list');
-  defaultUser.highscore.forEach((score) => {
-    const li = document.createElement('li');
-    li.innerHTML = `${score.cours} - ${score.score}`;
-    scores.appendChild(li);
-  });
-  return scores;
-}
-
-const renderProfilePicture = (id) => {
-  const el = html`
-    <img
-      src="${id
-        ? `${CALL_PREFIX}/users/${id}/avatar`
-        : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='}"
-      style="width: 35%; aspect-ratio: 1/1; background-color: #ccc; border-radius: 10px"
-    />
-  `;
-
-  return el;
-};
-
-const userName = document.createElement('form');
-userName.setAttribute('class', 'vertical centered');
-const userNameButton = document.createElement('input');
-userNameButton.setAttribute('type', 'submit');
-userNameButton.setAttribute('value', defaultUser.username);
-userNameButton.setAttribute('class', 'btn btn-info margin');
-userNameButton.addEventListener('click', () => {
-  alert('Change User Name!');
-});
-
-const forgetMe = document.createElement('input');
-forgetMe.setAttribute('type', 'submit');
-forgetMe.setAttribute('value', 'delete my acount');
-forgetMe.setAttribute('class', 'btn btn-info margin');
-forgetMe.addEventListener('click', () => {
-  alert('I forgor 💀');
-});
-userName.appendChild(userNameButton);
-userName.appendChild(forgetMe);
-
-function getCours() {
-  const listeCours = document.createElement('ul');
-  listeCours.setAttribute('class', 'invisible-list');
-  defaultUser.cours.forEach((cours) => {
-    const li = document.createElement('li');
-    li.innerHTML = `${cours.titre} : chapitre ${cours.chapitre}`;
-    listeCours.appendChild(li);
-  });
-  return listeCours;
-}
-
-function getQuestions() {
-  const q = document.createElement('ul');
-  q.setAttribute('class', 'invisible-list');
-  defaultUser.questions.forEach((question) => {
-    const li = document.createElement('li');
-    li.innerHTML = `${question.date} | ${question.titre}`;
-    q.appendChild(li);
-  });
-  return q;
-}
-
-const ProfilePage = async () => {
+function UserProfilePage() {
   clearPage();
-  renderPageTitle('Profil');
-  renderProfile();
-};
+  renderPage();
+}
 
-function renderProfile() {
-  const user = getAuthenticatedUser();
-  if (!user) {
-    return Navigate('/login');
-  }
-
+async function renderPage() {
   const main = document.querySelector('main');
 
-  const profile = html`
-    <div class="container horizontal centered">
-      <div class="container vertical centered">${renderProfilePicture(user.id)} ${userName}</div>
-      <div class="container vertical userSettings">
-        <div class="container centered vertical cell">
-          <h5>High Scores</h5>
-          ${getHighScores()}
+  const currentUser = getAuthenticatedUser();
+  if (!currentUser) return Navigate('/login');
+
+  const userId = new URLSearchParams(window.location.search).get('id') ?? '';
+
+  return main.replaceChildren(
+    html`${renderUserPage(userId, !userId || Number(userId) === currentUser.id)}`,
+  );
+}
+
+async function renderUserPage(userId, isCurrentUser = false) {
+  const user = await API.GET(`/users/${userId}`);
+
+  const editAvatarBtn = html`<button class="btn btn-link">Modifier l'avatar</button>`;
+  editAvatarBtn.onclick = editAvatar;
+
+  const deleteAccountBtn = html`<button class="btn btn-link link-danger">Supprimer compte</button>`;
+  deleteAccountBtn.onclick = deleteAccount;
+
+  const el = html`
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-3 text-center d-flex flex-column align-items-center gap-3">
+          <div>
+            <img
+              src="${user?.id
+                ? `${CALL_PREFIX}/users/${user.id}/avatar`
+                : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='}"
+              style="width: 150px; height: 150px; border-radius: 10px; background-color: #ccc"
+            />
+          </div>
+          <div class="fw-bold fs-3">${user.username}</div>
+          <div>
+            Inscrit depuis le
+            <i>
+              ${new Date(Math.floor(user.registerTime) * 1000)
+                .toLocaleString('fr-BE', {
+                  dateStyle: 'full',
+                  timeStyle: 'short',
+                })
+                .replaceAll(' ', '&nbsp;')}
+            </i>
+          </div>
+          ${isCurrentUser
+            ? html`
+                <div class="d-flex flex-row flex-lg-column align-items-center">
+                  ${[editAvatarBtn, deleteAccountBtn]}
+                </div>
+              `
+            : ''}
         </div>
-        <div class="container centered vertical cell">
-          <h5>Cours</h5>
-          ${getCours()}
-        </div>
-        <div class="container centered vertical cell">
-          <h5>Question Posées</h5>
-          ${getQuestions()}
+        <div class="col-12 col-lg-9">
+          <h3>Highscores</h3>
+          ${renderHighscores(user)}
+
+          <h3>Questions posées</h3>
+          ${renderQuestions(user)}
         </div>
       </div>
     </div>
   `;
 
-  main.replaceChildren(profile);
-
-  const highscores = document.querySelector('highscores');
-  highscores.replaceChildren('prout');
-
-  return profile;
+  return el;
 }
 
-export default ProfilePage;
+function editAvatar() {
+  const modalEl = html`
+    <div class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modifier l'avatar</h5>
+            <button type="button" class="btn-close"></button>
+          </div>
+          <div class="modal-body">
+            Tu peux modifier ton avatar en te connectant sur
+            <a href="https://fr.gravatar.com" target="_blank">gravatar.com</a> et en ajoutant une
+            image associée à ton adresse email.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const modal = new BootstrapModal(modalEl);
+  modal.show();
+}
+
+function deleteAccount() {
+  const modalEl = html`
+    <div class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Supprimer le compte</h5>
+            <button type="button" class="btn-close"></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Cette action est irréversible. Toutes les données associées à ton compte seront
+              supprimées.
+            </p>
+            <p>Nous sommes désolés de te voir partir. 😿</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <button type="button" class="btn btn-danger">Supprimer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const modal = new BootstrapModal(modalEl);
+  modal.show();
+
+  const deleteBtn = modalEl.querySelector('button.btn-danger');
+
+  deleteBtn.onclick = async () => {
+    try {
+      await API.DELETE('/users');
+      modal.hide();
+      Logout();
+    } catch (err) {
+      modalEl.querySelector('.modal-body').append(html`
+        <div class="alert alert-danger">${err.message}</div>
+      `);
+    }
+  };
+}
+
+function renderHighscores(user) {
+  const ASMCourse = user.courses?.find((c) => c.title === 'asm');
+  const CCourse = user.courses?.find((c) => c.title === 'c');
+
+  return html`
+    <ul>
+      <li>ASM - ${ASMCourse?.score ?? '0'}</li>
+      <li>C - ${CCourse?.score ?? '0'}</li>
+    </ul>
+  `;
+}
+
+async function renderQuestions(user) {
+  try {
+    const questions = await API.GET(`/forum?author=${user.id}`);
+
+    if (!questions.length) {
+      return html`<div class="text-muted">Aucune question posée</div>`;
+    }
+
+    return html`
+      <ul>
+        ${questions.map((question) => {
+          const link = html`<a href="#">${question.title}</a>`;
+          link.onclick = (e) => {
+            e.preventDefault();
+            Navigate(`/forum/thread?id=${question.id}`);
+          };
+
+          return html`<li>
+            ${new Date(Math.floor(question.date) * 1000).toLocaleDateString('fr-BE')}: ${link}
+          </li>`;
+        })}
+      </ul>
+    `;
+  } catch (e) {
+    return html`<div class="alert alert-danger">Erreur lors du chargement des questions</div>`;
+  }
+}
+
+export default UserProfilePage;
