@@ -22,6 +22,12 @@ function renderFooter() {
     Navigate('/');
   };
 
+  const aboutLink = html` <a href="#" class="nav-link px-2 text-muted">À propos</a> `;
+  aboutLink.onclick = (e) => {
+    e.preventDefault();
+    Navigate('/about');
+  };
+
   const footer = html`
     <div class="container">
       <footer
@@ -32,7 +38,7 @@ function renderFooter() {
         ${homeBtn}
 
         <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">À propos</a></li>
+          <li class="nav-item">${aboutLink}</li>
         </ul>
       </footer>
     </div>
