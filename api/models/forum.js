@@ -2,23 +2,7 @@
 const db = require('../utils/database');
 const { readOneUserFromId } = require('./users');
 
-const defaultThreads = [
-  {
-    id: 1,
-    author: 1,
-    date: Math.round(new Date('03/12/2022').getTime() / 1000).toString(),
-    title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    content: `Fusce euismod eros commodo lectus aliquet ultrices eget sed felis. Nulla placerat`,
-    replies: [
-      {
-        id: 2,
-        author: 1,
-        date: Math.round(new Date('03/12/2022').getTime() / 1000).toString(),
-        content: `Fusce euismod eros commodo lectus aliquet ultrices eget sed felis. Nulla placerat`,
-      },
-    ],
-  },
-];
+const defaultThreads = [];
 
 db.setDefault('/forum', defaultThreads);
 
