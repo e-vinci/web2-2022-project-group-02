@@ -123,7 +123,8 @@ function renderPost(post, thread = null) {
 }
 
 function renderReplyForm(thread = null) {
-  if (!isAuthenticated()) return '';
+  if (!isAuthenticated())
+    return html`<div class="m-3 text-muted text-end">(connectez-vous pour répondre)</div>`;
 
   const form = html`
     <form id="reply-form" class="border rounded p-3">

@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-cycle
+import Navbar from '../Components/Navbar/Navbar';
+
 const STORE_USER = 'user';
 const STORE_REMEMBER = 'remember';
 let currentUser;
@@ -28,6 +31,8 @@ const setAuthenticatedUser = (authenticatedUser, remember = false) => {
   localStorage.setItem(STORE_REMEMBER, remember);
 
   currentUser = authenticatedUser;
+
+  Navbar();
 };
 
 const isAuthenticated = () => currentUser !== undefined || getAuthenticatedUser() !== undefined;
