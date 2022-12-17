@@ -1,5 +1,5 @@
-/* eslint-disable no-alert */
 import EasyMDE from 'easymde';
+import { Modal as BootstrapModal } from 'bootstrap';
 import { clearPage } from '../../../utils/render';
 import html from '../../../utils/html';
 import { getAuthenticatedUser, isAuthenticated } from '../../../utils/auths';
@@ -97,19 +97,54 @@ function renderPost(post, thread = null) {
       deleteBtn.onclick = async (ev) => {
         ev.preventDefault();
 
-        if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) return;
+        const deleteConfirmBtn = html`
+          <button type="button" class="btn btn-danger">Supprimer</button>
+        `;
 
-        try {
-          if (thread) {
-            await API.DELETE(`/forum/${thread.id}/${post.id}`);
-            await fetchThread();
-          } else {
-            await API.DELETE(`/forum/${post.id}`);
-            Navigate('/forum');
+        const modalEl = html`
+          <div class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel">Supprimer le message</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Êtes-vous sûr de vouloir supprimer ce message ?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Annuler
+                  </button>
+                  ${deleteConfirmBtn}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const modal = new BootstrapModal(modalEl, {});
+        modal.show();
+
+        deleteConfirmBtn.onclick = async (event) => {
+          event.preventDefault();
+
+          try {
+            if (thread) {
+              await API.DELETE(`/forum/${thread.id}/${post.id}`);
+              await fetchThread();
+            } else {
+              await API.DELETE(`/forum/${post.id}`);
+              Navigate('/forum');
+            }
+
+            modal.hide();
+          } catch (err) {
+            modalEl.querySelector('.modal-body').replaceChildren(html`
+              <div class="alert alert-danger">Une erreur est survenue: ${err.message}</div>
+            `);
           }
-        } catch (err) {
-          alert(`Une erreur est survenue: ${err.message}`);
-        }
+        };
       };
     } else actions.push(html`<div>&nbsp;</div>`);
     // else actions.push(html`<a href="#" class="link-dark">${Icon('flag')}</a>`);
