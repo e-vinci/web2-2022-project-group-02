@@ -88,6 +88,9 @@ async function readOneUserFromId(id) {
 }
 
 async function createOneUser(email, username, password) {
+  const emailRegex = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
+  if (!emailRegex.test(email)) throw new Error('Adresse mail invalide');
+
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const createdUser = {
