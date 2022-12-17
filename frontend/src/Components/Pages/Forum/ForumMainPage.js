@@ -150,7 +150,7 @@ function renderPost(post) {
           ${renderText(post.content)}
         </div>
       </div>
-      <div class="text-nowrap d-flex flex-column justify-content-between text-end">
+      <div class="text-nowrap d-flex flex-column justify-content-between text-end align-items-end">
         ${actions}
         <div>
           ${renderAuthorLink(post.author.username)}, le

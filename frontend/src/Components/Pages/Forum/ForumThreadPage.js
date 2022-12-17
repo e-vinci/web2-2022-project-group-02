@@ -169,7 +169,7 @@ function renderPost(post, thread = null) {
         <div>${renderAuthorLink(post.author?.username)}</div>
         <div>${renderText(post.content)}</div>
       </div>
-      <div class="text-nowrap d-flex flex-column justify-content-between text-end">
+      <div class="text-nowrap d-flex flex-column justify-content-between text-end align-items-end">
         ${actions}
         <div>${new Date(post.date * 1000).toLocaleString('fr-BE')}</div>
       </div>
