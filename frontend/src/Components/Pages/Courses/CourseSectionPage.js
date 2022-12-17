@@ -112,7 +112,7 @@ async function updateProgress() {
   const sectionKey = urlParams.get('section');
   const sectionValues = sectionKey.split('-');
   const course = sectionValues[0];
-  const chapitre = parseInt(sectionValues[1], 10);
+  const chapter = parseInt(sectionValues[1], 10);
   const section = getSection();
   const totalPages = section.length + 1;
   let pageNum = parseInt(window.location.hash.replace('#', ''), 10);
@@ -120,11 +120,10 @@ async function updateProgress() {
   const progress = Math.round((pageNum / totalPages) * 1000) / 10;
   const user = getAuthenticatedUser();
   if (user !== undefined) {
-    await API.POST('/users/setProgress', {
-      username: user.username,
-      cours: course,
-      chapitre,
-      progres: progress,
+    await API.POST('/users/progress', {
+      course,
+      chapter,
+      progress,
       page: pageNum,
     });
   }

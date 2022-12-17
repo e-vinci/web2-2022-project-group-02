@@ -1,6 +1,7 @@
 @import './bootstrap';
-
 @import './visualiser';
+
+@import 'easymde/dist/easymde.min.css';
 
 body {
   background-color: #fff1da;
@@ -10,9 +11,11 @@ body {
   background-color: #b1e0ff;
 }
 
-p {
-  font-size: large;
+span > .spinner-border {
+  width: 1em;
+  height: 1em;
 }
+
 .ecart {
   margin-left: 20px;
   margin-right: 20px;

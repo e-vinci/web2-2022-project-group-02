@@ -1,43 +1,77 @@
 const express = require('express');
-const { getProgress, setProgress } = require('../models/users');
-/*
-const { LoginPage } = require('../../frontend/src/Components/Pages/LoginPage');
-//const dbPath = require('../data/users.json');
-const { readOneUserFromUsername } = require('../models/users');
-*/
+const crypto = require('crypto');
+const { readOneUserFromId, getProgress, setProgress, deleteAccount } = require('../models/users');
+const { deleteAuthorPosts } = require('../models/forum');
+const { authorize } = require('../utils/auths');
+
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', (req, res) => {
-  res.json(); // res.json est une fonction qui renvoie la reponse entre parenthèse
+router.get('/progress', authorize, async (req, res) => {
+  const { course } = req.query;
+  if (course === undefined) return res.sendStatus(400);
+
+  const response = await getProgress(req.user.id, course);
+
+  if (response === -1) return res.sendStatus(404);
+
+  return res.json(response || {});
 });
 
-router.post('/getProgress', async (req, res) => {
-  const username = req.body?.username ? req.body.username : undefined;
-  const cours = req.body?.cours ? req.body.cours : undefined;
-  res.statusCode = 200;
-  if (cours === undefined) res.statusCode = 418;
-  const reponse = await getProgress(username, cours);
-  if (reponse === -1) {
-    res.statusCode = 404;
-    res.sendStatus(404);
+router.post('/progress', authorize, async (req, res) => {
+  const { course, chapter, progress, page } = req.body;
+  if (course === undefined) return res.sendStatus(400);
+
+  await setProgress(req.user.id, course, chapter ?? 0, progress ?? 0, page ?? 0);
+
+  return res.json({});
+});
+
+/* Get user info */
+router.get('/:id?', authorize, async (req, res) => {
+  const id = req.params.id || req.user.id;
+
+  const user = await readOneUserFromId(id);
+
+  if (!user) return res.sendStatus(404);
+
+  return res.json({
+    id: user.id,
+    username: user.username,
+    registerTime: user.registerTime,
+    courses: user.courses,
+  });
+});
+
+/* Delete account */
+router.delete('/:id?', authorize, async (req, res) => {
+  const id = Number(req.params.id || req.user.id);
+
+  if (id === 1) {
+    res.status(403);
+    throw new Error('Impossible de supprimer le compte admin');
   }
 
-  res.json(reponse || {});
+  if (id !== req.user.id && req.user.username !== 'admin') return res.sendStatus(401);
+
+  await deleteAuthorPosts(id);
+  await deleteAccount(id);
+
+  return res.json({});
 });
 
-router.post('/setProgress', async (req, res) => {
-  const username = req.body?.username ? req.body.username : undefined;
-  const cours = req.body?.cours ? req.body.cours : undefined;
-  const chapitre = req.body?.cours ? req.body.chapitre : 0;
-  const progres = req.body?.progres ? req.body.progres : 0;
-  const page = req.body?.page ? req.body.page : 0;
+/* Get profile picture */
+router.get('/:id/avatar', async (req, res) => {
+  const { id } = req.params;
 
-  if (username === undefined) res.sendStatus(418);
-  if (cours === undefined) res.sendStatus(418);
-  const reponse = await setProgress(username, cours, chapitre, progres, page);
+  const user = await readOneUserFromId(id);
 
-  res.json({});
+  if (!user)
+    return res.redirect('https://www.gravatar.com/avatar/00000000000000000000000000000000?s=150');
+
+  const { email } = user;
+  const hash = crypto.createHash('md5').update(email).digest('hex');
+
+  return res.redirect(`https://www.gravatar.com/avatar/${hash}?s=150&d=identicon`);
 });
 
 module.exports = router;

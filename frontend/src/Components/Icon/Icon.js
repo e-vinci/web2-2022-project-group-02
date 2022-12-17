@@ -1,9 +1,17 @@
 import html from '../../utils/html';
 
 import cat from '../../img/icons/cat.svg';
+import flag from '../../img/icons/flag.svg';
+import lock from '../../img/icons/lock.svg';
+import pin from '../../img/icons/pin.svg';
+import trash from '../../img/icons/trash.svg';
 
 const icons = {
   cat,
+  flag,
+  lock,
+  pin,
+  trash,
 };
 
 export default function Icon(name, size = null, color = null) {

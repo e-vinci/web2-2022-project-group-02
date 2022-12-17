@@ -26,3 +26,4 @@ jobs:
           branch: gh-pages
           git-config-name: "GitHub Actions"
           git-config-email: "github-pages-deploy-action@users.noreply.github.com"
+          single-commit: true

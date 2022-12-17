@@ -1,7 +1,7 @@
 import { getAuthenticatedUser } from './auths';
 
 const CALL_PREFIX = process.env.API_BASE_URL;
-const TIMEOUT = 10000;
+const TIMEOUT = 5 * 60 * 1000;
 
 class API {
   /**
@@ -28,7 +28,12 @@ class API {
       signal: controller.signal,
     });
 
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      const reply = await response.json().catch(() => null);
+      if (reply?.error) throw new Error(reply.error);
+
+      throw new Error(response.statusText);
+    }
 
     if (fetchOptions?.raw) return response;
 
@@ -46,7 +51,11 @@ class API {
    * @returns {Promise<object>} - The response
    */
   static GET(endpoint, query = {}) {
-    if (typeof query === 'object') return this.call(`${endpoint}?${new URLSearchParams(query)}`);
+    const params = new URLSearchParams(query);
+    const paramSep = endpoint.includes('?') ? '&' : '?';
+
+    if (typeof query === 'object')
+      return this.call(`${endpoint}${params.toString() ? `${paramSep}${params}` : ''}`);
 
     return this.call(endpoint);
   }
@@ -62,6 +71,16 @@ class API {
   }
 
   /**
+   * Call the API with DELETE
+   * @param {string} endpoint - The API endpoint
+   * @param {object?} data - The data to send, if any
+   * @returns {Promise<object>} - The response
+   */
+  static DELETE(endpoint, data) {
+    return this.call(endpoint, { method: 'delete', body: data ? JSON.stringify(data) : null });
+  }
+
+  /**
    * Resolve a path to the API
    * @param {string} path - The path to resolve
    * @returns {string} - The resolved path
@@ -72,3 +91,4 @@ class API {
 }
 
 export default API;
+export { CALL_PREFIX };

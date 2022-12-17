@@ -1,3 +1,5 @@
+import * as DOMPurify from 'dompurify';
+
 /**
  * A better alternative to document.createElement, which allows you to create
  * an element from a template literal. (Think of it as a pseudo-JSX)
@@ -13,11 +15,27 @@ export default function html(raw, ...keys) {
   // elements after the fact, to preserve event listeners.
   const elements = [];
 
+  const templateElement = document.createElement('template');
+
   const newKeys = keys.map((key) => {
     const id = Math.random().toString(36).slice(2);
 
     if (key instanceof Node) {
       elements.push([id, key]);
+      return `<div id="__PLACEHOLDER__${id}__"></div>`;
+    }
+
+    if (key instanceof Promise) {
+      const placeholder = document.createElement('div');
+      placeholder.id = `__PLACEHOLDER__${id}__`;
+      placeholder.className = 'd-flex align-items-center justify-content-center';
+      placeholder.innerHTML = '<div class="spinner-border" role="status"></div>';
+      elements.push([id, placeholder]);
+
+      key.then((value) => {
+        placeholder.replaceWith(value);
+      });
+
       return `<div id="__PLACEHOLDER__${id}__"></div>`;
     }
 
@@ -30,33 +48,25 @@ export default function html(raw, ...keys) {
       return `<div id="__PLACEHOLDER__${id}__"></div>`;
     }
 
-    if (typeof key === 'string') return escapeHTML(key);
+    if (typeof key === 'string') return DOMPurify.sanitize(key);
 
     return key;
   });
 
-  const templateElement = document.createElement('template');
   const str = keys.length === 0 ? raw[0] : String.raw({ raw }, ...newKeys);
 
   templateElement.innerHTML = str.trim();
 
   elements.forEach(([id, element]) => {
+    if (!element) return;
+
     const placeholder = templateElement.content.querySelector(`#__PLACEHOLDER__${id}__`);
 
-    placeholder.replaceWith(element);
+    if (placeholder) placeholder.replaceWith(element);
   });
 
   if (templateElement.content.children.length === 1)
     return templateElement.content.firstElementChild;
 
   return templateElement.content;
-}
-
-function escapeHTML(unsafe) {
-  return unsafe
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
 }

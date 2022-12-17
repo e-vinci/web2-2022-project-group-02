@@ -1,92 +1,114 @@
+// @ts-check
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const path = require('node:path');
-const { parse, serialize } = require('../utils/json');
+const db = require('../utils/database');
 
-const jwtSecret = 'iloveCats!';
+const jwtSecret = process.env.JWT_SECRET || 'iloveCats!';
 const lifetimeJwt = 24 * 60 * 60 * 1000; // in ms : 24 * 60 * 60 * 1000 = 24h
 
 const saltRounds = 10;
 
-const jsonDbPath = path.join(__dirname, '/../data/users.json');
-
 const defaultUsers = [
   {
     id: 1,
+    email: 'admin@example.com',
     username: 'admin',
-    password: bcrypt.hashSync('admin', saltRounds),
+    password: bcrypt.hashSync(process.env.DEFAULT_ADMIN_PASSWORD ?? 'admin', saltRounds),
+    registerTime: Math.floor(Date.now() / 1000),
   },
 ];
 
-async function login(username, password) {
-  const userFound = readOneUserFromUsername(username);
-  if (!userFound) return undefined;
+db.setDefault('/users', defaultUsers);
 
-  const passwordMatch = await bcrypt.compare(password, userFound.password);
+async function login(username, password) {
+  let user = await readOneUserFromUsername(username);
+  if (!user) user = await readOneUserFromEmail(username);
+  if (!user) return undefined;
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) return undefined;
 
   const token = jwt.sign(
-    { username }, // session data added to the payload (payload : part 2 of a JWT)
+    { id: user.id, username: user.username }, // session data added to the payload (payload : part 2 of a JWT)
     jwtSecret, // secret used for the signature (signature part 3 of a JWT)
     { expiresIn: lifetimeJwt }, // lifetime of the JWT (added to the JWT payload)
   );
 
   const authenticatedUser = {
-    username,
+    id: user.id,
+    username: user.username,
     token,
   };
 
   return authenticatedUser;
 }
 
-async function register(username, password) {
-  const userFound = readOneUserFromUsername(username);
-  if (userFound) return undefined;
+async function register(email, username, password) {
+  if ((await readOneUserFromUsername(username)) || (await readOneUserFromEmail(email)))
+    return undefined;
 
-  await createOneUser(username, password);
+  const user = await createOneUser(email, username, password);
 
   const token = jwt.sign(
-    { username }, // session data added to the payload (payload : part 2 of a JWT)
+    { id: user.id, username: user.username }, // session data added to the payload (payload : part 2 of a JWT)
     jwtSecret, // secret used for the signature (signature part 3 of a JWT)
     { expiresIn: lifetimeJwt }, // lifetime of the JWT (added to the JWT payload)
   );
 
   const authenticatedUser = {
-    username,
+    id: user.id,
+    username: user.username,
     token,
   };
 
   return authenticatedUser;
 }
 
-function readOneUserFromUsername(username) {
-  const users = parse(jsonDbPath, defaultUsers);
+async function readOneUserFromUsername(username) {
+  const users = await db.get('/users');
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   if (indexOfUserFound < 0) return undefined;
 
   return users[indexOfUserFound];
 }
 
-async function createOneUser(username, password) {
-  const users = parse(jsonDbPath, defaultUsers);
+async function readOneUserFromEmail(email) {
+  const users = await db.get('/users');
+  const indexOfUserFound = users.findIndex((user) => user.email === email);
+  if (indexOfUserFound < 0) return undefined;
+
+  return users[indexOfUserFound];
+}
+
+async function readOneUserFromId(id) {
+  const users = await db.get('/users');
+  const user = users.find((u) => u.id === Number(id));
+
+  return user;
+}
+
+async function createOneUser(email, username, password) {
+  const emailRegex = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
+  if (!emailRegex.test(email)) throw new Error('Adresse mail invalide');
 
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const createdUser = {
-    id: getNextId(),
+    id: await getNextId(),
+    email,
     username,
     password: hashedPassword,
+    registerTime: Math.floor(Date.now() / 1000),
   };
 
-  users.push(createdUser);
-
-  serialize(jsonDbPath, users);
+  await db.push('/users[]', createdUser);
 
   return createdUser;
 }
 
-function getNextId() {
-  const users = parse(jsonDbPath, defaultUsers);
+async function getNextId() {
+  const users = await db.get('/users');
+
   const lastItemIndex = users?.length !== 0 ? users.length - 1 : undefined;
   if (lastItemIndex === undefined) return 1;
   const lastId = users[lastItemIndex]?.id;
@@ -95,110 +117,134 @@ function getNextId() {
 }
 
 async function getScore(username, coursReq) {
-  const users = parse(jsonDbPath, defaultUsers);
+  const users = await db.get('/users');
+
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   const user = users[indexOfUserFound];
-  if (user.cours === undefined) {
-    user.cours = [
+  if (user.courses === undefined) {
+    user.courses = [
       {
-        titre: coursReq,
-        chapitre: 0,
-        progres: 0,
+        title: coursReq,
+        chapter: 0,
+        progress: 0,
         score: 0,
       },
     ];
   }
-  const listeCours = users[indexOfUserFound].cours;
-  const indexOfCours = listeCours.findIndex((cours) => cours.titre === coursReq);
-  const coursTrouve = listeCours[indexOfCours];
+
+  const courseList = users[indexOfUserFound].courses;
+  const courseIndex = courseList.findIndex((courses) => courses.title === coursReq);
+  const coursTrouve = courseList[courseIndex];
+
   return coursTrouve.score;
 }
 
 async function updateScore(username, coursReq, scoreReq) {
-  const users = parse(jsonDbPath, defaultUsers);
+  const users = await db.get('/users');
+
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   const user = users[indexOfUserFound];
-  if (user.cours === undefined) {
-    user.cours = [
+  if (user.courses === undefined) {
+    user.courses = [
       {
-        titre: coursReq,
-        chapitre: 0,
-        progres: 0,
+        title: coursReq,
+        chapter: 0,
+        progress: 0,
         score: scoreReq,
       },
     ];
   } else {
-    const listeCours = user.cours;
-    const indexOfCours = listeCours.findIndex((cours) => cours.titre === coursReq);
-    user.cours[indexOfCours].score = scoreReq;
+    const courseList = user.courses;
+    const courseIndex = courseList.findIndex((courses) => courses.title === coursReq);
+    user.courses[courseIndex].score = scoreReq;
   }
-  serialize(jsonDbPath, users);
+
+  await db.push(`/users[${indexOfUserFound}]`, user);
+
   return true;
 }
 
-async function getProgress(username, titreCours) {
-  const users = parse(jsonDbPath, defaultUsers);
-  const indexOfUserFound = users.findIndex((user) => user.username === username);
+async function getProgress(userId, courseTitle) {
+  const users = await db.get('/users');
+
+  const indexOfUserFound = users.findIndex((user) => user.id === Number(userId));
   const user = users[indexOfUserFound];
   if (user === undefined) return -1;
-  if (user.cours === undefined) {
-    user.cours = [
+  if (user.courses === undefined) {
+    user.courses = [
       {
-        titre: titreCours,
-        chapitre: 0,
-        progres: 0,
+        title: courseTitle,
+        chapter: 0,
+        progress: 0,
         score: 0,
       },
     ];
   }
-  const indexOfCours = user.cours.findIndex((cours) => cours.titre === titreCours);
 
-  return user.cours[indexOfCours];
+  const courseIndex = user.courses.findIndex((courses) => courses.title === courseTitle);
+
+  return user.courses[courseIndex];
 }
 
-async function setProgress(username, titreCours, chapitre, progres, page) {
-  const users = parse(jsonDbPath, defaultUsers);
-  const indexOfUser = users.findIndex((user) => user.username === username);
+async function setProgress(userId, courseTitle, chapter, progress, page) {
+  const users = await db.get('/users');
+
+  const indexOfUser = users.findIndex((user) => user.id === Number(userId));
   const user = users[indexOfUser];
-  if (user.cours === undefined) {
-    user.cours = [
+  if (user.courses === undefined) {
+    user.courses = [
       {
-        titre: titreCours,
-        chapitre: 0,
-        progres: 0,
+        title: courseTitle,
+        chapter: 0,
+        progress: 0,
         score: 0,
         page: 0,
       },
     ];
   }
-  const indexOfCours = user.cours.findIndex((cours) => cours.titre === titreCours);
-  let cours = user.cours[indexOfCours];
+  const courseIndex = user.courses.findIndex((courses) => courses.title === courseTitle);
+  let courses = user.courses[courseIndex];
 
-  if (!cours) {
-    cours = {
-      titre: titreCours,
-      chapitre: 0,
-      progres: 0,
+  if (!courses) {
+    courses = {
+      title: courseTitle,
+      chapter: 0,
+      progress: 0,
       score: 0,
       page: 0,
     };
 
-    user.cours.push(cours);
+    user.courses.push(courses);
   }
 
-  cours.chapitre = chapitre;
-  cours.progres = progres;
-  cours.page = page;
-  serialize(jsonDbPath, users);
+  courses.chapter = chapter;
+  courses.progress = progress;
+  courses.page = page;
+
+  await db.push(`/users[${indexOfUser}]`, user);
+
   return true;
+}
+
+/* Delete account */
+async function deleteAccount(userId) {
+  const users = await db.get('/users');
+  const indexOfUser = users.findIndex((user) => user.id === Number(userId));
+
+  if (indexOfUser < 0) return false;
+
+  return db.delete(`/users[${indexOfUser}]`);
 }
 
 module.exports = {
   login,
   register,
   readOneUserFromUsername,
+  readOneUserFromEmail,
+  readOneUserFromId,
   getScore,
   updateScore,
   getProgress,
   setProgress,
+  deleteAccount,
 };

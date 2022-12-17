@@ -13,44 +13,44 @@ const courses = {
         id: 'asm-00-intro',
         title: 'Introduction',
         description: 'introduction rapide au langage assembleur',
-        chapitre: 0,
-        progress: 0,
+        chapter: 0,
+        progress: null,
       },
       {
         id: 'asm-01-hardware',
         title: 'Le matériel',
         description: 'Influance du hardware sur le langage assembleur',
-        chapitre: 1,
-        progress: 0,
+        chapter: 1,
+        progress: null,
       },
       {
         id: 'asm-02-execution',
         title: "L' exécution d'un programme",
         description: 'How the computer goes beep boop',
-        chapitre: 2,
-        progress: 0,
+        chapter: 2,
+        progress: null,
       },
       {
         id: 'asm-03-mode-adressage',
         title: "Les modes d'adressage",
         description: "Les pages jaunes de l'ordinateur",
-        chapitre: 3,
-        progress: 0,
+        chapter: 3,
+        progress: null,
       },
       {
         id: 'asm-04-flags',
         title: 'Les flags',
         description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.',
-        chapitre: 4,
-        progress: 0,
+        chapter: 4,
+        progress: null,
       },
       {
         id: 'asm-05-boucles',
         title: 'Les boucles',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
-        chapitre: 5,
-        progress: 0,
+        chapter: 5,
+        progress: null,
       },
     ],
   },
@@ -62,31 +62,31 @@ const courses = {
         title: "S'initier en C",
         description:
           'Objectif: comprendre chaque ligne du code (les includes, les types) + 2 petits exercices pour bien démarrer',
-        chapitre: 0,
-        progress: 0,
+        chapter: 0,
+        progress: null,
       },
       {
         id: 'c-01-tableaux',
         title: 'Les tableaux',
         description: 'Objectif: apprendre a manipuler un tableau + 3 exercices',
-        chapitre: 1,
-        progress: 0,
+        chapter: 1,
+        progress: null,
       },
       {
         id: 'c-02-pointeurs',
         title: 'Les pointeurs',
         description:
           "Objectif: comprendre l'utilité des pointeurs et savoir les manipuler + 3 exercices.",
-        chapitre: 2,
-        progress: 0,
+        chapter: 2,
+        progress: null,
       },
       {
         id: 'c-04-chars',
         title: 'Les chaînes de caractères',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
-        chapitre: 3,
-        progress: 0,
+        chapter: 3,
+        progress: null,
       },
       {
         id: 'c-05-functions',
@@ -94,8 +94,8 @@ const courses = {
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
 
-        chapitre: 4,
-        progress: 0,
+        chapter: 4,
+        progress: null,
       },
     ],
   },
@@ -117,56 +117,59 @@ const CoursesOverviewPage = async () => {
     return;
   }
 
-  clearPage();
-  renderPageTitle(`${course.fullTitle} - les leçons`);
-  await renderOverview();
+  await renderOverview(course);
+
+  fetchUserProgress(course);
 };
 
-async function updateUserProgres(cours) {
-  const urlParams = new URLSearchParams(window.location.search);
+async function fetchUserProgress(course) {
   const user = getAuthenticatedUser();
+
+  if (!user) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
   const titreCours = urlParams.get('course');
   let userProgress = {
-    titre: cours,
-    chapitre: 0,
-    progres: 0,
+    title: course,
+    chapter: 0,
+    progress: 0,
     score: 0,
   };
-  if (user !== undefined) {
-    userProgress = await API.POST('/users/getProgress', {
-      username: user.username,
-      cours: titreCours,
-    });
-  }
 
-  const listeCours = [];
+  userProgress = await API.GET('/users/progress', {
+    course: titreCours,
+  });
 
-  for (let i = 0; i < cours.sections.length; i += 1) {
+  const sectionList = [];
+
+  for (let i = 0; i < course.sections.length; i += 1) {
     let progress = 0;
     let currentPage = 0;
-    if (cours.sections[i].chapitre < userProgress.chapitre) {
+    if (course.sections[i].chapter < userProgress.chapter) {
       progress = 100;
     }
-    if (cours.sections[i].chapitre === userProgress.chapitre) {
-      progress = userProgress.progres;
+    if (course.sections[i].chapter === userProgress.chapter) {
+      progress = userProgress.progress;
       currentPage = userProgress.page;
     }
-    listeCours.push({
-      id: cours.sections[i].id,
-      title: cours.sections[i].title,
-      description: cours.sections[i].description,
-      chapitre: cours.sections[i].chapitre,
+
+    sectionList.push({
+      id: course.sections[i].id,
+      title: course.sections[i].title,
+      description: course.sections[i].description,
+      chapter: course.sections[i].chapter,
       progress,
       page: currentPage,
     });
   }
 
-  return listeCours;
+  renderOverview({
+    ...course,
+    sections: sectionList,
+  });
 }
 
-async function renderOverview() {
-  const course = getCourse();
-  course.sections = await updateUserProgres(course);
+async function renderOverview(course) {
   const highlightedSection = course.sections.findIndex((section) => section.progress < 100);
   const content = html`
     <div class="container">
@@ -189,10 +192,17 @@ async function renderOverview() {
                     aria-expanded="true"
                     aria-controls="collapse${index}"
                   >
-                    ${section.title}&nbsp;-&nbsp;<span
-                      class="text-${progressColor(section.progress)}"
-                      >${section.progress}%</span
-                    >
+                    ${section.title}
+                    ${section.progress === null
+                      ? ''
+                      : html`
+                          <span>
+                            &nbsp;-&nbsp;
+                            <span class="text-${progressColor(section.progress)}">
+                              ${section.progress}%
+                            </span>
+                          </span>
+                        `}
                   </button>
                 </h2>
                 <div
@@ -204,7 +214,11 @@ async function renderOverview() {
                   <div class="accordion-body">
                     <p>${section.description}</p>
                     <div class="d-flex gap-4 align-items-end">
-                      <div class="flex-grow-1">${renderProgressBar(section.progress)}</div>
+                      <div class="flex-grow-1">
+                        ${section.progress === null
+                          ? html`&nbsp;`
+                          : html` ${renderProgressBar(section.progress)} `}
+                      </div>
                       ${renderButton(
                         'Commencer',
                         `/courses/course?section=${section.id}#${section.page}`,
@@ -220,6 +234,8 @@ async function renderOverview() {
     </div>
   `;
 
+  clearPage();
+  renderPageTitle(`${course.fullTitle} - les leçons`);
   document.querySelector('main').append(content);
 }
 
