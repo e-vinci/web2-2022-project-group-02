@@ -10,12 +10,10 @@ import renderText from './util';
 
 const fetchThread = async () => {
   const id = new URLSearchParams(window.location.search).get('id');
+  let thread;
 
   try {
-    const thread = await API.GET(`/forum/${id}`);
-
-    document.querySelector('#thread').replaceChildren(renderThread(thread));
-    document.querySelector('#thread-title').textContent = thread.title;
+    thread = await API.GET(`/forum/${id}`);
   } catch (e) {
     document.querySelector('#thread').replaceChildren(html`
       <div class="alert alert-danger my-3">
@@ -24,6 +22,11 @@ const fetchThread = async () => {
           : `Une erreur est survenue: ${e.message}`}
       </div>
     `);
+  }
+
+  if (thread) {
+    document.querySelector('#thread').replaceChildren(renderThread(thread));
+    document.querySelector('#thread-title').textContent = thread.title;
   }
 };
 
@@ -82,7 +85,7 @@ function renderPost(post, thread = null) {
   const user = getAuthenticatedUser();
 
   if (user) {
-    if (user.id === post.author.id || user.username === 'admin') {
+    if (user.id === post.author?.id || user.username === 'admin') {
       const deleteBtn = html`<a href="#" class="link-dark">${Icon('trash')}</a>`;
       actions.push(deleteBtn);
 
@@ -111,7 +114,7 @@ function renderPost(post, thread = null) {
     <div class="border rounded p-3 d-flex gap-3">
       <div>${SVGProfilePicturePlaceholder()}</div>
       <div class="flex-grow-1">
-        <div><span class="fw-bold">${post.author.username}</span></div>
+        <div><span class="fw-bold">${post.author?.username}</span></div>
         <div>${renderText(post.content)}</div>
       </div>
       <div class="text-nowrap d-flex flex-column justify-content-between text-end">

@@ -1,14 +1,12 @@
+// @ts-check
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const path = require('node:path');
-const { parse, serialize } = require('../utils/json');
+const db = require('../utils/database');
 
 const jwtSecret = 'iloveCats!';
 const lifetimeJwt = 24 * 60 * 60 * 1000; // in ms : 24 * 60 * 60 * 1000 = 24h
 
 const saltRounds = 10;
-
-const jsonDbPath = path.join(__dirname, '/../data/users.json');
 
 const defaultUsers = [
   {
@@ -18,8 +16,10 @@ const defaultUsers = [
   },
 ];
 
+db.setDefault('/users', defaultUsers);
+
 async function login(username, password) {
-  const user = readOneUserFromUsername(username);
+  const user = await readOneUserFromUsername(username);
   if (!user) return undefined;
 
   const passwordMatch = await bcrypt.compare(password, user.password);
@@ -41,7 +41,7 @@ async function login(username, password) {
 }
 
 async function register(username, password) {
-  const userFound = readOneUserFromUsername(username);
+  const userFound = await readOneUserFromUsername(username);
   if (userFound) return undefined;
 
   const user = await createOneUser(username, password);
@@ -61,41 +61,38 @@ async function register(username, password) {
   return authenticatedUser;
 }
 
-function readOneUserFromUsername(username) {
-  const users = parse(jsonDbPath, defaultUsers);
+async function readOneUserFromUsername(username) {
+  const users = await db.get('/users');
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   if (indexOfUserFound < 0) return undefined;
 
   return users[indexOfUserFound];
 }
 
-function readOneUserFromId(id) {
-  const users = parse(jsonDbPath, defaultUsers);
+async function readOneUserFromId(id) {
+  const users = await db.get('/users');
   const user = users.find((u) => u.id === Number(id));
 
   return user;
 }
 
 async function createOneUser(username, password) {
-  const users = parse(jsonDbPath, defaultUsers);
-
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const createdUser = {
-    id: getNextId(),
+    id: await getNextId(),
     username,
     password: hashedPassword,
   };
 
-  users.push(createdUser);
-
-  serialize(jsonDbPath, users);
+  await db.push('/users[]', createdUser);
 
   return createdUser;
 }
 
-function getNextId() {
-  const users = parse(jsonDbPath, defaultUsers);
+async function getNextId() {
+  const users = await db.get('/users');
+
   const lastItemIndex = users?.length !== 0 ? users.length - 1 : undefined;
   if (lastItemIndex === undefined) return 1;
   const lastId = users[lastItemIndex]?.id;
@@ -104,7 +101,8 @@ function getNextId() {
 }
 
 async function getScore(username, coursReq) {
-  const users = parse(jsonDbPath, defaultUsers);
+  const users = await db.get('/users');
+
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   const user = users[indexOfUserFound];
   if (user.cours === undefined) {
@@ -117,14 +115,17 @@ async function getScore(username, coursReq) {
       },
     ];
   }
+
   const listeCours = users[indexOfUserFound].cours;
   const indexOfCours = listeCours.findIndex((cours) => cours.titre === coursReq);
   const coursTrouve = listeCours[indexOfCours];
+
   return coursTrouve.score;
 }
 
 async function updateScore(username, coursReq, scoreReq) {
-  const users = parse(jsonDbPath, defaultUsers);
+  const users = await db.get('/users');
+
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   const user = users[indexOfUserFound];
   if (user.cours === undefined) {
@@ -141,12 +142,15 @@ async function updateScore(username, coursReq, scoreReq) {
     const indexOfCours = listeCours.findIndex((cours) => cours.titre === coursReq);
     user.cours[indexOfCours].score = scoreReq;
   }
-  serialize(jsonDbPath, users);
+
+  await db.push(`/users[${indexOfUserFound}]`, user);
+
   return true;
 }
 
 async function getProgress(username, titreCours) {
-  const users = parse(jsonDbPath, defaultUsers);
+  const users = await db.get('/users');
+
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   const user = users[indexOfUserFound];
   if (user === undefined) return -1;
@@ -160,13 +164,15 @@ async function getProgress(username, titreCours) {
       },
     ];
   }
+
   const indexOfCours = user.cours.findIndex((cours) => cours.titre === titreCours);
 
   return user.cours[indexOfCours];
 }
 
 async function setProgress(username, titreCours, chapitre, progres, page) {
-  const users = parse(jsonDbPath, defaultUsers);
+  const users = await db.get('/users');
+
   const indexOfUser = users.findIndex((user) => user.username === username);
   const user = users[indexOfUser];
   if (user.cours === undefined) {
@@ -198,7 +204,9 @@ async function setProgress(username, titreCours, chapitre, progres, page) {
   cours.chapitre = chapitre;
   cours.progres = progres;
   cours.page = page;
-  serialize(jsonDbPath, users);
+
+  await db.push(`/users[${indexOfUser}]`, user);
+
   return true;
 }
 

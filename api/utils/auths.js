@@ -3,7 +3,7 @@ const { readOneUserFromId } = require('../models/users');
 
 const jwtSecret = 'iloveCats!';
 
-const authorize = (req, res, next) => {
+const authorize = async (req, res, next) => {
   const token = req.get('authorization');
   if (!token) return res.sendStatus(401);
 
@@ -11,7 +11,7 @@ const authorize = (req, res, next) => {
     const decoded = jwt.verify(token, jwtSecret);
     const { id } = decoded;
 
-    const existingUser = readOneUserFromId(id);
+    const existingUser = await readOneUserFromId(id);
 
     if (!existingUser) return res.sendStatus(401);
 

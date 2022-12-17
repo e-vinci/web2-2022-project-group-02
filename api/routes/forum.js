@@ -1,3 +1,4 @@
+// @ts-check
 const express = require('express');
 const {
   readAllThreads,
@@ -34,7 +35,7 @@ router.post('/', authorize, async (req, res) => {
 
   if (!thread || typeof thread !== 'object') throw new Error('Invalid thread');
 
-  const newThread = createThread({ ...thread, author: req.user.id });
+  const newThread = await createThread({ ...thread, author: req.user.id });
 
   return res.json(newThread);
 });
@@ -46,7 +47,7 @@ router.post('/:id/reply', authorize, async (req, res) => {
 
   if (!reply || typeof reply !== 'object') throw new Error('Invalid reply');
 
-  const newReply = replyToThread(id, { ...reply, author: req.user.id });
+  const newReply = await replyToThread(id, { ...reply, author: req.user.id });
 
   return res.json(newReply);
 });
@@ -60,7 +61,7 @@ router.delete('/:id', authorize, async (req, res) => {
 
   if (thread.author.id !== req.user.id && req.user.username !== 'admin') return res.sendStatus(401);
 
-  deleteThread(id);
+  await deleteThread(id);
 
   return res.json({ status: 'OK' });
 });
@@ -79,7 +80,7 @@ router.delete('/:id/reply/:replyId', authorize, async (req, res) => {
 
   if (reply.author.id !== req.user.id && req.user.username !== 'admin') return res.sendStatus(401);
 
-  deleteReply(id, replyId);
+  await deleteReply(id, replyId);
 
   return res.json({ status: 'OK' });
 });

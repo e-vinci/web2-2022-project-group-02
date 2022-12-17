@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+// Make async errors work
 require('express-async-errors');
 
 const authsRouter = require('./routes/auths');

@@ -1,8 +1,6 @@
-const path = require('node:path');
-const { parse, serialize } = require('../utils/json');
+// @ts-check
+const db = require('../utils/database');
 const { readOneUserFromId } = require('./users');
-
-const jsonDbPath = path.join(__dirname, '/../data/forum.json');
 
 const defaultThreads = [
   {
@@ -22,7 +20,9 @@ const defaultThreads = [
   },
 ];
 
-function getInfo(_thread) {
+db.setDefault('/forum', defaultThreads);
+
+async function getInfo(_thread) {
   if (!_thread) return _thread;
 
   try {
@@ -30,14 +30,14 @@ function getInfo(_thread) {
     const thread = JSON.parse(JSON.stringify(_thread));
 
     // Add author info
-    let user = readOneUserFromId(thread.author);
+    let user = await readOneUserFromId(thread.author);
     if (!user) user = { id: thread.author, username: 'Inconnu' };
     thread.author = {
       id: user.id,
       username: user.username,
     };
 
-    if (thread.replies) thread.replies = thread.replies.map(getInfo);
+    if (thread.replies) thread.replies = await Promise.all(thread.replies.map(getInfo));
 
     return thread;
   } catch (e) {
@@ -46,26 +46,26 @@ function getInfo(_thread) {
 }
 
 // Internal function to get the threads from the json file
-function getThreads() {
-  const threads = parse(jsonDbPath, defaultThreads);
+async function getThreads() {
+  const threads = await db.get('/forum');
 
   return threads;
 }
 
-function readAllThreads() {
-  const threads = getThreads();
+async function readAllThreads() {
+  const threads = await getThreads();
 
-  return threads.map(getInfo);
+  return (await Promise.all(threads.map(getInfo))).sort((a, b) => b.date - a.date);
 }
 
-function readOneThread(id) {
-  const threads = getThreads();
+async function readOneThread(id) {
+  const threads = await getThreads();
   const thread = threads.find((p) => p.id === Number(id));
 
   return getInfo(thread);
 }
 
-function createThread(thread) {
+async function createThread(thread) {
   if (!thread.author || !thread.title || !thread.content)
     throw new Error('Le titre et le contenu sont obligatoires');
 
@@ -77,7 +77,6 @@ function createThread(thread) {
   if (content.length < 3 || content.length > 400)
     throw new Error('Le contenu doit être compris entre 3 et 400 caractères');
 
-  const threads = getThreads();
   const newThread = {
     id: Date.now(),
     title,
@@ -87,13 +86,12 @@ function createThread(thread) {
     date: Math.round(new Date().getTime() / 1000).toString(),
   };
 
-  threads.unshift(newThread);
+  await db.push('/forum[]', newThread);
 
-  serialize(jsonDbPath, threads);
   return getInfo(newThread);
 }
 
-function replyToThread(threadId, reply) {
+async function replyToThread(threadId, reply) {
   if (!reply.author || !reply.content) throw new Error('Le contenu est requis');
   if (!threadId) throw new Error("L'identifiant du fil est requis");
 
@@ -102,10 +100,10 @@ function replyToThread(threadId, reply) {
   if (content.length < 3 || content.length > 400)
     throw new Error('Le contenu doit être compris entre 3 et 400 caractères');
 
-  const threads = getThreads();
-  const thread = threads.find((p) => p.id === Number(threadId));
+  const threads = await getThreads();
+  const threadIndex = threads.findIndex((p) => p.id === Number(threadId));
 
-  if (!thread) throw new Error('Fil de discussion introuvable');
+  if (threadIndex === -1) throw new Error('Fil de discussion introuvable');
 
   const newReply = {
     id: Date.now(),
@@ -113,36 +111,34 @@ function replyToThread(threadId, reply) {
     author: reply.author,
     date: Math.round(new Date().getTime() / 1000).toString(),
   };
-  thread.replies.push(newReply);
 
-  serialize(jsonDbPath, threads);
+  await db.push(`/forum[${threadIndex}]/replies[]`, newReply);
+
   return getInfo(newReply);
 }
 
-function deleteThread(id) {
-  const threads = getThreads();
+async function deleteThread(id) {
+  const threads = await getThreads();
   const threadIndex = threads.findIndex((p) => p.id === Number(id));
 
   if (threadIndex === -1) throw new Error('Fil de discussion introuvable');
 
-  threads.splice(threadIndex, 1);
-
-  serialize(jsonDbPath, threads);
+  await db.delete(`/forum[${threadIndex}]`);
 }
 
-function deleteReply(threadId, replyId) {
-  const threads = getThreads();
-  const thread = threads.find((p) => p.id === Number(threadId));
+async function deleteReply(threadId, replyId) {
+  const threads = await getThreads();
+  const threadIndex = threads.findIndex((p) => p.id === Number(threadId));
 
-  if (!thread) throw new Error('Fil de discussion introuvable');
+  if (threadIndex === -1) throw new Error('Fil de discussion introuvable');
 
-  const replyIndex = thread.replies.findIndex((p) => p.id === Number(replyId));
+  const replyIndex = (await db.get(`/forum[${threadIndex}]/replies`)).findIndex(
+    (p) => p.id === Number(replyId),
+  );
 
   if (replyIndex === -1) throw new Error('Réponse introuvable');
 
-  thread.replies.splice(replyIndex, 1);
-
-  serialize(jsonDbPath, threads);
+  await db.delete(`/forum[${threadIndex}]/replies[${replyIndex}]`);
 }
 
 module.exports = {
