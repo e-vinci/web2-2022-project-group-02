@@ -1,3 +1,4 @@
+import { getAuthenticatedUser } from '../../utils/auths';
 import html from '../../utils/html';
 import navigate from '../Router/Navigate';
 
@@ -23,17 +24,31 @@ btnC.addEventListener('click', () => {
 
 const HomePage = async () => {
   const main = document.querySelector('main');
+  const user = getAuthenticatedUser();
 
   const homepage = html`
     <div class="hero" style="background-color: rgb(194, 255, 194);">
       <div class="container">
-        <h1>Bienvenue sur CatByte</h1>
+        ${user
+          ? html`
+              <h1>Salut ${user.username} ! Prêt pour de nouveaux défis ?</h1>
+              <p>
+                Que tu sois débutant ou expert, tu trouveras forcément ton bonheur sur CatByte !
+              </p>
+              <p>
+                Pourquoi ne pas commencer par un cours ? Ou peut-être que tu préfères te lancer dans
+                le Miaouwrathon ?
+              </p>
+            `
+          : html`
+              <h1>Bienvenue sur CatByte</h1>
 
-        <p>
-          Sur ce site, tu peux apprendre la théorie tout en pratiquant ! Pour plus de fun, on te
-          conseille de t'inscrire pour débloquer le Miaouwrathon et de pouvoir reprendre tes leçons
-          là où tu t'es arrêté !
-        </p>
+              <p>
+                Sur ce site, tu peux apprendre la théorie tout en pratiquant ! Pour plus de fun, on
+                te conseille de t'inscrire pour débloquer le Miaouwrathon et de pouvoir reprendre
+                tes leçons là où tu t'es arrêté !
+              </p>
+            `}
       </div>
     </div>
     <div class="container">
