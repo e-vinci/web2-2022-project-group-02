@@ -23,7 +23,9 @@ btnC.addEventListener('click', () => {
 
 const HomePage = async () => {
   const main = document.querySelector('main');
-  const response = await fetch('https://v2.jokeapi.dev/joke/Any?type=single');
+  const response = await fetch(
+    'https://v2.jokeapi.dev/joke/Programming,Miscellaneous,Pun?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single',
+  );
   const joke = await response.json();
 
   const homepage = html`
