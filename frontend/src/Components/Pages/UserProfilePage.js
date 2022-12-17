@@ -1,8 +1,10 @@
 import { clearPage, renderPageTitle } from '../../utils/render';
 import html from '../../utils/html';
-import image from '../../img/defaultUser.png';
+import { CALL_PREFIX } from '../../utils/api';
+import { getAuthenticatedUser } from '../../utils/auths';
+import Navigate from '../Router/Navigate';
 
-const user = {
+const defaultUser = {
   username: 'Jean-Eud',
   picture: '../../img/defaultUser.png',
   questions: [
@@ -40,26 +42,32 @@ const user = {
 function getHighScores() {
   const scores = document.createElement('ul');
   scores.setAttribute('class', 'invisible-list');
-  user.highscore.forEach((score) => {
+  defaultUser.highscore.forEach((score) => {
     const li = document.createElement('li');
     li.innerHTML = `${score.cours} - ${score.score}`;
     scores.appendChild(li);
   });
   return scores;
 }
-const profilePicture = document.createElement('img');
-profilePicture.setAttribute('src', image);
-profilePicture.setAttribute('width', '35%');
-profilePicture.addEventListener('click', () => {
-  alert('change profile picture!');
-  // something to change profile picture
-});
+
+const renderProfilePicture = (id) => {
+  const el = html`
+    <img
+      src="${id
+        ? `${CALL_PREFIX}/users/${id}/avatar`
+        : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='}"
+      style="width: 35%; aspect-ratio: 1/1; background-color: #ccc; border-radius: 10px"
+    />
+  `;
+
+  return el;
+};
 
 const userName = document.createElement('form');
 userName.setAttribute('class', 'vertical centered');
 const userNameButton = document.createElement('input');
 userNameButton.setAttribute('type', 'submit');
-userNameButton.setAttribute('value', user.username);
+userNameButton.setAttribute('value', defaultUser.username);
 userNameButton.setAttribute('class', 'btn btn-info margin');
 userNameButton.addEventListener('click', () => {
   alert('Change User Name!');
@@ -78,7 +86,7 @@ userName.appendChild(forgetMe);
 function getCours() {
   const listeCours = document.createElement('ul');
   listeCours.setAttribute('class', 'invisible-list');
-  user.cours.forEach((cours) => {
+  defaultUser.cours.forEach((cours) => {
     const li = document.createElement('li');
     li.innerHTML = `${cours.titre} : chapitre ${cours.chapitre}`;
     listeCours.appendChild(li);
@@ -89,7 +97,7 @@ function getCours() {
 function getQuestions() {
   const q = document.createElement('ul');
   q.setAttribute('class', 'invisible-list');
-  user.questions.forEach((question) => {
+  defaultUser.questions.forEach((question) => {
     const li = document.createElement('li');
     li.innerHTML = `${question.date} | ${question.titre}`;
     q.appendChild(li);
@@ -102,12 +110,18 @@ const ProfilePage = async () => {
   renderPageTitle('Profil');
   renderProfile();
 };
+
 function renderProfile() {
+  const user = getAuthenticatedUser();
+  if (!user) {
+    return Navigate('/login');
+  }
+
   const main = document.querySelector('main');
 
   const profile = html`
     <div class="container horizontal centered">
-      <div class="container vertical centered">${profilePicture} ${userName}</div>
+      <div class="container vertical centered">${renderProfilePicture(user.id)} ${userName}</div>
       <div class="container vertical userSettings">
         <div class="container centered vertical cell">
           <h5>High Scores</h5>
@@ -124,10 +138,13 @@ function renderProfile() {
       </div>
     </div>
   `;
+
   main.replaceChildren(profile);
 
   const highscores = document.querySelector('highscores');
   highscores.replaceChildren('prout');
+
+  return profile;
 }
 
 export default ProfilePage;

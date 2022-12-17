@@ -29,3 +29,6 @@ Authorization: {{user.response.body.token}}
 	"cours": "c",
 	"progres": 50
 }
+
+### Get user avatar
+GET {{baseUrl}}/users/{{user.response.body.id}}/avatar

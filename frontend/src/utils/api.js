@@ -87,3 +87,4 @@ class API {
 }
 
 export default API;
+export { CALL_PREFIX };

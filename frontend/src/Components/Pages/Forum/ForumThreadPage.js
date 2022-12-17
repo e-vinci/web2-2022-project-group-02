@@ -3,7 +3,7 @@ import EasyMDE from 'easymde';
 import { clearPage } from '../../../utils/render';
 import html from '../../../utils/html';
 import { getAuthenticatedUser, isAuthenticated } from '../../../utils/auths';
-import API from '../../../utils/api';
+import API, { CALL_PREFIX } from '../../../utils/api';
 import Navigate from '../../Router/Navigate';
 import Icon from '../../Icon/Icon';
 import renderText from './util';
@@ -37,8 +37,13 @@ const ForumThreadPage = () => {
   fetchThread();
 };
 
-const SVGProfilePicturePlaceholder = () => html`
-  <div style="width: 50px; height: 50px; background-color: #ccc; border-radius: 10px"></div>
+const ProfilePicture = (id) => html`
+  <img
+    style="width: 50px; height: 50px; background-color: #ccc; border-radius: 10px"
+    src="${id
+      ? `${CALL_PREFIX}/users/${id}/avatar`
+      : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='}"
+  />
 `;
 
 const backLink = html` <a href="#" class="btn btn-primary">Retour au forum</a>`;
@@ -112,7 +117,7 @@ function renderPost(post, thread = null) {
 
   return html`
     <div class="border rounded p-3 d-flex gap-3">
-      <div>${SVGProfilePicturePlaceholder()}</div>
+      <div>${ProfilePicture(post.author?.id)}</div>
       <div class="flex-grow-1">
         <div><span class="fw-bold">${post.author?.username}</span></div>
         <div>${renderText(post.content)}</div>
