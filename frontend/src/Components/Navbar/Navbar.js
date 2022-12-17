@@ -54,14 +54,6 @@ function renderNavbar() {
               <a class="nav-link" aria-current="page" href="#" data-uri="/forum">Forum</a>
             </li>
           </ul>
-          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-            <input
-              type="search"
-              class="form-control"
-              placeholder="Recherche par leçon..."
-              aria-label="Search"
-            />
-          </form>
           <ul class="navbar-nav navbar-right mb-2 mb-lg-0">
             ${authenticatedUser
               ? html`
