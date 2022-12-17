@@ -47,8 +47,8 @@ The API is a REST API. The endpoints with 🔒 require authentication.
 | POST   | /users/progress     | 🔒  | Set the progress of user                                 | { course, chapter, progress, page } | { }       |
 | GET    | /users/:id/avatar   |     | Get the profile picture of a user                        | -                                   | -         |
 |        |                     |     | 💬 **Forum**                                             |                                     |           |
-| GET    | /forum              |     | Get all threads                                          | -                                   | -         |
-| GET    | /forum/:id          |     | Get a thread                                             | -                                   | -         |
+| GET    | /forum              |     | Get all threads                                          | -                                   | post[]    |
+| GET    | /forum/:id          |     | Get a thread                                             | -                                   | post      |
 | POST   | /forum              | 🔒  | Create a thread                                          | { title, content }                  | { id }    |
 | POST   | /forum/:id          | 🔒  | Reply to a thread                                        | { content }                         | post      |
 | DELETE | /forum/:id          | 🔒  | Delete a thread                                          | -                                   | -         |
