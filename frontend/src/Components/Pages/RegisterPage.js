@@ -13,6 +13,12 @@ const RegisterPage = () => {
 function renderRegisterForm() {
   const main = document.querySelector('main');
 
+  const termsLink = html`<a href="#">la politique de confidentialité</a>`;
+  termsLink.onclick = (e) => {
+    e.preventDefault();
+    Navigate('/about');
+  };
+
   const form = html`
     <form class="p-5 form-box" id="register-form">
       <input
@@ -37,6 +43,8 @@ function renderRegisterForm() {
         placeholder="Confirmer le mot de passe"
         class="form-control mb-3"
       />
+      <input type="checkbox" id="terms" required class="form-check-input mb-3" />
+      <label class="form-check-label mb-3">J'accepte ${termsLink}</label>
       <div class="d-flex gap-3 justify-content-end">
         <div class="spinner-border d-none" role="status"></div>
         <input value="S'inscrire" type="submit" class="btn btn-info" />
@@ -61,6 +69,9 @@ async function onRegister(e) {
   const username = document.querySelector('#username').value;
   const password = document.querySelector('#password').value;
   const confirmPswd = document.querySelector('#confirmPswd').value;
+  const terms = document.querySelector('#terms').checked;
+
+  if (!terms) return;
 
   try {
     if (password === confirmPswd) {
