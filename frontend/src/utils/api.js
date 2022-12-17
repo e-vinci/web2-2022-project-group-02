@@ -1,7 +1,7 @@
 import { getAuthenticatedUser } from './auths';
 
 const CALL_PREFIX = process.env.API_BASE_URL;
-const TIMEOUT = 10000;
+const TIMEOUT = 5 * 60 * 1000;
 
 class API {
   /**
