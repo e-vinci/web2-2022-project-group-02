@@ -18,7 +18,6 @@ router.get('/', async (req, res) => {
 
   if (req.query.author) {
     const { author } = req.query;
-    console.log(threads, author, typeof author, Number(author));
     return res.json(threads.filter((thread) => thread.author.id === Number(author)));
   }
 
