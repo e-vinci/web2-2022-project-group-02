@@ -13,12 +13,12 @@ function renderAboutPage() {
     <div class="container py-5">
       <h2>Politique de confidentialité</h2>
       <p>
-        CatByte est un site web avec des informations éducatives. Inscription n'est pas nécessaire
+        CatByte est un site web avec des informations éducatives. L'inscription n'est pas nécessaire
         pour accéder au site web.
       </p>
       <p>
-        Ce site a été créé dans le cadre du projet de Web2 de l'année 2022-2023 au
-        <a href="https://vinci.be" target="_blank">Haute École Léonard de Vinci au Bruxelles</a>.
+        Ce site a été créé dans le cadre du projet de Web2 de l'année 2022-2023 à
+        <a href="https://vinci.be" target="_blank">la Haute École Léonard de Vinci au Bruxelles</a>.
       </p>
       <p>
         Le code source est disponible sur
@@ -26,10 +26,10 @@ function renderAboutPage() {
       </p>
 
       <h3>Données personnelles</h3>
-      <p>Pour l'inscription, nous collectons les données suivantes:</p>
+      <p>Pour l'inscription, nous collectons les données suivantes :</p>
       <ul>
         <li>Pseudo</li>
-        <li>Adresse email</li>
+        <li>Adresse mail</li>
         <li>Mot de passe</li>
       </ul>
       <p>
@@ -39,7 +39,7 @@ function renderAboutPage() {
       <p>Les données sont supprimées lorsque l'utilisateur supprime son compte.</p>
       <p>
         Les données sont stockées sur un serveur hébergé par
-        <a href="https://www.microsoft.com/fr-fr" target="_blank">Microsoft</a>, au Pays-Bas.
+        <a href="https://www.microsoft.com/fr-fr" target="_blank">Microsoft</a>, aux Pays-Bas.
       </p>
       <h3>Cookies</h3>
       <p>
@@ -53,22 +53,22 @@ function renderAboutPage() {
         Nous ne faisons pas de marketing. Nous ne vendons pas vos données à des tiers. Nous ne
         collectons pas de données à des fins commerciales.
       </p>
-      <h3>Quels sont vos droits en matière de protection des données?</h3>
+      <h3>Quels sont vos droits en matière de protection des données ?</h3>
       <p>
-        Nous souhaitons vous informer que vous avez certaines droits en matière de protection des
+        Nous souhaitons vous informer que vous avez certains droits en matière de protection des
         données. En particulier, vous avez le droit de demander l'accès aux informations que nous
         détenons sur vous et de demander la correction, la mise à jour ou la suppression de ces
         informations.
       </p>
       <p>
-        Si vous souhaitez exercer l'un de ces droits, veuillez nous contacter avec le informations
+        Si vous souhaitez exercer l'un de ces droits, veuillez nous contacter avec les informations
         de contact ci-dessous.
       </p>
       <p>
         Nous vous informons que nous pouvons vous demander de vérifier votre identité avant de
         répondre à ces demandes.
       </p>
-      <h3>Comment gérer les cookies?</h3>
+      <h3>Comment gérer les cookies ?</h3>
       <p>
         Vous pouvez gérer les cookies à tout moment dans les paramètres de votre navigateur. Pour
         plus d'informations, veuillez consulter les instructions et les manuels de votre navigateur.
@@ -85,7 +85,7 @@ function renderAboutPage() {
       </p>
       <p>
         Si nous apportons des modifications importantes à cette politique de confidentialité, nous
-        vous informerons par e-mail et / ou d'une manière visible sur notre site Web.
+        vous informerons par e-mail et/ou d'une manière visible sur notre site web.
       </p>
       <h3>Comment nous contacter</h3>
       <p>
@@ -96,7 +96,7 @@ function renderAboutPage() {
         <a href="mailto:chehrazad.ouazzani@student.vinci.be">chehrazad.ouazzani@student.vinci.be</a
         >.
       </p>
-      <h3>Comment contacter l'autorité de contrôle</h3>
+      <h3>Comment contacter l'autorité de contrôle ?</h3>
       <p>
         Si vous n'êtes pas satisfait de la façon dont nous traitons vos données personnelles, vous
         avez le droit de déposer une plainte auprès de l'autorité de contrôle compétente. Vous
