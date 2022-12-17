@@ -11,9 +11,13 @@ const fetchPosts = async () => {
   try {
     const posts = await API.GET(`/forum`);
 
-    document.querySelector('#posts').replaceChildren(html`
-      ${posts.map((reply) => renderPost(reply))}
-    `);
+    document
+      .querySelector('#posts')
+      .replaceChildren(
+        posts.length === 0
+          ? html`<div class="m-3 text-muted">(aucune fil de discussion)</div>`
+          : html` ${posts.map((reply) => renderPost(reply))} `,
+      );
   } catch (e) {
     document.querySelector('#posts').replaceChildren(html`
       <div class="alert alert-danger my-3">${`Une erreur est survenue: ${e.message}`}</div>
