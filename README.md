@@ -2,15 +2,18 @@
 
 ## Description
 
-CatByte is a website that allows you to learn programming languages by solving challenges.
+CatByte is a website that allows you to learn programming languages by solving challenges. 🐈🐈‍⬛
 
 ## Deployment
 
-CatByte is currently deployed on [https://e-vinci.github.io/web2-2022-project-group-02/](https://e-vinci.github.io/web2-2022-project-group-02/). The API server is deployed on [https://catbyte.azurewebsites.net/](https://catbyte.azurewebsites.net/).
+The frontend and the API are deployed on GitHub Pages and Azure respectively. They are built automatically on every push to the `main` branch, using GitHub Actions.
+
+**Frontend: [https://e-vinci.github.io/web2-2022-project-group-02/](https://e-vinci.github.io/web2-2022-project-group-02/)**  
+API: [https://catbyte.azurewebsites.net/](https://catbyte.azurewebsites.net/)
 
 ## Configuration
 
-No configuration is necessary. Optional environment variables:
+No configuration is necessary. **Optional** environment variables:
 
 ```bash
 # Database FOLDER path. Defaults to api/data

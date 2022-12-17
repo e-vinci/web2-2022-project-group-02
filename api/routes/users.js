@@ -65,13 +65,12 @@ router.get('/:id/avatar', async (req, res) => {
 
   const user = await readOneUserFromId(id);
 
-  if (!user)
-    return res.redirect('https://www.gravatar.com/avatar/00000000000000000000000000000000?s=150');
+  if (!user) return res.sendStatus(404);
 
   const { email } = user;
   const hash = crypto.createHash('md5').update(email).digest('hex');
 
-  return res.redirect(`https://www.gravatar.com/avatar/${hash}?s=150&d=identicon`);
+  return res.redirect(`https://www.gravatar.com/avatar/${hash}?s=150&d=404`);
 });
 
 module.exports = router;
