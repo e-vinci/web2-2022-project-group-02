@@ -8,6 +8,12 @@
 body {
   background-color: #fff1da;
   font-size: 16px;
+}
+
+*,
+*::before,
+*::after,
+*::placeholder {
   letter-spacing: -0.011em;
 }
 
