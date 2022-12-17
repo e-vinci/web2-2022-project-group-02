@@ -12,7 +12,20 @@ marked.use({
 function renderText(text) {
   return html([
     DOMPurify.sanitize(marked.parse(text), {
-      ALLOWED_TAGS: ['p', 'a', 'ul', 'ol', 'li', 'strong', 'em', 'blockquote', 'code', 'pre'],
+      ALLOWED_TAGS: [
+        'p',
+        'a',
+        'ul',
+        'ol',
+        'li',
+        'strong',
+        'em',
+        'blockquote',
+        'code',
+        'pre',
+        'br',
+        'hr',
+      ],
       ALLOWED_ATTR: ['href'],
     }),
   ]);
