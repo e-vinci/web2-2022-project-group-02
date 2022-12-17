@@ -2,7 +2,24 @@
 const db = require('../utils/database');
 const { readOneUserFromId } = require('./users');
 
-const defaultThreads = [];
+const defaultThreads = [
+  {
+    id: 1,
+    author: 1,
+    title: 'Bienvenue sur le forum ! 🐈',
+    content:
+      'Ce forum est un espace de discussion pour ceux qui ont des questions sur le cours ou qui veulent partager des astuces.\n' +
+      "Vous pouvez aussi utiliser ce forum pour discuter entre vous, mais n'oubliez pas que ce forum est public et que tout le monde peut y accéder.\n" +
+      'Le markdown est supporté, vous pouvez donc utiliser des **gras**, des *italiques* et des [liens](https://vinci.be).\n' +
+      'Nous espérons que vous allez apprécier notre bon site ! 🐈‍⬛🐈\n\n' +
+      "*L'équipe de CatByte* 🐱",
+    replies: [],
+    date: Math.floor(Date.now() / 1000),
+
+    pinned: true,
+    locked: true,
+  },
+];
 
 db.setDefault('/forum', defaultThreads);
 
