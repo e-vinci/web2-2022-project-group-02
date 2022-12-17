@@ -41,7 +41,7 @@ router.post('/', authorize, async (req, res) => {
 });
 
 /* Reply to a thread */
-router.post('/:id/reply', authorize, async (req, res) => {
+router.post('/:id', authorize, async (req, res) => {
   const { id } = req.params;
   const reply = req.body;
 
@@ -67,7 +67,7 @@ router.delete('/:id', authorize, async (req, res) => {
 });
 
 /* Delete a reply */
-router.delete('/:id/reply/:replyId', authorize, async (req, res) => {
+router.delete('/:id/:replyId', authorize, async (req, res) => {
   const { id } = req.params;
   const { replyId } = req.params;
   const thread = await readOneThread(id);

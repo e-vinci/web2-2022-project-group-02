@@ -96,7 +96,7 @@ function renderPost(post, thread = null) {
 
         try {
           if (thread) {
-            await API.DELETE(`/forum/${thread.id}/reply/${post.id}`);
+            await API.DELETE(`/forum/${thread.id}/${post.id}`);
             await fetchThread();
           } else {
             await API.DELETE(`/forum/${post.id}`);
@@ -174,7 +174,7 @@ function renderReplyForm(thread = null) {
         return;
       }
 
-      const reply = await API.POST(`/forum/${id}/reply`, { content });
+      const reply = await API.POST(`/forum/${id}`, { content });
 
       thread.replies.push(reply);
 

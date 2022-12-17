@@ -148,10 +148,10 @@ async function updateScore(username, coursReq, scoreReq) {
   return true;
 }
 
-async function getProgress(username, titreCours) {
+async function getProgress(userId, titreCours) {
   const users = await db.get('/users');
 
-  const indexOfUserFound = users.findIndex((user) => user.username === username);
+  const indexOfUserFound = users.findIndex((user) => user.id === Number(userId));
   const user = users[indexOfUserFound];
   if (user === undefined) return -1;
   if (user.cours === undefined) {
@@ -170,10 +170,10 @@ async function getProgress(username, titreCours) {
   return user.cours[indexOfCours];
 }
 
-async function setProgress(username, titreCours, chapitre, progres, page) {
+async function setProgress(userId, titreCours, chapitre, progres, page) {
   const users = await db.get('/users');
 
-  const indexOfUser = users.findIndex((user) => user.username === username);
+  const indexOfUser = users.findIndex((user) => user.id === Number(userId));
   const user = users[indexOfUser];
   if (user.cours === undefined) {
     user.cours = [

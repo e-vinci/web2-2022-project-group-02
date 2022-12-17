@@ -1,0 +1,31 @@
+@baseUrl = http://localhost:3000
+
+### Requests requiring authorization
+### Login as user
+# @name user
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"admin"
+}
+
+### Get user progress
+POST {{baseUrl}}/users/getProgress
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
+{
+	"cours": "c"
+}
+
+### Set user progress
+POST {{baseUrl}}/users/setProgress
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
+{
+	"cours": "c",
+	"progres": 50
+}

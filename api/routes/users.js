@@ -1,23 +1,15 @@
 const express = require('express');
 const { getProgress, setProgress } = require('../models/users');
-/*
-const { LoginPage } = require('../../frontend/src/Components/Pages/LoginPage');
-//const dbPath = require('../data/users.json');
-const { readOneUserFromUsername } = require('../models/users');
-*/
+const { authorize } = require('../utils/auths');
+
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', (req, res) => {
-  res.json(); // res.json est une fonction qui renvoie la reponse entre parenthèse
-});
-
-router.post('/getProgress', async (req, res) => {
-  const username = req.body?.username ? req.body.username : undefined;
-  const cours = req.body?.cours ? req.body.cours : undefined;
-  res.statusCode = 200;
+router.post('/getProgress', authorize, async (req, res) => {
+  const { cours } = req.body;
   if (cours === undefined) res.statusCode = 418;
-  const reponse = await getProgress(username, cours);
+
+  const reponse = await getProgress(req.user.id, cours);
+
   if (reponse === -1) {
     res.statusCode = 404;
     res.sendStatus(404);
@@ -26,16 +18,11 @@ router.post('/getProgress', async (req, res) => {
   res.json(reponse || {});
 });
 
-router.post('/setProgress', async (req, res) => {
-  const username = req.body?.username ? req.body.username : undefined;
-  const cours = req.body?.cours ? req.body.cours : undefined;
-  const chapitre = req.body?.cours ? req.body.chapitre : 0;
-  const progres = req.body?.progres ? req.body.progres : 0;
-  const page = req.body?.page ? req.body.page : 0;
-
-  if (username === undefined) res.sendStatus(418);
+router.post('/setProgress', authorize, async (req, res) => {
+  const { cours, chapitre, progres, page } = req.body;
   if (cours === undefined) res.sendStatus(418);
-  await setProgress(username, cours, chapitre, progres, page);
+
+  await setProgress(req.user.id, cours, chapitre ?? 0, progres ?? 0, page ?? 0);
 
   res.json({});
 });
