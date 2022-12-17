@@ -237,6 +237,8 @@ async function deleteAccount(userId) {
 }
 
 module.exports = {
+  jwtSecret,
+
   login,
   register,
   readOneUserFromUsername,
