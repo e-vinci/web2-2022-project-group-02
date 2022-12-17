@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { Navbar as BootstrapNavbar } from 'bootstrap';
+// eslint-disable-next-line import/no-cycle
 import { getAuthenticatedUser } from '../../utils/auths';
 import html from '../../utils/html';
 import logo from '../../img/logo.png';
@@ -65,7 +66,7 @@ function renderNavbar() {
             ${authenticatedUser
               ? html`
                   <li class="nav-item ecart">
-                    <a class="nav-link" href="#" data-uri="/logout">Déconnexion</a>
+                    <a class="nav-link" href="#" data-uri="/logout">Se déconnecter</a>
                   </li>
                   <li class="nav-item ecart">
                     <a class="nav-link" href="#" data-uri="/profile">Mon profil</a>
@@ -73,7 +74,7 @@ function renderNavbar() {
                 `
               : html`
                   <li class="nav-item ecart">
-                    <a class="nav-link" href="#" data-uri="/login">Connexion</a>
+                    <a class="nav-link" href="#" data-uri="/login">Se connecter</a>
                   </li>
                   <li class="nav-item ecart">
                     <a class="nav-link" href="#" data-uri="/register">S'inscrire</a>

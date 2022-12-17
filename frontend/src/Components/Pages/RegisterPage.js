@@ -1,85 +1,81 @@
 import API from '../../utils/api';
 import { setAuthenticatedUser } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
-import Navbar from '../Navbar/Navbar';
+import html from '../../utils/html';
 import Navigate from '../Router/Navigate';
-// import gdpr from '../Pages/GDPR_rules';
 
 const RegisterPage = () => {
   clearPage();
-  renderPageTitle('S’inscrire');
+  renderPageTitle('Inscription');
   renderRegisterForm();
-  // gdprRules();
 };
 
 function renderRegisterForm() {
   const main = document.querySelector('main');
-  const form = document.createElement('form');
-  form.className = 'p-5 form-box';
-  const username = document.createElement('input');
-  username.type = 'text';
-  username.id = 'username';
-  username.placeholder = 'username';
-  username.required = true;
-  username.className = 'form-control mb-3';
-  const password = document.createElement('input');
-  password.type = 'password';
-  password.id = 'password';
-  password.required = true;
-  password.placeholder = 'password';
-  password.className = 'form-control mb-3';
-  const confirmPswd = document.createElement('input');
-  confirmPswd.type = 'password';
-  confirmPswd.id = 'confirmPswd';
-  confirmPswd.required = true;
-  confirmPswd.placeholder = 'confirm password';
-  confirmPswd.className = 'form-control mb-3';
 
-  // const condition = document.querySelectorAll('html');
-  // condition.length = 'rules';
+  const form = html`
+    <form class="p-5 form-box" id="register-form">
+      <input type="text" id="username" placeholder="Pseudo" required class="form-control mb-3" />
+      <input
+        type="password"
+        id="password"
+        required
+        placeholder="Mot de passe"
+        class="form-control mb-3"
+      />
+      <input
+        type="password"
+        id="confirmPswd"
+        required
+        placeholder="Confirmer le mot de passe"
+        class="form-control mb-3"
+      />
+      <div class="d-flex gap-3 justify-content-end">
+        <div class="spinner-border d-none" role="status"></div>
+        <input value="S'inscrire" type="submit" class="btn btn-info" />
+      </div>
+    </form>
+  `;
 
-  const submit = document.createElement('input');
-  submit.value = 'S’inscrire';
-  submit.type = 'submit';
-  submit.className = 'btn btn-info';
-  form.appendChild(username);
-  form.appendChild(password);
-  form.appendChild(confirmPswd);
-  form.appendChild(submit);
-  main.appendChild(form);
   form.addEventListener('submit', onRegister);
+
+  main.appendChild(form);
 }
 
 async function onRegister(e) {
   e.preventDefault();
 
+  if (!e.target.querySelector('.spinner-border').classList.contains('d-none')) return;
+
+  e.target.querySelector('.alert')?.remove();
+  e.target.querySelector('.spinner-border').classList.remove('d-none');
+
   const username = document.querySelector('#username').value;
   const password = document.querySelector('#password').value;
   const confirmPswd = document.querySelector('#confirmPswd').value;
 
-  if (password === confirmPswd) {
-    try {
+  try {
+    if (password === confirmPswd) {
       const authenticatedUser = await API.POST('/auths/register', {
         username,
         password,
       });
 
-      console.log('Newly registered & authenticated user : ', authenticatedUser);
       setAuthenticatedUser(authenticatedUser);
+
       Navigate('/');
-      return true;
-    } catch (err) {
-      alert('Pseudonyme ou mot de passe est invalide');
+    } else {
+      e.target.append(
+        html`<div class="alert alert-danger mt-3 mb-n1">
+          Veuillez re-entrer votre mot de passe correctement
+        </div>`,
+      );
     }
-  } else {
-    alert('Veuillez re-entrer votre mot de passe correctement');
+  } catch (err) {
+    e.target.append(html`<div class="alert alert-danger mt-3 mb-n1">${err.message}</div>`);
+  } finally {
+    e.target.querySelector('.spinner-border').classList.add('d-none');
   }
-
-  Navbar();
-
-  Navigate('/register');
-
-  return false;
 }
 
 export default RegisterPage;
