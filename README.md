@@ -13,6 +13,8 @@ No configuration is necessary. Optional environment variables:
 ```bash
 # Database FOLDER path. Defaults to api/data
 DB_PATH=/home
+# Default admin password. Defaults to admin
+DEFAULT_ADMIN_PASSWORD=1234
 ```
 
 ## Usage

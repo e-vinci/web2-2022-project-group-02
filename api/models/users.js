@@ -13,7 +13,7 @@ const defaultUsers = [
     id: 1,
     email: 'admin@example.com',
     username: 'admin',
-    password: bcrypt.hashSync('admin', saltRounds),
+    password: bcrypt.hashSync(process.env.DEFAULT_ADMIN_PASSWORD ?? 'admin', saltRounds),
   },
 ];
 
