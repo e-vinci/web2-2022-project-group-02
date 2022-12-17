@@ -91,6 +91,12 @@ async function createOneUser(email, username, password) {
   const emailRegex = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
   if (!emailRegex.test(email)) throw new Error('Adresse mail invalide');
 
+  const usernameRegex = /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+  if (!usernameRegex.test(username))
+    throw new Error(
+      "Pseudo invalide : il doit être compris entre 3 et 20 caractères, et il ne doit pas comporter d'espaces ni de caractères spéciaux.",
+    );
+
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const createdUser = {
@@ -237,6 +243,8 @@ async function deleteAccount(userId) {
 }
 
 module.exports = {
+  jwtSecret,
+
   login,
   register,
   readOneUserFromUsername,

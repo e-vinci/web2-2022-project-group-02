@@ -2,7 +2,8 @@ import { Modal as BootstrapModal } from 'bootstrap';
 import { clearPage, renderPageTitle } from '../../utils/render';
 import html from '../../utils/html';
 import { getAuthenticatedUser } from '../../utils/auths';
-import API, { CALL_PREFIX } from '../../utils/api';
+import API from '../../utils/api';
+import ProfilePicture from '../ProfilePicture/ProfilePicture';
 import Navigate from '../Router/Navigate';
 import Logout from '../Logout/Logout';
 
@@ -44,14 +45,7 @@ async function renderUserPage(userId, isCurrentUser = false) {
     <div class="container">
       <div class="row">
         <div class="col-12 col-lg-3 text-center d-flex flex-column align-items-center gap-3">
-          <div>
-            <img
-              src="${user?.id
-                ? `${CALL_PREFIX}/users/${user.id}/avatar`
-                : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='}"
-              style="width: 150px; height: 150px; border-radius: 10px; background-color: #ccc"
-            />
-          </div>
+          <div>${ProfilePicture(user?.id, 150)}</div>
           <div class="fw-bold fs-3">${user.username}</div>
           <div>
             Inscrit depuis le

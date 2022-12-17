@@ -1,4 +1,5 @@
 import HomePage from '../Pages/HomePage';
+import AboutPage from '../Pages/AboutPage';
 import Logout from '../Logout/Logout';
 import LoginPage from '../Pages/LoginPage';
 import RegisterPage from '../Pages/RegisterPage';
@@ -15,6 +16,7 @@ import meowrathonASM from '../Pages/meowrathon/meowrathonASM';
 
 const routes = {
   '/': HomePage,
+  '/about': AboutPage,
   '/courses': CoursesMainPage,
   '/courses/overview': CourseOverviewPage,
   '/courses/course': CourseSectionPage,
