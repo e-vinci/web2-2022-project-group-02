@@ -129,6 +129,16 @@ function renderPost(post) {
     Navigate(`/forum/thread?id=${post.id}`);
   };
 
+  const renderAuthorLink = (child) => {
+    const el = html`<a href="#" class="fw-bold link-dark text-decoration-none">${child}</a>`;
+    el.onclick = (e) => {
+      e.preventDefault();
+      Navigate(`/profile?id=${post.author?.id}`);
+    };
+
+    return el;
+  };
+
   return html`
     <div class="border rounded p-3 my-3 d-flex gap-3">
       <div class="position-relative flex-grow-1">
@@ -142,7 +152,10 @@ function renderPost(post) {
       </div>
       <div class="text-nowrap d-flex flex-column justify-content-between text-end">
         ${actions}
-        <div>${post.author.username}, le ${new Date(post.date * 1000).toLocaleString('fr-BE')}</div>
+        <div>
+          ${renderAuthorLink(post.author.username)}, le
+          ${new Date(post.date * 1000).toLocaleString('fr-BE')}
+        </div>
       </div>
     </div>
   `;
