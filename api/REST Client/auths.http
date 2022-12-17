@@ -24,6 +24,7 @@ POST {{baseUrl}}/auths/register
 Content-Type: application/json
 
 {
+    "email": "manager@example.com",
     "username":"manager",
     "password":"manager"
 }

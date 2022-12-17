@@ -15,6 +15,13 @@ function renderRegisterForm() {
 
   const form = html`
     <form class="p-5 form-box" id="register-form">
+      <input
+        type="email"
+        id="email"
+        placeholder="Adresse mail"
+        required
+        class="form-control mb-3"
+      />
       <input type="text" id="username" placeholder="Pseudo" required class="form-control mb-3" />
       <input
         type="password"
@@ -50,6 +57,7 @@ async function onRegister(e) {
   e.target.querySelector('.alert')?.remove();
   e.target.querySelector('.spinner-border').classList.remove('d-none');
 
+  const email = document.querySelector('#email').value;
   const username = document.querySelector('#username').value;
   const password = document.querySelector('#password').value;
   const confirmPswd = document.querySelector('#confirmPswd').value;
@@ -57,6 +65,7 @@ async function onRegister(e) {
   try {
     if (password === confirmPswd) {
       const authenticatedUser = await API.POST('/auths/register', {
+        email,
         username,
         password,
       });

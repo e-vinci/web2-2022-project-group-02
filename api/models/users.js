@@ -11,6 +11,7 @@ const saltRounds = 10;
 const defaultUsers = [
   {
     id: 1,
+    email: 'admin@example.com',
     username: 'admin',
     password: bcrypt.hashSync('admin', saltRounds),
   },
@@ -19,7 +20,8 @@ const defaultUsers = [
 db.setDefault('/users', defaultUsers);
 
 async function login(username, password) {
-  const user = await readOneUserFromUsername(username);
+  let user = await readOneUserFromUsername(username);
+  if (!user) user = await readOneUserFromEmail(username);
   if (!user) return undefined;
 
   const passwordMatch = await bcrypt.compare(password, user.password);
@@ -40,11 +42,11 @@ async function login(username, password) {
   return authenticatedUser;
 }
 
-async function register(username, password) {
-  const userFound = await readOneUserFromUsername(username);
-  if (userFound) return undefined;
+async function register(email, username, password) {
+  if ((await readOneUserFromUsername(username)) || (await readOneUserFromEmail(email)))
+    return undefined;
 
-  const user = await createOneUser(username, password);
+  const user = await createOneUser(email, username, password);
 
   const token = jwt.sign(
     { id: user.id, username: user.username }, // session data added to the payload (payload : part 2 of a JWT)
@@ -69,6 +71,14 @@ async function readOneUserFromUsername(username) {
   return users[indexOfUserFound];
 }
 
+async function readOneUserFromEmail(email) {
+  const users = await db.get('/users');
+  const indexOfUserFound = users.findIndex((user) => user.email === email);
+  if (indexOfUserFound < 0) return undefined;
+
+  return users[indexOfUserFound];
+}
+
 async function readOneUserFromId(id) {
   const users = await db.get('/users');
   const user = users.find((u) => u.id === Number(id));
@@ -76,11 +86,12 @@ async function readOneUserFromId(id) {
   return user;
 }
 
-async function createOneUser(username, password) {
+async function createOneUser(email, username, password) {
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const createdUser = {
     id: await getNextId(),
+    email,
     username,
     password: hashedPassword,
   };
@@ -214,6 +225,7 @@ module.exports = {
   login,
   register,
   readOneUserFromUsername,
+  readOneUserFromEmail,
   readOneUserFromId,
   getScore,
   updateScore,

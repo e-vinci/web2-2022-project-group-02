@@ -16,7 +16,13 @@ function renderRegisterForm() {
 
   const form = html`
     <form class="p-5 form-box">
-      <input type="text" id="username" placeholder="Pseudo" required class="form-control mb-3" />
+      <input
+        type="text"
+        id="username"
+        placeholder="Pseudo ou adresse mail"
+        required
+        class="form-control mb-3"
+      />
       <input
         type="password"
         id="password"
