@@ -6,6 +6,26 @@ const { authorize } = require('../utils/auths');
 
 const router = express.Router();
 
+router.get('/progress', authorize, async (req, res) => {
+  const { course } = req.query;
+  if (course === undefined) return res.sendStatus(400);
+
+  const response = await getProgress(req.user.id, course);
+
+  if (response === -1) return res.sendStatus(404);
+
+  return res.json(response || {});
+});
+
+router.post('/progress', authorize, async (req, res) => {
+  const { course, chapter, progress, page } = req.body;
+  if (course === undefined) return res.sendStatus(400);
+
+  await setProgress(req.user.id, course, chapter ?? 0, progress ?? 0, page ?? 0);
+
+  return res.json({});
+});
+
 /* Get user info */
 router.get('/:id?', authorize, async (req, res) => {
   const id = req.params.id || req.user.id;
@@ -35,26 +55,6 @@ router.delete('/:id?', authorize, async (req, res) => {
 
   await deleteAuthorPosts(id);
   await deleteAccount(id);
-
-  return res.json({});
-});
-
-router.post('/getProgress', authorize, async (req, res) => {
-  const { course } = req.body;
-  if (course === undefined) return res.sendStatus(400);
-
-  const response = await getProgress(req.user.id, course);
-
-  if (response === -1) return res.sendStatus(404);
-
-  return res.json(response || {});
-});
-
-router.post('/setProgress', authorize, async (req, res) => {
-  const { course, chapter, progress, page } = req.body;
-  if (course === undefined) return res.sendStatus(400);
-
-  await setProgress(req.user.id, course, chapter ?? 0, progress ?? 0, page ?? 0);
 
   return res.json({});
 });

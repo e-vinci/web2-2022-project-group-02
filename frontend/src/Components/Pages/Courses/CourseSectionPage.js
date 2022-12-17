@@ -120,7 +120,7 @@ async function updateProgress() {
   const progress = Math.round((pageNum / totalPages) * 1000) / 10;
   const user = getAuthenticatedUser();
   if (user !== undefined) {
-    await API.POST('/users/setProgress', {
+    await API.POST('/users/progress', {
       course,
       chapter,
       progress,

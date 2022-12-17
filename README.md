@@ -41,8 +41,8 @@ The API is a REST API. The endpoints with 🔒 require authentication.
 |        |                     |     | 👤 **Users**                                             |                                     |           |
 | GET    | /users/:id?         | 🔒  | Get user info                                            | -                                   | user      |
 | DELETE | /users/:id?         | 🔒  | Delete a user                                            | -                                   | -         |
-| POST   | /users/getProgress  | 🔒  | Get the progress of user                                 | { title }                           | course    |
-| POST   | /users/setProgress  | 🔒  | Set the progress of user                                 | { course, chapter, progress, page } | { }       |
+| GET    | /users/progress     | 🔒  | Get the progress of user                                 | { title }                           | course    |
+| POST   | /users/progress     | 🔒  | Set the progress of user                                 | { course, chapter, progress, page } | { }       |
 | GET    | /users/:id/avatar   |     | Get the profile picture of a user                        | -                                   | -         |
 |        |                     |     | 💬 **Forum**                                             |                                     |           |
 | GET    | /forum              |     | Get all threads                                          | -                                   | -         |

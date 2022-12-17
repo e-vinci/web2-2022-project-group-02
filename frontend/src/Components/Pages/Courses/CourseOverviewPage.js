@@ -136,8 +136,7 @@ async function fetchUserProgress(course) {
     score: 0,
   };
 
-  userProgress = await API.POST('/users/getProgress', {
-    username: user.username,
+  userProgress = await API.GET('/users/progress', {
     course: titreCours,
   });
 

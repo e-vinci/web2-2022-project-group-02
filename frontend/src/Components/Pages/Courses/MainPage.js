@@ -1,8 +1,10 @@
 import { clearPage, renderPageTitle } from '../../../utils/render';
+import API from '../../../utils/api';
 import html from '../../../utils/html';
 import { renderProgressBar, renderButton } from './util';
 import ASMImage from '../../../img/course-asm.webp';
 import CImage from '../../../img/course-c.webp';
+import { isAuthenticated } from '../../../utils/auths';
 
 const MainPage = () => {
   clearPage();
@@ -16,19 +18,25 @@ const courses = [
     title: 'Assembleur',
     description: 'Langage de très bas niveau, proche du code machine.',
     image: ASMImage,
-    progress: 0,
   },
   {
     id: 'c',
     title: 'C',
     description: 'Langage très connu et révolutionnaire. A connaître absolument !',
     image: CImage,
-    progress: 0,
   },
 ];
 
+async function getProgress() {
+  if (!isAuthenticated()) return null;
+
+  return (await API.GET('/users')).courses;
+}
+
 function renderCourses() {
   const main = document.querySelector('main');
+
+  const progress = getProgress();
 
   const content = html`
     <div class="container">
@@ -48,7 +56,16 @@ function renderCourses() {
                   <div class="text-end">
                     ${renderButton('Apprendre 👉', `/courses/overview?course=${course.id}`)}
                   </div>
-                  <div class="position-relative mt-3">${renderProgressBar(course.progress)}</div>
+                  <div class="position-relative mt-3">
+                    ${progress.then((userCourses) => {
+                      const courseProgress =
+                        userCourses === undefined
+                          ? { progress: 0 }
+                          : userCourses?.find((c) => c.id === course.id);
+
+                      return courseProgress ? renderProgressBar(courseProgress.progress) : '';
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
