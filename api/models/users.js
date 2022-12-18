@@ -50,7 +50,7 @@ function assertPassword(password) {
     )
   )
     throw new Error(
-      'Mot de passe invalide : il doit comporter au minimum huit caractères, au moins une lettre majuscule, une lettre minuscule et un chiffre.',
+      'Mot de passe invalide : il doit comporter au minimum huit caractères, au moins une lettre majuscule, une lettre minuscule, un chiffre, et un caractère spécial.',
     );
 }
 
