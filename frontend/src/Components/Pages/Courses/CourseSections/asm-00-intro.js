@@ -4,113 +4,116 @@ import lilMeowMeow from '../../../../img/cats/chat3.png';
 
 const pages = [
   () => html`
-    <img class="picturePosition2" src="${lilMeowMeow}" width="20%" />
-    <h1 class="centered">0 - Introduction à l'Assembleur</h1>
-    <div class="horizontal">
-      <div class="vertical">
-        <p>
-          Les ordinateurs sont un peu bêtes, du coup ils ne comprennent que le binaire, tant pour
-          les données qu'ils traitent que pour les programmes qu'ils exécutent.
-        </p>
-        <p>
-          Ces programmes sont composés d'instructions simples, par exemple 0x90, 0xF8, etc. C'est ce
-          qu'on appelle du "Language Machine" Le problème, c'est que ces nombres sont stockés sous
-          forme binaire ou hexadécimale, ce qui est dur à lire pour un humain.
-        </p>
-        <p>
-          Pour rendre la programmation plus accessible, des noms ont donc été donnés à ces
-          instruction, et pour chaque nom d'instruction correspond un "op code". Nos instructions
-          deviennent donc NOP, CLC, etc. C'est déja mieux. En plus des noms d'instructions, des
-          fonctionnalités permettant de faciliter la programmation ont aussi été ajoutées. Nous
-          appelons ce nouveau language L'assembleur.
-        </p>
-        <div class="notabene centered">
+    <div class="position-relative">
+      <img class="picturePosition2" src="${lilMeowMeow}" width="20%" />
+      <h1 class="centered">0 - Introduction à l'Assembleur</h1>
+      <div class="horizontal">
+        <div class="vertical">
           <p>
-            N.B. Il n'existe pas qu'un langage assembleur. Les langages assembleurs sont une
-            abstraction du fonctionnement électrique du processeur, des processeurs différents ont
-            donc des assembleurs différents.
+            Les ordinateurs sont un peu bêtes, du coup ils ne comprennent que le binaire, tant pour
+            les données qu'ils traitent que pour les programmes qu'ils exécutent.
           </p>
-        </div>
-        <div class="notabene centered">
           <p>
-            N.B. 2 une même instruction (par exemple MOV) peut correspondre à plusieurs opcodes. En
-            effet, certaines instructions impliquent des informations supplémentaires, comme le mode
-            d'adressage, et l'opcode est différent pour chacune des variation de cette instruction.
+            Ces programmes sont composés d'instructions simples, par exemple 0x90, 0xF8, etc. C'est
+            ce qu'on appelle du "Language Machine" Le problème, c'est que ces nombres sont stockés
+            sous forme binaire ou hexadécimale, ce qui est dur à lire pour un humain.
           </p>
+          <p>
+            Pour rendre la programmation plus accessible, des noms ont donc été donnés à ces
+            instruction, et pour chaque nom d'instruction correspond un "op code". Nos instructions
+            deviennent donc NOP, CLC, etc. C'est déja mieux. En plus des noms d'instructions, des
+            fonctionnalités permettant de faciliter la programmation ont aussi été ajoutées. Nous
+            appelons ce nouveau language L'assembleur.
+          </p>
+          <div class="notabene centered">
+            <p>
+              N.B. Il n'existe pas qu'un langage assembleur. Les langages assembleurs sont une
+              abstraction du fonctionnement électrique du processeur, des processeurs différents ont
+              donc des assembleurs différents.
+            </p>
+          </div>
+          <div class="notabene centered">
+            <p>
+              N.B. 2 une même instruction (par exemple MOV) peut correspondre à plusieurs opcodes.
+              En effet, certaines instructions impliquent des informations supplémentaires, comme le
+              mode d'adressage, et l'opcode est différent pour chacune des variation de cette
+              instruction.
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="horizontal top" style="padding: 1%; padding-left: 10%;">
-        <table>
-          <th>LANGUAGE MACHINE</th>
-          <tr>
-            <td><div class="centered heavy-padded">0x20</div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">0x0C</div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">0xFD</div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">0x20</div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">0xED</div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">0xFD</div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">0xC9</div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">0xB1</div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">0xF0</div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">0xF9</div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">0x60</div></td>
-          </tr>
-        </table>
-        <table>
-          <tr>
-            <th colspan="4"><div class="centered">ASSEMBLEUR</div></th>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded"></div></td>
-            <td><div class="centered heavy-padded">JSR</div></td>
-            <td><div class="centered heavy-padded">$FD0C</div></td>
-            <td><div class="centered heavy-padded"></div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded">loop:</div></td>
-            <td><div class="centered heavy-padded">JSR</div></td>
-            <td><div class="centered heavy-padded">$FDED</div></td>
-            <td><div class="centered heavy-padded"></div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded"></div></td>
-            <td><div class="centered heavy-padded">CMP</div></td>
-            <td><div class="centered heavy-padded">'1'</div></td>
-            <td><div class="centered heavy-padded"></div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded"></div></td>
-            <td><div class="centered heavy-padded">BEQ</div></td>
-            <td><div class="centered heavy-padded">loop</div></td>
-            <td><div class="centered heavy-padded"></div></td>
-          </tr>
-          <tr>
-            <td><div class="centered heavy-padded"></div></td>
-            <td><div class="centered heavy-padded">RTS</div></td>
-            <td><div class="centered heavy-padded"></div></td>
-            <td><div class="centered heavy-padded"></div></td>
-          </tr>
-        </table>
+        <div class="horizontal top" style="padding: 1%; padding-left: 10%;">
+          <table>
+            <th>LANGUAGE MACHINE</th>
+            <tr>
+              <td><div class="centered heavy-padded">0x20</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">0x0C</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">0xFD</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">0x20</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">0xED</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">0xFD</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">0xC9</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">0xB1</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">0xF0</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">0xF9</div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">0x60</div></td>
+            </tr>
+          </table>
+          <table>
+            <tr>
+              <th colspan="4"><div class="centered">ASSEMBLEUR</div></th>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded"></div></td>
+              <td><div class="centered heavy-padded">JSR</div></td>
+              <td><div class="centered heavy-padded">$FD0C</div></td>
+              <td><div class="centered heavy-padded"></div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded">loop:</div></td>
+              <td><div class="centered heavy-padded">JSR</div></td>
+              <td><div class="centered heavy-padded">$FDED</div></td>
+              <td><div class="centered heavy-padded"></div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded"></div></td>
+              <td><div class="centered heavy-padded">CMP</div></td>
+              <td><div class="centered heavy-padded">'1'</div></td>
+              <td><div class="centered heavy-padded"></div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded"></div></td>
+              <td><div class="centered heavy-padded">BEQ</div></td>
+              <td><div class="centered heavy-padded">loop</div></td>
+              <td><div class="centered heavy-padded"></div></td>
+            </tr>
+            <tr>
+              <td><div class="centered heavy-padded"></div></td>
+              <td><div class="centered heavy-padded">RTS</div></td>
+              <td><div class="centered heavy-padded"></div></td>
+              <td><div class="centered heavy-padded"></div></td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   `,

@@ -15,22 +15,27 @@ body {
   max-width: 40%;
 }
 
-.picturePosition {
+.picturePosition,
+.picturePosition2 {
   position: absolute;
-  margin-left: 1130px;
-  margin-top: -450px;
+  pointer-events: none;
+}
+
+.picturePosition {
+  width: 50%;
+  right: -25.2%;
+
+  display: none;
+
+  @include media-breakpoint-up(md) {
+    display: block;
+  }
 }
 
 .picturePosition2 {
   position: absolute;
-  margin-left: 1050px;
-  margin-top: 350px;
-}
-
-.picturePosition3 {
-  position: absolute;
-  margin-left: 200px;
-  margin-top: 160px;
+  right: 0;
+  bottom: 0;
 }
 
 *,

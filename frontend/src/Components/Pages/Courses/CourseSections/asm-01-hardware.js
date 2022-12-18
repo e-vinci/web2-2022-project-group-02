@@ -18,8 +18,6 @@ referenceObscure.addEventListener('click', () => {
 const pages = [
   () => html`
     <h1 class="text-center">1 - Matériel</h1>
-    <img class="picturePosition3" src="${meowers}" width="20%" />
-
     <div class="centered horizontal">
       <div class="centered vertical padded">
         <p>
@@ -32,6 +30,8 @@ const pages = [
         <p>
           Le processeur, lui, effectue les opérations requises sur les données stockées en mémoire.
         </p>
+
+        <img class="picturePosition3" src="${meowers}" width="50%" />
       </div>
       <div class="centered vertical padded">
         <img src="${schema1}" width="20%" />
