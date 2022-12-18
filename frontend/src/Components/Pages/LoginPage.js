@@ -37,9 +37,20 @@ function renderRegisterForm() {
     </form>
   `;
 
+  const el = html`
+    ${new URLSearchParams(window.location.search).get('location')
+      ? html`
+          <div class="alert alert-info container">
+            Vous devez être connecté pour accéder à cette page.
+          </div>
+        `
+      : ''}
+    ${form}
+  `;
+
   form.addEventListener('submit', onLogin);
 
-  main.appendChild(form);
+  main.appendChild(el);
 }
 
 async function onLogin(e) {

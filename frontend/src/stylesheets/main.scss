@@ -34,6 +34,10 @@ span > .spinner-border {
 a.link-inherit {
   color: inherit;
   text-decoration: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .promised-error {
