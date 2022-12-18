@@ -1,8 +1,10 @@
 import html from '../../../../utils/html';
 import ASMVisualiser from '../../../Visualiser/ASMVisualiser';
+import lilMeowMeow from '../../../../img/cats/chat3.png';
 
 const pages = [
   () => html`
+    <img class="picturePosition2" src="${lilMeowMeow}" width="20%" />
     <h1 class="centered">0 - Introduction à l'Assembleur</h1>
     <div class="horizontal">
       <div class="vertical">

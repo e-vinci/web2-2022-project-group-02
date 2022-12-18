@@ -5,6 +5,7 @@ import { renderProgressBar, renderButton } from './util';
 import ASMImage from '../../../img/course-asm.webp';
 import CImage from '../../../img/course-c.webp';
 import { isAuthenticated } from '../../../utils/auths';
+import meowThumb from '../../../img/cats/chat6.png';
 
 const MainPage = () => {
   clearPage();
@@ -73,6 +74,7 @@ function renderCourses() {
         )}
       </div>
     </div>
+    <img class="picturePosition" src="${meowThumb}" width="20%" />
   `;
 
   main.append(content);

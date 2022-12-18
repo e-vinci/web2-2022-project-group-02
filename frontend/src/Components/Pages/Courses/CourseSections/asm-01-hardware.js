@@ -6,6 +6,7 @@ import sch2Alu from '../../../../img/ASM_schema_2_alu.png';
 import sch2Ptr from '../../../../img/ASM_schema_2_ptr.png';
 import sch3 from '../../../../img/ASM_schema_3.png';
 import ASMVisualiser from '../../../Visualiser/ASMVisualiser';
+import meowers from '../../../../img/cats/chat5.png';
 
 const referenceObscure = document.createElement('p');
 referenceObscure.innerHTML =
@@ -17,6 +18,8 @@ referenceObscure.addEventListener('click', () => {
 const pages = [
   () => html`
     <h1 class="text-center">1 - Matériel</h1>
+    <img class="picturePosition3" src="${meowers}" width="20%" />
+
     <div class="centered horizontal">
       <div class="centered vertical padded">
         <p>
