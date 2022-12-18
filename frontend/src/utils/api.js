@@ -71,6 +71,16 @@ class API {
   }
 
   /**
+   * Call the API with PUT
+   * @param {string} endpoint - The API endpoint
+   * @param {object?} data - The data to send, if any
+   * @returns {Promise<object>} - The response
+   */
+  static PUT(endpoint, data) {
+    return this.call(endpoint, { method: 'put', body: data ? JSON.stringify(data) : null });
+  }
+
+  /**
    * Call the API with DELETE
    * @param {string} endpoint - The API endpoint
    * @param {object?} data - The data to send, if any

@@ -1,6 +1,13 @@
 const express = require('express');
 const crypto = require('crypto');
-const { readOneUserFromId, getProgress, setProgress, deleteAccount } = require('../models/users');
+const {
+  login,
+  readOneUserFromId,
+  getProgress,
+  setProgress,
+  updateAccount,
+  deleteAccount,
+} = require('../models/users');
 const { deleteAuthorPosts } = require('../models/forum');
 const { authorize } = require('../utils/auths');
 
@@ -34,12 +41,45 @@ router.get('/:id?', authorize, async (req, res) => {
 
   if (!user) return res.sendStatus(404);
 
+  const canSeeSensitiveInfo = req.user.username === 'admin' || req.user.id === Number(id);
+
   return res.json({
     id: user.id,
     username: user.username,
+    email: canSeeSensitiveInfo ? user.email : undefined,
     registerTime: user.registerTime,
     courses: user.courses,
   });
+});
+
+/* Update user info */
+router.put('/:id?', authorize, async (req, res) => {
+  const id = Number(req.params.id || req.user.id);
+
+  if (id !== req.user.id && req.user.username !== 'admin') return res.sendStatus(401);
+
+  if (id === 1) {
+    res.status(403);
+    throw new Error('Impossible de modifier le compte admin');
+  }
+
+  const { email, username, password, passwordConfirm } = req.body;
+
+  if (
+    passwordConfirm === undefined ||
+    (email === undefined && username === undefined && password === undefined)
+  )
+    return res.sendStatus(400);
+
+  await updateAccount(id, { email, username, password, passwordConfirm });
+
+  const user = await readOneUserFromId(id);
+
+  const authentifiedUser = await login(user.username, password || passwordConfirm);
+
+  if (!authentifiedUser) throw new Error('Mot de passe incorrect');
+
+  return res.json(authentifiedUser);
 });
 
 /* Delete account */

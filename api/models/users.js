@@ -20,6 +20,40 @@ const defaultUsers = [
 
 db.setDefault('/users', defaultUsers);
 
+function assertEmail(email) {
+  if (!email || typeof email !== 'string') throw new Error('Invalid email');
+
+  const emailRegex = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
+  if (!emailRegex.test(email)) throw new Error('Adresse mail invalide');
+}
+
+function assertUsername(username) {
+  if (!username || typeof username !== 'string') throw new Error('Invalid username');
+
+  const usernameRegex = /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+  if (!usernameRegex.test(username))
+    throw new Error(
+      "Pseudo invalide : il doit être compris entre 3 et 20 caractères, et il ne doit pas comporter d'espaces ni de caractères spéciaux.",
+    );
+}
+
+function assertPassword(password) {
+  if (!password || typeof password !== 'string') throw new Error('Invalid password');
+
+  if (
+    !(
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /[0-9]/.test(password) &&
+      /[^A-Za-z0-9]/.test(password) &&
+      password.length >= 8
+    )
+  )
+    throw new Error(
+      'Mot de passe invalide : il doit comporter au minimum huit caractères, au moins une lettre majuscule, une lettre minuscule et un chiffre.',
+    );
+}
+
 async function login(username, password) {
   let user = await readOneUserFromUsername(username);
   if (!user) user = await readOneUserFromEmail(username);
@@ -88,14 +122,9 @@ async function readOneUserFromId(id) {
 }
 
 async function createOneUser(email, username, password) {
-  const emailRegex = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
-  if (!emailRegex.test(email)) throw new Error('Adresse mail invalide');
-
-  const usernameRegex = /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
-  if (!usernameRegex.test(username))
-    throw new Error(
-      "Pseudo invalide : il doit être compris entre 3 et 20 caractères, et il ne doit pas comporter d'espaces ni de caractères spéciaux.",
-    );
+  assertEmail(email);
+  assertUsername(username);
+  assertPassword(password);
 
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
@@ -232,6 +261,47 @@ async function setProgress(userId, courseTitle, chapter, progress, page) {
   return true;
 }
 
+/* Update account */
+async function updateAccount(userId, { email, username, password, passwordConfirm }) {
+  const users = await db.get('/users');
+  const indexOfUser = users.findIndex((user) => user.id === Number(userId));
+
+  if (indexOfUser < 0) return false;
+
+  const user = users[indexOfUser];
+
+  if (!(await bcrypt.compare(passwordConfirm, user.password)))
+    throw new Error('Mot de passe incorrect');
+
+  if (email && email !== user.email) {
+    assertEmail(email);
+
+    if (users.find((u) => u.email === email)) throw new Error('Adresse mail déjà utilisée');
+
+    user.email = email;
+  }
+
+  if (username && username !== user.username) {
+    if (username.match(/^admin$/i)) throw new Error('Pseudo non autorisé');
+
+    assertUsername(username);
+
+    if (users.find((u) => u.username === username)) throw new Error('Pseudo déjà utilisé');
+
+    user.username = username;
+  }
+
+  if (password && !(await bcrypt.compare(password, user.password))) {
+    assertPassword(password);
+
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    user.password = hashedPassword;
+  }
+
+  return db.push(`/users[${indexOfUser}]`, user);
+}
+
 /* Delete account */
 async function deleteAccount(userId) {
   const users = await db.get('/users');
@@ -254,5 +324,7 @@ module.exports = {
   updateScore,
   getProgress,
   setProgress,
+
+  updateAccount,
   deleteAccount,
 };

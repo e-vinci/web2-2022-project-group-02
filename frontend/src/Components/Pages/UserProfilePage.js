@@ -1,7 +1,7 @@
 import { Modal as BootstrapModal } from 'bootstrap';
 import { clearPage, renderPageTitle } from '../../utils/render';
 import html from '../../utils/html';
-import { getAuthenticatedUser } from '../../utils/auths';
+import { getAuthenticatedUser, setAuthenticatedUser } from '../../utils/auths';
 import API from '../../utils/api';
 import ProfilePicture from '../ProfilePicture/ProfilePicture';
 import Navigate from '../Router/Navigate';
@@ -35,8 +35,8 @@ async function renderUserPage(userId, isCurrentUser = false) {
     </div>`;
   }
 
-  const editAvatarBtn = html`<button class="btn btn-link">Modifier l'avatar</button>`;
-  editAvatarBtn.onclick = editAvatar;
+  const editBtn = html`<button class="btn btn-link">Modifier</button>`;
+  editBtn.onclick = () => edit(user);
 
   const deleteAccountBtn = html`<button class="btn btn-link link-danger">Supprimer compte</button>`;
   deleteAccountBtn.onclick = deleteAccount;
@@ -61,7 +61,7 @@ async function renderUserPage(userId, isCurrentUser = false) {
           ${isCurrentUser
             ? html`
                 <div class="d-flex flex-row flex-lg-column align-items-center">
-                  ${[editAvatarBtn, deleteAccountBtn]}
+                  ${[editBtn, deleteAccountBtn]}
                 </div>
               `
             : ''}
@@ -80,23 +80,52 @@ async function renderUserPage(userId, isCurrentUser = false) {
   return el;
 }
 
-function editAvatar() {
+function edit(user) {
   const modalEl = html`
     <div class="modal fade" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modifier l'avatar</h5>
+            <h5 class="modal-title">Modifier le profil</h5>
             <button type="button" class="btn-close"></button>
           </div>
-          <div class="modal-body">
-            Tu peux modifier ton avatar en te connectant sur
-            <a href="https://fr.gravatar.com" target="_blank">gravatar.com</a> et en ajoutant une
-            image associée à ton adresse email.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-          </div>
+          <form>
+            <div class="modal-body">
+              <p class="text-muted">
+                Tu peux modifier ton photo de profil en te connectant sur
+                <a href="https://fr.gravatar.com" target="_blank">gravatar.com</a> et en ajoutant
+                une image associée à ton adresse email.
+              </p>
+              <hr />
+              <p class="text-muted">
+                Tu peux modifier ton pseudo, ton adresse email et ton mot de passe. Pas besoin de
+                remplir les champs que tu ne souhaites pas modifier.
+              </p>
+              <div class="mb-3">
+                <label for="username" class="form-label">Pseudo</label>
+                <input type="text" class="form-control" id="username" value="${user.username}" />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Adresse mail</label>
+                <input type="email" class="form-control" id="email" value="${user.email}" />
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Nouveau mot de passe</label>
+                <input type="password" class="form-control" id="password" />
+              </div>
+              <hr />
+              <div class="mb-3">
+                <label for="passwordConfirm" class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" id="passwordConfirm" required />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                Fermer
+              </button>
+              <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -104,6 +133,37 @@ function editAvatar() {
 
   const modal = new BootstrapModal(modalEl);
   modal.show();
+
+  modalEl.querySelector('form').onsubmit = async (e) => {
+    e.preventDefault();
+
+    const username = modalEl.querySelector('#username').value;
+    const email = modalEl.querySelector('#email').value;
+    const password = modalEl.querySelector('#password').value;
+    const passwordConfirm = modalEl.querySelector('#passwordConfirm').value;
+
+    try {
+      setAuthenticatedUser(
+        await API.PUT('/users', {
+          username,
+          email,
+          password,
+          passwordConfirm,
+        }),
+      );
+
+      window.location.reload();
+    } catch (err) {
+      const alertEl = modalEl.querySelector('.alert');
+      if (alertEl) alertEl.innerText = err.message;
+      else
+        modalEl
+          .querySelector('.modal-body')
+          .append(html`<div class="alert alert-danger" role="alert">${err.message}</div>`);
+    }
+  };
+
+  return modalEl;
 }
 
 function deleteAccount() {
