@@ -1,3 +1,4 @@
+import image from '../../img/cats/chat1.png';
 import { getAuthenticatedUser } from '../../utils/auths';
 import html from '../../utils/html';
 import navigate from '../Router/Navigate';
@@ -60,6 +61,8 @@ const HomePage = async () => {
         <div class="col-12 col-md-4">${btnASM}</div>
         <div class="col-12 col-md-4">${btnC}</div>
       </div>
+      <br />
+      <img class="picture1" src="${image}" />
     </div>
   `;
 
