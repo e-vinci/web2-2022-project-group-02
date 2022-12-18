@@ -9,7 +9,7 @@
 import { usePathPrefix } from '../../utils/path-prefix';
 
 const Navigate = (_toUri) => {
-  const fromUri = window.location.pathname;
+  const fromUri = window.location.pathname.replace(process.env.PATH_PREFIX, '/');
   if (fromUri === _toUri) return;
 
   let toUri = _toUri;
@@ -19,7 +19,7 @@ const Navigate = (_toUri) => {
     // otherwise, we can just append the location to the URI
     const [uri, queryString] = toUri.split('?');
     toUri = `${uri}?${queryString ? `${queryString}&` : ''}location=${encodeURIComponent(
-      window.location.pathname + window.location.search,
+      fromUri + window.location.search,
     )}`;
   }
 
