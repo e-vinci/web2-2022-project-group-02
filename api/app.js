@@ -8,7 +8,7 @@ require('express-async-errors');
 const authsRouter = require('./routes/auths');
 const forumRouter = require('./routes/forum');
 const usersRouter = require('./routes/users');
-const leaderboardRouter = require('./routes/leaderboards');
+const leaderboardRouter = require('./routes/leaderboard');
 
 const app = express();
 

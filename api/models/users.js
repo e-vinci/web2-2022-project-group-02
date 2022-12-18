@@ -98,8 +98,20 @@ async function register(email, username, password) {
   return authenticatedUser;
 }
 
-async function readOneUserFromUsername(username) {
+async function getUsers() {
   const users = await db.get('/users');
+
+  return users;
+}
+
+async function readAllUsers() {
+  const users = await getUsers();
+
+  return users;
+}
+
+async function readOneUserFromUsername(username) {
+  const users = await getUsers();
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   if (indexOfUserFound < 0) return undefined;
 
@@ -107,7 +119,7 @@ async function readOneUserFromUsername(username) {
 }
 
 async function readOneUserFromEmail(email) {
-  const users = await db.get('/users');
+  const users = await getUsers();
   const indexOfUserFound = users.findIndex((user) => user.email === email);
   if (indexOfUserFound < 0) return undefined;
 
@@ -115,7 +127,7 @@ async function readOneUserFromEmail(email) {
 }
 
 async function readOneUserFromId(id) {
-  const users = await db.get('/users');
+  const users = await getUsers();
   const user = users.find((u) => u.id === Number(id));
 
   return user;
@@ -142,7 +154,7 @@ async function createOneUser(email, username, password) {
 }
 
 async function getNextId() {
-  const users = await db.get('/users');
+  const users = await getUsers();
 
   const lastItemIndex = users?.length !== 0 ? users.length - 1 : undefined;
   if (lastItemIndex === undefined) return 1;
@@ -152,7 +164,7 @@ async function getNextId() {
 }
 
 async function getScore(username, coursReq) {
-  const users = await db.get('/users');
+  const users = await getUsers();
 
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   const user = users[indexOfUserFound];
@@ -175,7 +187,7 @@ async function getScore(username, coursReq) {
 }
 
 async function updateScore(username, coursReq, scoreReq) {
-  const users = await db.get('/users');
+  const users = await getUsers();
 
   const indexOfUserFound = users.findIndex((user) => user.username === username);
   const user = users[indexOfUserFound];
@@ -200,7 +212,7 @@ async function updateScore(username, coursReq, scoreReq) {
 }
 
 async function getProgress(userId, courseTitle) {
-  const users = await db.get('/users');
+  const users = await getUsers();
 
   const indexOfUserFound = users.findIndex((user) => user.id === Number(userId));
   const user = users[indexOfUserFound];
@@ -222,7 +234,7 @@ async function getProgress(userId, courseTitle) {
 }
 
 async function setProgress(userId, courseTitle, chapter, progress, page) {
-  const users = await db.get('/users');
+  const users = await getUsers();
 
   const indexOfUser = users.findIndex((user) => user.id === Number(userId));
   const user = users[indexOfUser];
@@ -263,7 +275,7 @@ async function setProgress(userId, courseTitle, chapter, progress, page) {
 
 /* Update account */
 async function updateAccount(userId, { email, username, password, passwordConfirm }) {
-  const users = await db.get('/users');
+  const users = await getUsers();
   const indexOfUser = users.findIndex((user) => user.id === Number(userId));
 
   if (indexOfUser < 0) return false;
@@ -304,7 +316,7 @@ async function updateAccount(userId, { email, username, password, passwordConfir
 
 /* Delete account */
 async function deleteAccount(userId) {
-  const users = await db.get('/users');
+  const users = await getUsers();
   const indexOfUser = users.findIndex((user) => user.id === Number(userId));
 
   if (indexOfUser < 0) return false;
@@ -317,6 +329,9 @@ module.exports = {
 
   login,
   register,
+
+  readAllUsers,
+
   readOneUserFromUsername,
   readOneUserFromEmail,
   readOneUserFromId,

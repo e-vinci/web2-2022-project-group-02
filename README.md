@@ -40,24 +40,28 @@ To build the frontend, run `npm run build` inside the `frontend` folder. The bui
 
 The API is a REST API. The endpoints with 🔒 require authentication.
 
-| Method | Path                |     | Description                                              | Request                             | Response  |
-| ------ | ------------------- | --- | -------------------------------------------------------- | ----------------------------------- | --------- |
-|        |                     |     | 🔑 **Authentication**                                    |                                     |           |
-| POST   | /auths/register     |     | Register with an email address, username and a password. | { email, username, password }       | { token } |
-| POST   | /auths/login        |     | Authenticate with a username and a password.             | { username, password }              | { token } |
-|        |                     |     | 👤 **Users**                                             |                                     |           |
-| GET    | /users/:id?         | 🔒  | Get user info                                            | -                                   | user      |
-| DELETE | /users/:id?         | 🔒  | Delete a user                                            | -                                   | -         |
-| GET    | /users/progress     | 🔒  | Get the progress of user                                 | { title }                           | course    |
-| POST   | /users/progress     | 🔒  | Set the progress of user                                 | { course, chapter, progress, page } | { }       |
-| GET    | /users/:id/avatar   |     | Get the profile picture of a user                        | -                                   | -         |
-|        |                     |     | 💬 **Forum**                                             |                                     |           |
-| GET    | /forum              |     | Get all threads                                          | -                                   | post[]    |
-| GET    | /forum/:id          |     | Get a thread                                             | -                                   | post      |
-| POST   | /forum              | 🔒  | Create a thread                                          | { title, content }                  | { id }    |
-| POST   | /forum/:id          | 🔒  | Reply to a thread                                        | { content }                         | post      |
-| DELETE | /forum/:id          | 🔒  | Delete a thread                                          | -                                   | -         |
-| DELETE | /forum/:id/:replyId | 🔒  | Delete a reply                                           | -                                   | -         |
+| Method | Path                  |     | Description                                              | Request                             | Response   |
+| ------ | --------------------- | --- | -------------------------------------------------------- | ----------------------------------- | ---------- |
+|        |                       |     | 🔑 **Authentication**                                    |                                     |            |
+| POST   | /auths/register       |     | Register with an email address, username and a password. | { email, username, password }       | { token }  |
+| POST   | /auths/login          |     | Authenticate with a username and a password.             | { username, password }              | { token }  |
+|        |                       |     | 👤 **Users**                                             |                                     |            |
+| GET    | /users/:id?           | 🔒  | Get user info                                            | -                                   | user       |
+| DELETE | /users/:id?           | 🔒  | Delete a user                                            | -                                   | -          |
+| GET    | /users/progress       | 🔒  | Get the progress of user                                 | { title }                           | course     |
+| POST   | /users/progress       | 🔒  | Set the progress of user                                 | { course, chapter, progress, page } | { }        |
+| GET    | /users/:id/avatar     |     | Get the profile picture of a user                        | -                                   | -          |
+|        |                       |     | 🏆 **Leaderboard**                                       |                                     |            |
+| GET    | /leaderboard          |     | Get the leaderboard                                      | -                                   | { c, asm } |
+| GET    | /leaderboard/getScore | 🔒  | Get the score of a user                                  | -                                   | { score }  |
+| POST   | /leaderboard/setScore | 🔒  | Set the score of a user                                  | { score }                           | { }        |
+|        |                       |     | 💬 **Forum**                                             |                                     |            |
+| GET    | /forum                |     | Get all threads                                          | -                                   | post[]     |
+| GET    | /forum/:id            |     | Get a thread                                             | -                                   | post       |
+| POST   | /forum                | 🔒  | Create a thread                                          | { title, content }                  | { id }     |
+| POST   | /forum/:id            | 🔒  | Reply to a thread                                        | { content }                         | post       |
+| DELETE | /forum/:id            | 🔒  | Delete a thread                                          | -                                   | -          |
+| DELETE | /forum/:id/:replyId   | 🔒  | Delete a reply                                           | -                                   | -          |
 
 The endpoints are testable with the
 [VSCode REST Client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client),

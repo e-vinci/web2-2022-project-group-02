@@ -86,7 +86,7 @@ async function afficherScore(score) {
     cours: 'asm',
   });
   if (ancienScore.score < scoreTotal) {
-    API.POST('/leaderboard/majScore', {
+    API.POST('/leaderboard/setScore', {
       username: user.username,
       cours: 'asm',
       score: scoreTotal,

@@ -1,0 +1,15 @@
+@baseUrl = http://localhost:3000
+
+### Requests requiring authorization
+### Login as user
+# @name user
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+    "username":"manager",
+    "password":"manager"
+}
+
+### Get ranking
+GET {{baseUrl}}/leaderboard
