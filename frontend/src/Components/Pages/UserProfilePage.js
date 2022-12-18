@@ -5,6 +5,7 @@ import { getAuthenticatedUser, setAuthenticatedUser } from '../../utils/auths';
 import API from '../../utils/api';
 import ProfilePicture from '../ProfilePicture/ProfilePicture';
 import FriendlyDate from '../FriendlyDate/FriendlyDate';
+import Icon from '../Icon/Icon';
 import Navigate from '../Router/Navigate';
 import Logout from '../Logout/Logout';
 
@@ -233,6 +234,7 @@ async function renderQuestions(user) {
 
           return html`<li>
             ${new Date(Math.floor(question.date) * 1000).toLocaleDateString('fr-BE')}: ${link}
+            ${question.replies?.length || 0} ${Icon('chat-dots')}
           </li>`;
         })}
       </ul>

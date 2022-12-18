@@ -1,4 +1,4 @@
-import { Tooltip } from 'bootstrap';
+import { Tooltip as BootstrapTooltip } from 'bootstrap';
 import html from '../../utils/html';
 
 export function getTimeAgo(_date) {
@@ -43,7 +43,9 @@ export default function FriendlyDate(_date, dateType = 'full', timeType = 'mediu
   const el = html` <span title="${str}" style="cursor: help;">${timeAgoStr}</span> `;
 
   // eslint-disable-next-line no-unused-vars
-  const tooltip = new Tooltip(el);
+  const tooltip = new BootstrapTooltip(el, {
+    placement: 'bottom',
+  });
 
   return el;
 }
