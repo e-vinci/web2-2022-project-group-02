@@ -63,7 +63,8 @@ async function onLogin(e) {
 
     Navbar();
 
-    Navigate('/');
+    const location = new URLSearchParams(window.location.search).get('location');
+    Navigate(location || '/');
   } catch (err) {
     e.target.append(html`<div class="alert alert-danger mt-3 mb-n1">${err.message}</div>`);
   } finally {
