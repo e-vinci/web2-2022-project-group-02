@@ -9,6 +9,11 @@ marked.use({
   smartypants: true,
 });
 
+DOMPurify.addHook('afterSanitizeAttributes', (node) => {
+  // set all elements owning target to target=_blank
+  if ('target' in node) node.setAttribute('target', '_blank');
+});
+
 function renderText(text) {
   return html([
     DOMPurify.sanitize(marked.parse(text), {
