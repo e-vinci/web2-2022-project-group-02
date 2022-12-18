@@ -131,7 +131,7 @@ function renderPost(post) {
   };
 
   const renderAuthorLink = (child) => {
-    const el = html`<a href="#" class="fw-bold link-dark text-decoration-none">${child}</a>`;
+    const el = html`<a href="#" class="fw-bold link-inherit">${child}</a>`;
     el.onclick = (e) => {
       e.preventDefault();
       Navigate(`/profile?id=${post.author?.id}`);
@@ -142,8 +142,10 @@ function renderPost(post) {
 
   const info = [];
 
+  const repliesNum = post.replies?.length || 0;
+
   const repliesInfo = html`
-    <span title="${post.replies?.length || 0} réponses">
+    <span title="${repliesNum} réponse${repliesNum !== 1 ? 's' : ''}">
       ${post.replies?.length || 0} ${Icon('chat-dots')}
     </span>
   `;
@@ -165,7 +167,7 @@ function renderPost(post) {
       </div>
       <div class="text-nowrap d-flex flex-column justify-content-between text-end align-items-end">
         ${actions}
-        <div>
+        <div class="text-muted">
           <div>${info}</div>
           <div>${renderAuthorLink(post.author.username)}, ${FriendlyDate(post.date * 1000)}</div>
         </div>
