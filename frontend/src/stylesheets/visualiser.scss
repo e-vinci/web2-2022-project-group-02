@@ -15,6 +15,10 @@
   padding: 2%;
   box-shadow: 5px 10px 20px #a0a0a0e0;
 
+  @include media-breakpoint-down(md) {
+    grid-template-columns: 1fr;
+  }
+
   --code-font: 'JetBrains Mono', monospace;
 
   &.visualiser-asm {
@@ -24,6 +28,8 @@
   &__code {
     display: flex;
     flex-direction: column;
+    max-width: 100%;
+    overflow: auto;
 
     &__editor {
       position: relative;

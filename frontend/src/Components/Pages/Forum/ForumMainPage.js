@@ -135,7 +135,7 @@ function renderPost(post) {
   info.push(repliesInfo);
 
   return html`
-    <div class="border rounded p-3 my-3 d-flex gap-3">
+    <div class="border rounded p-3 my-3 d-flex gap-3 flex-column flex-md-row">
       <div class="position-relative flex-grow-1">
         ${anchorEl}
         <div

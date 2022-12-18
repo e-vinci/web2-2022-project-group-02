@@ -25,10 +25,8 @@ body {
   width: 50%;
   right: -25.2%;
 
-  display: none;
-
-  @include media-breakpoint-up(md) {
-    display: block;
+  @include media-breakpoint-down(md) {
+    display: none;
   }
 }
 
@@ -110,6 +108,10 @@ span > .promised-error {
 .horizontal {
   display: flex;
   flex-direction: row;
+
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
 }
 
 .userSettings {
@@ -210,6 +212,10 @@ td {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1em;
+
+  @include media-breakpoint-down(md) {
+    grid-template-columns: 1fr;
+  }
 
   .code {
     font-family: monospace;

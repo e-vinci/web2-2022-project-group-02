@@ -135,7 +135,7 @@ function renderPost(post, thread = null) {
   };
 
   return html`
-    <div class="border rounded p-3 d-flex gap-3">
+    <div class="border rounded p-3 d-flex gap-3 flex-column flex-md-row">
       <div>${renderAuthorLink(ProfilePicture(post.author?.id, 50))}</div>
       <div class="flex-grow-1">
         <div>${renderAuthorLink(post.author?.username)}</div>
