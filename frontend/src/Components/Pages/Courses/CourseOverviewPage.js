@@ -223,7 +223,7 @@ async function renderOverview(course) {
                       </div>
                       ${renderButton(
                         'Commencer',
-                        `/courses/course?section=${section.id}#${section.page}`,
+                        `/courses/course?section=${section.id}#${section.page || 1}`,
                       )}
                     </div>
                   </div>
