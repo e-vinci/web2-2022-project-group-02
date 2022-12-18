@@ -1,10 +1,11 @@
-import { Modal as BootstrapModal, Tooltip as BootstrapTooltip } from 'bootstrap';
+import { Tooltip as BootstrapTooltip } from 'bootstrap';
 import { clearPage, renderPageTitle } from '../../../utils/render';
 import html from '../../../utils/html';
 import API from '../../../utils/api';
 import { getAuthenticatedUser, isAuthenticated } from '../../../utils/auths';
 import Navigate from '../../Router/Navigate';
 import Icon from '../../Icon/Icon';
+import Modal from '../../Modal/Modal';
 import FriendlyDate from '../../FriendlyDate/FriendlyDate';
 import renderText from './util';
 
@@ -14,8 +15,6 @@ const ForumPage = () => {
   clearPage();
   renderPageTitle('Forum');
   render();
-
-  fetchPosts();
 };
 
 function render() {
@@ -76,30 +75,11 @@ function renderPost(post) {
           <button type="button" class="btn btn-danger">Supprimer</button>
         `;
 
-        const modalEl = html`
-          <div class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="deleteModalLabel">Supprimer le message</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                  <p>Êtes-vous sûr de vouloir supprimer ce message ?</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Annuler
-                  </button>
-                  ${deleteConfirmBtn}
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-
-        const modal = new BootstrapModal(modalEl, {});
-        modal.show();
+        const [modalEl, modal] = Modal({
+          title: 'Supprimer le message',
+          body: html` <p>Êtes-vous sûr de vouloir supprimer ce message ?</p> `,
+          footer: [deleteConfirmBtn],
+        });
 
         deleteConfirmBtn.onclick = async (event) => {
           event.preventDefault();
