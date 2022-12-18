@@ -5,6 +5,7 @@ import API from '../../../utils/api';
 import { getAuthenticatedUser, isAuthenticated } from '../../../utils/auths';
 import Navigate from '../../Router/Navigate';
 import Icon from '../../Icon/Icon';
+import FriendlyDate from '../../FriendlyDate/FriendlyDate';
 import renderText from './util';
 
 const fetchPosts = async () => API.GET(`/forum`);
@@ -152,10 +153,7 @@ function renderPost(post) {
       </div>
       <div class="text-nowrap d-flex flex-column justify-content-between text-end align-items-end">
         ${actions}
-        <div>
-          ${renderAuthorLink(post.author.username)}, le
-          ${new Date(post.date * 1000).toLocaleString('fr-BE')}
-        </div>
+        <div>${renderAuthorLink(post.author.username)}, ${FriendlyDate(post.date * 1000)}</div>
       </div>
     </div>
   `;

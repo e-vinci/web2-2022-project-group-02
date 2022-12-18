@@ -4,6 +4,7 @@ import html from '../../utils/html';
 import { getAuthenticatedUser, setAuthenticatedUser } from '../../utils/auths';
 import API from '../../utils/api';
 import ProfilePicture from '../ProfilePicture/ProfilePicture';
+import FriendlyDate from '../FriendlyDate/FriendlyDate';
 import Navigate from '../Router/Navigate';
 import Logout from '../Logout/Logout';
 
@@ -48,15 +49,7 @@ async function renderUserPage(userId, isCurrentUser = false) {
           <div>${ProfilePicture(user?.id, 150)}</div>
           <div class="fw-bold fs-3">${user.username}</div>
           <div>
-            Inscrit depuis le
-            <i>
-              ${new Date(Math.floor(user.registerTime) * 1000)
-                .toLocaleString('fr-BE', {
-                  dateStyle: 'full',
-                  timeStyle: 'short',
-                })
-                .replaceAll(' ', '&nbsp;')}
-            </i>
+            Inscrit ${FriendlyDate(new Date(Math.floor(user.registerTime) * 1000), 'full', 'short')}
           </div>
           ${isCurrentUser
             ? html`

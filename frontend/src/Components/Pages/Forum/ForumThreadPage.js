@@ -7,6 +7,7 @@ import API from '../../../utils/api';
 import ProfilePicture from '../../ProfilePicture/ProfilePicture';
 import Navigate from '../../Router/Navigate';
 import Icon from '../../Icon/Icon';
+import FriendlyDate from '../../FriendlyDate/FriendlyDate';
 import renderText from './util';
 
 const fetchThread = async () => {
@@ -163,7 +164,7 @@ function renderPost(post, thread = null) {
       </div>
       <div class="text-nowrap d-flex flex-column justify-content-between text-end align-items-end">
         ${actions}
-        <div>${new Date(post.date * 1000).toLocaleString('fr-BE')}</div>
+        <div>${FriendlyDate(post.date * 1000)}</div>
       </div>
     </div>
   `;
