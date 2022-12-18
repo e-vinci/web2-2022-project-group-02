@@ -20,8 +20,8 @@ const pages = [
        
        
         <p>Qu'est ce qu'il peut bien le réveiller tu vas me demander ? Très bonne question, il se trouve que dès qu'on manipule des pointeurs, il pointe le bout de son nez ! </p>
-        <p>Oui ce monstre tu vas le rencontrer plus que ton propre entourage, moi je te dis ! Et il a un nom ce monstre, of course.</p>
-        <p>J'ai l'immense joie et plaisir de te présenter à ton nouveau calvaire, <strong>Segmentation fault</strong>, *t'entends le rire de sorcière en fond ? * &#128520;</p>
+        <p>Et oui tu vas le croiser au moment où tu t'y attends le moins. Et le pire c'est qu'il porte un nom à en faire des cauchemars. &#128561;</p>
+        <p>J'ai l'immense joie et déception de te présenter à ton nouveau calvaire, <strong>Segmentation fault</strong>, *t'entends le rire de sorcière en fond ? * &#128520;</p>
     </p>
   </div>
   `,

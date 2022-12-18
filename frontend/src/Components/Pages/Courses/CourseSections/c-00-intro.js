@@ -7,8 +7,9 @@ const pages = [
   () => html`
     <h1>0 - Introduction</h1>
    <br>
+   <p>Je tiens avant toute chose à remercier mes professeurs de langage C pour la richesse et la qualité de leur enseignement. Je souhaite tout particulièrement remercier M. Anthony Legrand pour m'avoir donner l'autorisation de m'inspirer de son cours. Merci également pour son dévouement a bien expliquer son cours toujours dans la bonne humeur ainsi qu'à M. Jérôme Plumat ! &#128540;</p>
     <p> Avant de débuter, si tu n’as pas encore des bases en assembleur 
-    on te conseille vivement de commencer le cours d’ASM avant de t’attaquer au C ! </p>
+    on te conseille vraiment de commencer le cours d’ASM avant de t’attaquer au C ! </p>
     <p> Maintenant que c’est dit, on peut commencer par expliquer c’est quoi le C ? Eh bien, c’est un langage de programmation considéré par la majorité comme bas niveau. 
     <br>
     <div class="notabene centered" id="NB" id="NB" class="horizontal text_box">
@@ -81,9 +82,12 @@ int main() {
     <br />
     <div class="horizontal">
       <div class="vertical">
-        <p>Ecris un code qui affiche comme message " C facile "</p>
+        <p>
+          Ecris un code qui affiche comme message " C facile ", n'oublie pas de mettre le header (un
+          include de < stdio.h>).
+        </p>
         ${CCodeRunner({
-          code: `#include <stdio.h>
+          code: `
    
   int main() {
    
