@@ -43,13 +43,13 @@ function renderCourses() {
     <div class="container">
       <div class="row justify-content-center g-4">
         ${courses.map(
-          (course) => html`
+          (course, i) => html`
             <div
               class="col-12 col-md-${Math.round(
                 (12 / courses.length) * 0.75,
               )} d-flex align-items-stretch"
             >
-              <div class="card">
+              <div class="card position-relative">
                 <img src="${course.image}" class="card-img-top" alt="${course.title}" />
                 <div class="card-body">
                   <h5 class="card-title">${course.title}</h5>
@@ -68,13 +68,15 @@ function renderCourses() {
                     })}
                   </div>
                 </div>
+                ${i === courses.length - 1
+                  ? html`<img class="picturePosition" src="${meowThumb}" />`
+                  : ''}
               </div>
             </div>
           `,
         )}
       </div>
     </div>
-    <img class="picturePosition" src="${meowThumb}" width="20%" />
   `;
 
   main.append(content);
