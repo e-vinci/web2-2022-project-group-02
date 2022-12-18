@@ -8,6 +8,16 @@
 body {
   background-color: #fff1da;
   font-size: 16px;
+}
+
+.picture1 {
+  max-width: 40%;
+}
+
+*,
+*::before,
+*::after,
+*::placeholder {
   letter-spacing: -0.011em;
 }
 

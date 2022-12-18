@@ -1,10 +1,11 @@
-import { Modal as BootstrapModal } from 'bootstrap';
+import { Modal as BootstrapModal, Tooltip as BootstrapTooltip } from 'bootstrap';
 import { clearPage, renderPageTitle } from '../../../utils/render';
 import html from '../../../utils/html';
 import API from '../../../utils/api';
 import { getAuthenticatedUser, isAuthenticated } from '../../../utils/auths';
 import Navigate from '../../Router/Navigate';
 import Icon from '../../Icon/Icon';
+import FriendlyDate from '../../FriendlyDate/FriendlyDate';
 import renderText from './util';
 
 const fetchPosts = async () => API.GET(`/forum`);
@@ -139,6 +140,18 @@ function renderPost(post) {
     return el;
   };
 
+  const info = [];
+
+  const repliesInfo = html`
+    <span title="${post.replies?.length || 0} réponses">
+      ${post.replies?.length || 0} ${Icon('chat-dots')}
+    </span>
+  `;
+  // eslint-disable-next-line no-new
+  new BootstrapTooltip(repliesInfo);
+
+  info.push(repliesInfo);
+
   return html`
     <div class="border rounded p-3 my-3 d-flex gap-3">
       <div class="position-relative flex-grow-1">
@@ -153,8 +166,8 @@ function renderPost(post) {
       <div class="text-nowrap d-flex flex-column justify-content-between text-end align-items-end">
         ${actions}
         <div>
-          ${renderAuthorLink(post.author.username)}, le
-          ${new Date(post.date * 1000).toLocaleString('fr-BE')}
+          <div>${info}</div>
+          <div>${renderAuthorLink(post.author.username)}, ${FriendlyDate(post.date * 1000)}</div>
         </div>
       </div>
     </div>

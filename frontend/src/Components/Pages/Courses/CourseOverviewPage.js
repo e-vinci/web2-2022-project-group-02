@@ -2,6 +2,8 @@ import { clearPage, renderPageTitle } from '../../../utils/render';
 import html from '../../../utils/html';
 import { progressColor, renderProgressBar, renderButton } from './util';
 import cEasy from '../../../img/c-facile-logo.png';
+import meow from '../../../img/cats/chat2.png';
+
 import { getAuthenticatedUser } from '../../../utils/auths';
 import API from '../../../utils/api';
 
@@ -177,7 +179,7 @@ async function renderOverview(course) {
         <div class="col-12 col-md-4 col-lg-6">
           ${new URLSearchParams(window.location.search).get('course') === 'c'
             ? html`<img src="${cEasy}" width="80%" />`
-            : html`[ASM IMAGE]`}
+            : html`<img src="${meow}" width="80%" />`}
         </div>
         <div class="col-12 col-md-8 col-lg-6 accordion" id="courseSections">
           ${course.sections.map(
