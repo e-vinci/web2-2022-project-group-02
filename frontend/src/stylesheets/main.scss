@@ -2,6 +2,7 @@
 
 @import './bootstrap';
 @import './visualiser';
+@import './leaderboard';
 
 @import 'easymde/dist/easymde.min.css';
 
@@ -28,6 +29,28 @@ body {
 span > .spinner-border {
   width: 1em;
   height: 1em;
+}
+
+a.link-inherit {
+  color: inherit;
+  text-decoration: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.promised-error {
+  display: block;
+  text-align: center;
+
+  &::before {
+    content: '❌';
+  }
+}
+
+span > .promised-error {
+  display: inline-block;
 }
 
 .ecart {
@@ -81,8 +104,6 @@ span > .spinner-border {
 }
 
 .form-box {
-  margin-left: 30%;
-  margin-right: 30%;
   align-items: center;
   background-color: #b1e0ff;
   border-radius: 10px;

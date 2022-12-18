@@ -1,0 +1,52 @@
+.leaderboard-ranking {
+  .card .card-header {
+    padding: calc(var(--bs-card-cap-padding-y) * 2) calc(var(--bs-card-cap-padding-x) * 2);
+    background-color: #1a1926;
+    color: #fff;
+    text-shadow: 0 0 0.25em #000;
+
+    position: relative;
+    overflow: hidden;
+
+    div {
+      z-index: 1;
+      position: relative;
+      font-size: 2em;
+      font-weight: 700;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 0%;
+      width: 80%;
+      height: 200%;
+      background-size: cover;
+      background-position: bottom;
+      background-repeat: no-repeat;
+      transform: rotate(-10deg);
+      z-index: 0;
+      opacity: 0.5;
+      transition: transform 0.5s ease;
+    }
+  }
+
+  &.leaderboard-ASM {
+    .card .card-header::before {
+      background-image: url('../img/course-asm.webp');
+    }
+  }
+
+  &.leaderboard-C {
+    .card .card-header::before {
+      background-image: url('../img/course-c.webp');
+    }
+  }
+
+  .card:hover {
+    .card-header::before {
+      transform: scale(1.1) rotate(-10deg);
+    }
+  }
+}

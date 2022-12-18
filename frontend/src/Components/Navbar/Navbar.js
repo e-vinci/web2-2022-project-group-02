@@ -48,7 +48,9 @@ function renderNavbar() {
                   <a class="nav-link">🔒 Miaouwrathon</a>
                 </li>`}
             <li class="nav-item ecart">
-              <a class="nav-link" aria-current="page" href="#" data-uri="/">Leaderboard</a>
+              <a class="nav-link" aria-current="page" href="#" data-uri="/leaderboard"
+                >Leaderboard</a
+              >
             </li>
             <li class="nav-item ecart">
               <a class="nav-link" aria-current="page" href="#" data-uri="/forum">Forum</a>

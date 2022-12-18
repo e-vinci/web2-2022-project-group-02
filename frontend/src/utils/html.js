@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import * as DOMPurify from 'dompurify';
+import { Tooltip as BootstrapTooltip } from 'bootstrap';
 
 /**
  * A better alternative to document.createElement, which allows you to create
@@ -32,18 +34,38 @@ export default function html(raw, ...keys) {
       placeholder.innerHTML = '<div class="spinner-border" role="status"></div>';
       elements.push([id, placeholder]);
 
-      key.then((value) => {
-        placeholder.replaceWith(value);
-      });
+      key
+        .then((value) => {
+          placeholder.replaceWith(value);
+        })
+        .catch((err) => {
+          console.error(err);
+
+          const errorEl = html`
+            <div class="promised-error" title="Une erreur est survenue: ${err.message}"></div>
+          `;
+
+          // eslint-disable-next-line no-new
+          new BootstrapTooltip(errorEl);
+
+          placeholder.replaceWith(errorEl);
+        });
 
       return `<div id="__PLACEHOLDER__${id}__"></div>`;
     }
 
     if (Array.isArray(key)) {
       const fragment = document.createDocumentFragment();
+
       key.forEach((node) => {
+        if (!(node instanceof Node)) {
+          console.error('html: Invalid node', node);
+          return;
+        }
+
         fragment.appendChild(node);
       });
+
       elements.push([id, fragment]);
       return `<div id="__PLACEHOLDER__${id}__"></div>`;
     }

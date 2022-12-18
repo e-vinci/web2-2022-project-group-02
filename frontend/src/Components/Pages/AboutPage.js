@@ -26,27 +26,35 @@ function renderAboutPage() {
       </p>
 
       <h3>Données personnelles</h3>
-      <p>Pour l'inscription, nous collectons les données suivantes :</p>
+      <p>Après l'inscription, nous collectons les données suivantes :</p>
       <ul>
         <li>Pseudo</li>
         <li>Adresse mail</li>
         <li>Mot de passe</li>
+        <li>Niveau d'avancement dans les cours</li>
+        <li>Messages postés sur le forum</li>
       </ul>
-      <p>
-        Ces données sont stockées dans une base de données sécurisée. Les données sont utilisées
-        pour l'authentification et l'identification des utilisateurs.
-      </p>
-      <p>Les données sont supprimées lorsque l'utilisateur supprime son compte.</p>
+      <p>Ces données sont stockées dans une base de données sécurisée.</p>
+      <p>L'entièreté des données sont supprimées lorsque l'utilisateur supprime son compte.</p>
       <p>
         Les données sont stockées sur un serveur hébergé par
         <a href="https://www.microsoft.com/fr-fr" target="_blank">Microsoft</a>, aux Pays-Bas.
       </p>
       <h3>Cookies</h3>
       <p>
-        Le site web utilise des « cookies » pour stocker des informations sur votre ordinateur. Les
-        cookies ne contiennent aucune information personnelle et ne peuvent pas être utilisés pour
-        vous identifier personnellement. Les cookies sont utilisés pour l'authentification et
-        l'identification des utilisateurs.
+        Le site web utilise des « cookies » ou stockage local pour stocker des informations sur
+        votre ordinateur. Les cookies servent seulement à identifier les utilisateurs au sein du
+        site web. Les cookies ne sont pas utilisés pour collecter des données personnelles. Les
+        cookies sont stockés sur votre ordinateur et ne sont pas accessibles par des tiers.
+      </p>
+      <h3>Comment gérer les cookies ?</h3>
+      <p>
+        Vous pouvez gérer les cookies à tout moment dans les paramètres de votre navigateur. Pour
+        plus d'informations, veuillez consulter les instructions et les manuels de votre navigateur.
+      </p>
+      <p>
+        Veuillez noter que si vous désactivez certains cookies, vous ne pourrez peut-être pas
+        utiliser toutes les fonctionnalités de ce site.
       </p>
       <h3>Marketing</h3>
       <p>
@@ -68,15 +76,7 @@ function renderAboutPage() {
         Nous vous informons que nous pouvons vous demander de vérifier votre identité avant de
         répondre à ces demandes.
       </p>
-      <h3>Comment gérer les cookies ?</h3>
-      <p>
-        Vous pouvez gérer les cookies à tout moment dans les paramètres de votre navigateur. Pour
-        plus d'informations, veuillez consulter les instructions et les manuels de votre navigateur.
-      </p>
-      <p>
-        Veuillez noter que si vous désactivez certains cookies, vous ne pourrez peut-être pas
-        utiliser toutes les fonctionnalités de ce site.
-      </p>
+
       <h3>Modifications de la politique de confidentialité</h3>
       <p>
         Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment.
@@ -96,12 +96,10 @@ function renderAboutPage() {
         <a href="mailto:chehrazad.ouazzani@student.vinci.be">chehrazad.ouazzani@student.vinci.be</a
         >.
       </p>
-      <h3>Comment contacter l'autorité de contrôle ?</h3>
+      <h3>Comment contacter l'Autorité de protection des données</h3>
       <p>
         Si vous n'êtes pas satisfait de la façon dont nous traitons vos données personnelles, vous
-        avez le droit de déposer une plainte auprès de l'autorité de contrôle compétente. Vous
-        trouverez les coordonnées de l'autorité de contrôle compétente sur le site Web de l'autorité
-        de contrôle.
+        avez le droit de déposer une plainte auprès de l'Autorité de protection des données.
       </p>
     </div>
   `;
