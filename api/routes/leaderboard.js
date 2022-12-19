@@ -17,6 +17,8 @@ router.get('/', async (req, res) => {
         courses[course.title] = [];
       }
 
+      if (isNaN(course.score)) return;
+
       courses[course.title].push({
         id: user.id,
         username: user.username,
@@ -35,17 +37,20 @@ router.get('/', async (req, res) => {
 router.post('/getScore', authorize, async (req, res) => {
   const cours = req.body?.cours ? req.body.cours : undefined;
   if (cours === undefined) res.statusCode = 418;
+
   const response = {
     score: await getScore(req.user.username, cours),
   };
+
   return res.json(response);
 });
 
 router.post('/setScore', authorize, async (req, res) => {
   const cours = req.body?.cours ? req.body.cours : undefined;
-  const score = req.body?.score ? req.body.score : undefined;
-  if (cours === undefined) res.statusCode = 418;
-  if (score === undefined) res.statusCode = 418;
+  const score = req.body?.score ? parseInt(req.body.score, 10) : undefined;
+  if (cours === undefined || score === undefined) res.statusCode = 418;
+
+  if (Number.isNaN(score)) res.statusCode = 418;
 
   updateScore(req.user.username, cours, score);
   res.statusCode = 200;
