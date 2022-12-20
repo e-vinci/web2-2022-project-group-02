@@ -4,7 +4,17 @@ node_modules
 .vscode
 # ignore the specific packages versions installed by the developper
 package-lock.json
+pnpm-lock.yaml
 # ignore the development environment variables (if any)
 .env
 # ignore all dist directories files (and subdirectories) from .gitignore
 dist/*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

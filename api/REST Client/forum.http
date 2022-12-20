@@ -1,0 +1,51 @@
+@baseUrl = http://localhost:3000
+
+### Requests requiring authorization
+### Login as user
+# @name user
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"admin"
+}
+
+### Get all threads
+# @name threads
+GET {{baseUrl}}/forum
+
+### Create a thread
+# @name thread
+POST {{baseUrl}}/forum
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
+{
+	"title": "Title",
+	"content": "Content!"
+}
+
+### Get one thread
+GET {{baseUrl}}/forum/{{thread.response.body.$.id}}
+
+### Reply to a thread
+# @name reply
+POST {{baseUrl}}/forum/{{thread.response.body.$.id}}
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
+{
+	"content": "This is a reply"
+}
+
+### Delete a reply
+# @name deleteReply
+DELETE {{baseUrl}}/forum/{{thread.response.body.$.id}}/{{reply.response.body.id}}
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
+### Delete a thread
+DELETE {{baseUrl}}/forum/{{thread.response.body.$.id}}
+Content-Type: application/json
+Authorization: {{user.response.body.token}}

@@ -1,4 +1,44 @@
 @baseUrl = http://localhost:3000
 
-### Read all users
-GET {{baseUrl}}/users
+### Requests requiring authorization
+### Login as user
+# @name user
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+    "username":"manager",
+    "password":"manager"
+}
+
+### Get user
+GET {{baseUrl}}/users/{{user.response.body.id}}
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
+### Get user progress
+GET {{baseUrl}}/users/progress
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
+{
+	"cours": "c"
+}
+
+### Set user progress
+POST {{baseUrl}}/users/progress
+Content-Type: application/json
+Authorization: {{user.response.body.token}}
+
+{
+	"cours": "c",
+	"progres": 50
+}
+
+### Get user avatar
+GET {{baseUrl}}/users/{{user.response.body.id}}/avatar
+
+### Delete account
+DELETE {{baseUrl}}/users/{{user.response.body.id}}
+Content-Type: application/json
+Authorization: {{user.response.body.token}}

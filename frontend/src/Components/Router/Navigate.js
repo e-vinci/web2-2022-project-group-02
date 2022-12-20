@@ -6,11 +6,24 @@
  * has to import all the pages to render them.
  */
 
-const Navigate = (toUri) => {
-  const fromUri = window.location.pathname;
-  if (fromUri === toUri) return;
+import { usePathPrefix } from '../../utils/path-prefix';
 
-  window.history.pushState({}, '', toUri);
+const Navigate = (_toUri) => {
+  const fromUri = window.location.pathname.replace(process.env.PATH_PREFIX, '/');
+  if (fromUri === _toUri) return;
+
+  let toUri = _toUri;
+
+  if (toUri.match(/^(\/login|\/register|\/logout)$/)) {
+    // if toUri contains a query string, we need to append the location to the query string
+    // otherwise, we can just append the location to the URI
+    const [uri, queryString] = toUri.split('?');
+    toUri = `${uri}?${queryString ? `${queryString}&` : ''}location=${encodeURIComponent(
+      fromUri + window.location.search,
+    )}`;
+  }
+
+  window.history.pushState({}, '', usePathPrefix(toUri));
   const popStateEvent = new PopStateEvent('popstate', { state: {} });
   dispatchEvent(popStateEvent);
 };
