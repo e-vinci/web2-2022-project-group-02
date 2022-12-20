@@ -83,19 +83,16 @@ const courses = {
         progress: null,
       },
       {
-        id: 'c-04-chars',
+        id: 'c-03-chars',
         title: 'Les chaînes de caractères',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
+        description: 'Objectif: savoir manipuler un tableau de chaîne de caractères + 3 exercices.',
         chapter: 3,
         progress: null,
       },
       {
-        id: 'c-05-functions',
+        id: 'c-04-functions',
         title: 'Les fonctions',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus justo laoreet egestas tempor. Donec finibus est sed elit mattis elementum. Cras ut volutpat sapien, vitae luctus massa.',
-
+        description: 'Objectif: être capable de décortiquer son code + 3 exercices.',
         chapter: 4,
         progress: null,
       },

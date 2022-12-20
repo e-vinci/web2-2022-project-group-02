@@ -37,8 +37,8 @@ const meowrathonHome = async () => {
       </div>
       <div class="vertical centered notabene">
         <h3>C</h3>
-        <button class="btn btn-info" style="margin: 1%;">Ton Bouton ici!</button>
-        <button class="btn btn-info" style="margin: 1%;">A toi de jouer Shera!</button>
+        <button class="btn btn-info" style="margin: 1%;">Coming soon</button>
+        <!-- <button class="btn btn-info" style="margin: 1%;">A toi de jouer Shera!</button> -->
       </div>
     </div>
   `;

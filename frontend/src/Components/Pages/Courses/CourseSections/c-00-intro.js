@@ -7,7 +7,7 @@ const pages = [
   () => html`
     <h1>0 - Introduction</h1>
    <br>
-   <p>Je tiens avant toute chose à remercier mes professeurs de langage C pour la richesse et la qualité de leur enseignement. Je souhaite tout particulièrement remercier M. Anthony Legrand pour m'avoir donner l'autorisation de m'inspirer de son cours. Merci également pour son dévouement a bien expliquer son cours toujours dans la bonne humeur ainsi qu'à M. Jérôme Plumat ! &#128540;</p>
+   <p>Je tiens avant toute chose à remercier mes professeurs de langage C pour la richesse et la qualité de leur enseignement. Je souhaite tout particulièrement remercier M. Anthony Legrand pour m'avoir donner l'autorisation de m'inspirer de son <a href="https://urlz.fr/kbAd" target="_blank"> cours </a>. Merci également pour son dévouement a bien expliquer son cours toujours dans la bonne humeur ainsi qu'à M. Jérôme Plumat ! &#128540;</p>
     <p> Avant de débuter, si tu n’as pas encore des bases en assembleur 
     on te conseille vraiment de commencer le cours d’ASM avant de t’attaquer au C ! </p>
     <p> Maintenant que c’est dit, on peut commencer par expliquer c’est quoi le C ? Eh bien, c’est un langage de programmation considéré par la majorité comme bas niveau. 
@@ -26,8 +26,8 @@ const pages = [
     Ne t’inquiète pas, on ne va pas écrire en binaire c’est incompréhensible par l’être humain. Ça sera le rôle du compilateur de traduire notre code 
     en langage machine c'est-à-dire en binaire pour que le processeur puisse traiter les instructions. Nous, on pourra écrire dans un langage dit intermédiaire qui est compréhensible par l’homme. 
     <br><br>
-    Et c’est le but de ce site ! T’expliquer pas à pas, chaque instruction ce qu’elle fait et cerise sur le gâteau, tu auras des animations pour visualiser ce qu’il se passe au cœur de ta machine !
-     ça te permettra de mieux assimiler la logique de programmation.
+    Et c’est le but de ce site ! T’expliquer pas à pas, chaque instruction ce qu’elle fait et cerise sur le gâteau, tu auras des exercices à faire via un compilateur implémenté !
+     Ca te permettra de pratiquer directement la théorie qu'on t'explique afin de faciliter la compréhension.
     </p>
     </div>
   `,
