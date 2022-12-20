@@ -7,10 +7,12 @@ const pages = [
   () => html`
     <h1>0 - Introduction</h1>
    <br>
-   <p>Je tiens avant toute chose à remercier mes professeurs de langage C pour la richesse et la qualité de leur enseignement. Je souhaite tout particulièrement remercier M. Anthony Legrand pour m'avoir donner l'autorisation de m'inspirer de son <a href="https://urlz.fr/kbAd" target="_blank"> cours </a>. Merci également pour son dévouement a bien expliquer son cours toujours dans la bonne humeur ainsi qu'à M. Jérôme Plumat ! &#128540;</p>
-    <p> Avant de débuter, si tu n’as pas encore des bases en assembleur 
-    on te conseille vraiment de commencer le cours d’ASM avant de t’attaquer au C ! </p>
-    <p> Maintenant que c’est dit, on peut commencer par expliquer c’est quoi le C ? Eh bien, c’est un langage de programmation considéré par la majorité comme bas niveau. 
+   <p>Shhaalut à toi cat learner ! Ici Pino de la vidéo, bienvenue dans la mini formation en C. J'ai 3 choses à te dire avant de débuter.</p>
+   <p>Premièrement, cette mini formation n'est pas (encore) complète et il se peut qu'il y ait des fautes, si c'est le cas stp envoie moi un mail ASAP ! Je ne veux pas être responsable de ton échec, si tu veux une valeur sûre, il y a un lien plus bas.</p>
+   <p>Deuxièmement, je tiens à remercier mes professeurs de langage C pour la richesse et la qualité de leur enseignement. Merci pour leurs dévouements a bien expliquer le cours, si passionnant, et toujours dans la bonne humeur &#128540; !
+    Je souhaite tout particulièrement remercier M. Anthony Legrand pour m'avoir donner l'autorisation de m'inspirer de son <a href="https://urlz.fr/kbAd" target="_blank"> cours</a>. (il faut un compte Moodle pour y avoir accès).</p>
+    <p> Et enfin, avant de débuter, si tu n’as pas encore des bases en assembleur, je te conseille vraiment de commencer le cours d’ASM avant de t’attaquer au C ! </p>
+    <p> Maintenant que tout est dit, je peux commencer par t'expliquer c’est quoi le C. Eh bien, c’est un langage de programmation considéré par la majorité comme bas niveau. 
     <br>
     <div class="notabene centered" id="NB" id="NB" class="horizontal text_box">
       <div class="vertical">
@@ -29,6 +31,8 @@ const pages = [
     Et c’est le but de ce site ! T’expliquer pas à pas, chaque instruction ce qu’elle fait et cerise sur le gâteau, tu auras des exercices à faire via un compilateur implémenté !
      Ca te permettra de pratiquer directement la théorie qu'on t'explique afin de faciliter la compréhension.
     </p>
+    <p><strong>Remarque: </strong> les exercices dans les leçons sont d'une simplicité sans nom. Ils sont là juste pour te faire comprendre la théorie que je vais t'expliquer. 
+    <br> Ils ne vont certainement pas te préparer à l'examen ! Il n'y a rien de mieux que de s'exercer sur chaque TP, qui eux pour le coup te préparent au mieux pour l'examen et ainsi tu te sentiras prêt le 16/01 &#9994;.</p>
     </div>
   `,
   () => {
@@ -40,31 +44,34 @@ const pages = [
         à toi de pratiquer ! <br />
       </p>
       ${CodeDemo(
-        `#include <stdio.h>
+        `
+        
+1 - #include < stdio.h>
 
-int main() {
-  printf("Hello World!");
-  return 0;
+2 - int main() {
+  3 - printf("Hello World!");
+  4 - return 0;
 }`,
         html` <p>
-            -> Le début du code commence toujours avec les en-têtes (headers), ce sont les 'import'
-            de librairies dont on a besoin pour faire fonctionner notre code. <br />
+            -><strong>1 - </strong>Le début du code commence toujours avec les en-têtes (headers),
+            ce sont les 'import' de librairies dont on a besoin pour faire fonctionner notre code.
             <br />
+
             Ici on a fait appel à « stdio.h » , c’est l’une des librairies la plus utilisée en C car
             elle permet principalement la manipulation des flux de caractères, vers un fichiers ou
             la console. Et cette librairie contient beaucoup de fonctions qu’on pourra utiliser pour
             imprimer un message à l’écran par exemple !
-
-            <br />
-            <br />
-            ->On déclare le main, rien de nouveau, tu remarqueras que le main renvoie un int, on
-            t’expliquera ça plus tard !
-
-            <br />
-            <br />
-            Et voilà notre fonction qui utilise la libraire expliquée plus haut ! C’est le
-            System.out.print() en Java.
           </p>
+          <p>
+            -><strong>2 - </strong>On déclare le main, rien de nouveau, tu remarqueras que le main
+            renvoie un int, on t’expliquera ça plus tard !
+          </p>
+          >
+          <p>
+            <strong>3 - </strong>Et voilà notre fonction qui utilise la libraire expliquée plus haut
+            ! C’est le System.out.print() en Java.
+          </p>
+          <p><strong>4 - </strong>On retourne un entier comme stipulé à la ligne 2.</p>
           <p id="test"></p>`,
       )}
     `;
@@ -104,7 +111,7 @@ int main() {
     <div class="notabene centered" id="NB">
       <p>
         NB: les codesrunners qu'on a implémenté testent uniquement l'output, donc attention c'est
-        sensible à la case.
+        sensible à la casse !
         <br />
         Il se peut que ton code soit fonctionnel, mais juste pour un espace, ton output et celui
         qu'on a intégré dans le code ne soient pas les mêmes et qui fait que ça marque en rouge !
@@ -117,26 +124,32 @@ int main() {
       <br /><br />
       <p>
         Le langage C a un typage statique, c’est-à-dire au moment de déclarer une variable on lui
-        donne immédiatement son type (int, char, float, double,…).
-        <br />
+        donne immédiatement son type (int, char, float, double,…).</p>
+        <p>
+          <div class ="notabene centered" id="NB">
+            <p>Un langage à typage statique est un langage (comme Java, C ou C++) avec lequel les types des variables sont 
+              connus lors de la compilation et doivent être spécifiés expressément par le programmeur. <br><br>
+            Source: developer.mozilla.org</p>
+          </div>
+
         La norme du langage, définit pour chaque opérateur quels sont les types admissibles des
         opérandes, et comment déduire le type du résultat. <br /><br />
       </p>
       ${CodeDemo(
-        `#include <stdio.h>
+        `#include < stdio.h>
 
 int main() {
   int nb = 0;
   printf("%d", nb);
   return 0;
 }`,
-        html` <p>
-            Tu remarques au niveau du printf le "%d". Que signifie-t-il ?
-            <br />
-            ->En fait, printf c'est une fonction d'impression formatée, c'est-à-dire qu'elle va
+        html` <br /><br />
+          <p>
+            Tu remarques au niveau du printf le <strong>"%d"</strong>. Que signifie-t-il ?
+            <br /><br />
+            ->En fait, printf() c'est une fonction d'impression formatée, c'est-à-dire qu'elle va
             convertir les arguments qu'on lui passe (ici la variable nb) au format qu'on a donné
-            après le %. <br /><br />
-            Dans notre code, on veut simplement afficher un entier alors on va utilisé alors %d.
+            après le % (ici d pour decimal).
           </p>
 
           <p id="test"></p>`,
@@ -191,25 +204,34 @@ int main() {
     <br />
     <div class="horizontal">
       <div class="vertical">
-        <p>Ecris un code qui swap 2 variables et affiche leurs valeurs avant et après.</p>
+        <p>
+          Ecris un code qui échange les valeurs de 2 variables (a = 5 et b = 10) et les affiche.
+          Avant et après le swap.
+        </p>
         ${CCodeRunner({
           code: `
  
 int main() {
- 
+  //déclaration
+  
+  //affichage avant le swap
+  printf("a: %d, b: %d ",a,b);
+  
+  //swap
+
+  //affichage après le swap
+  printf("a: %d, b: %d",a,b);
+
 }`,
           tests: [
             {
               args: [''],
-              output: '',
+              output: 'a: 5, b: 10 a: 10, b: 5',
             },
           ],
         })}
       </div>
     </div>
-    <br />
-    Prends le temps de bien regarder le code, et remarque qu'il manque quelque chose de très
-    important dans le code.
   `,
 ];
 
